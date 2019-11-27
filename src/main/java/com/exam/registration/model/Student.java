@@ -55,7 +55,7 @@ public class Student implements Serializable {
     }
 
     public void setIdCardNumber(String idCardNumber) {
-        this.idCardNumber = idCardNumber == null ? null : idCardNumber.trim();
+        this.idCardNumber = idCardNumber;
     }
 
     public String getName() {
@@ -63,7 +63,7 @@ public class Student implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getPassword() {
@@ -71,7 +71,7 @@ public class Student implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getSalt() {
@@ -79,7 +79,7 @@ public class Student implements Serializable {
     }
 
     public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+        this.salt = salt;
     }
 
     public String getSex() {
@@ -87,7 +87,7 @@ public class Student implements Serializable {
     }
 
     public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+        this.sex = sex;
     }
 
     public String getPhone() {
@@ -95,7 +95,7 @@ public class Student implements Serializable {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     public String getAddress() {
@@ -103,7 +103,7 @@ public class Student implements Serializable {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public String getSchool() {
@@ -111,7 +111,7 @@ public class Student implements Serializable {
     }
 
     public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
+        this.school = school;
     }
 
     public String getEmail() {
@@ -119,7 +119,7 @@ public class Student implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public String getIdCardPic() {
@@ -127,7 +127,7 @@ public class Student implements Serializable {
     }
 
     public void setIdCardPic(String idCardPic) {
-        this.idCardPic = idCardPic == null ? null : idCardPic.trim();
+        this.idCardPic = idCardPic;
     }
 
     public String getProvincialExamineePic() {
@@ -135,7 +135,7 @@ public class Student implements Serializable {
     }
 
     public void setProvincialExamineePic(String provincialExamineePic) {
-        this.provincialExamineePic = provincialExamineePic == null ? null : provincialExamineePic.trim();
+        this.provincialExamineePic = provincialExamineePic;
     }
 
     public String getProvincialExamineeNumber() {
@@ -143,7 +143,7 @@ public class Student implements Serializable {
     }
 
     public void setProvincialExamineeNumber(String provincialExamineeNumber) {
-        this.provincialExamineeNumber = provincialExamineeNumber == null ? null : provincialExamineeNumber.trim();
+        this.provincialExamineeNumber = provincialExamineeNumber;
     }
 
     public String getProfilePic() {
@@ -151,7 +151,7 @@ public class Student implements Serializable {
     }
 
     public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic == null ? null : profilePic.trim();
+        this.profilePic = profilePic;
     }
 
     public Date getLoginTime() {
@@ -184,35 +184,6 @@ public class Student implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", idCardNumber=").append(idCardNumber);
-        sb.append(", name=").append(name);
-        sb.append(", password=").append(password);
-        sb.append(", salt=").append(salt);
-        sb.append(", sex=").append(sex);
-        sb.append(", phone=").append(phone);
-        sb.append(", address=").append(address);
-        sb.append(", school=").append(school);
-        sb.append(", email=").append(email);
-        sb.append(", idCardPic=").append(idCardPic);
-        sb.append(", provincialExamineePic=").append(provincialExamineePic);
-        sb.append(", provincialExamineeNumber=").append(provincialExamineeNumber);
-        sb.append(", profilePic=").append(profilePic);
-        sb.append(", loginTime=").append(loginTime);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", isDeleted=").append(isDeleted);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 
     @Override

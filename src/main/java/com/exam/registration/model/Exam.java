@@ -75,7 +75,7 @@ public class Exam implements Serializable {
     }
 
     public void setConflict(String conflict) {
-        this.conflict = conflict == null ? null : conflict.trim();
+        this.conflict = conflict;
     }
 
     public String getProvince() {
@@ -83,7 +83,7 @@ public class Exam implements Serializable {
     }
 
     public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+        this.province = province;
     }
 
     public String getStartExamineeNumber() {
@@ -91,7 +91,7 @@ public class Exam implements Serializable {
     }
 
     public void setStartExamineeNumber(String startExamineeNumber) {
-        this.startExamineeNumber = startExamineeNumber == null ? null : startExamineeNumber.trim();
+        this.startExamineeNumber = startExamineeNumber;
     }
 
     public String getCurrentExamineeNumber() {
@@ -99,7 +99,7 @@ public class Exam implements Serializable {
     }
 
     public void setCurrentExamineeNumber(String currentExamineeNumber) {
-        this.currentExamineeNumber = currentExamineeNumber == null ? null : currentExamineeNumber.trim();
+        this.currentExamineeNumber = currentExamineeNumber;
     }
 
     public String getNote() {
@@ -107,7 +107,7 @@ public class Exam implements Serializable {
     }
 
     public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
+        this.note = note;
     }
 
     public Date getCreateTime() {
@@ -124,29 +124,6 @@ public class Exam implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", majorId=").append(majorId);
-        sb.append(", siteId=").append(siteId);
-        sb.append(", startTime=").append(startTime);
-        sb.append(", endTime=").append(endTime);
-        sb.append(", conflict=").append(conflict);
-        sb.append(", province=").append(province);
-        sb.append(", startExamineeNumber=").append(startExamineeNumber);
-        sb.append(", currentExamineeNumber=").append(currentExamineeNumber);
-        sb.append(", note=").append(note);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 
     @Override

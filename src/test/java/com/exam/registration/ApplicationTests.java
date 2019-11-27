@@ -1,5 +1,6 @@
 package com.exam.registration;
 
+import com.exam.registration.util.MsgUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,6 +9,7 @@ class ApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println(MsgUtils.success("asd"));
 	}
 
 }

@@ -64,7 +64,7 @@ public class Order implements Serializable {
     }
 
     public void setExamineeNumber(String examineeNumber) {
-        this.examineeNumber = examineeNumber == null ? null : examineeNumber.trim();
+        this.examineeNumber = examineeNumber;
     }
 
     public String getOrderNumber() {
@@ -72,7 +72,7 @@ public class Order implements Serializable {
     }
 
     public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber == null ? null : orderNumber.trim();
+        this.orderNumber = orderNumber;
     }
 
     public Boolean getIsPaid() {
@@ -105,27 +105,6 @@ public class Order implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", studentId=").append(studentId);
-        sb.append(", examId=").append(examId);
-        sb.append(", cost=").append(cost);
-        sb.append(", examineeNumber=").append(examineeNumber);
-        sb.append(", orderNumber=").append(orderNumber);
-        sb.append(", isPaid=").append(isPaid);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", isDeleted=").append(isDeleted);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 
     @Override

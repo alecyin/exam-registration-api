@@ -1,16 +1,11 @@
-package com.exam.registration.mapper;
+package com.exam.registration.service;
 
 import com.exam.registration.model.Student;
 import com.exam.registration.model.StudentExample;
+
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-@Mapper
-@Repository
-public interface StudentMapper {
+public interface StudentService {
     long countByExample(StudentExample example);
 
     int deleteByExample(StudentExample example);
@@ -27,9 +22,9 @@ public interface StudentMapper {
 
     Student selectByIdCardNumber(String idCardNumber);
 
-    int updateByExampleSelective(@Param("record") Student record, @Param("example") StudentExample example);
+    int updateByExampleSelective(Student record, StudentExample example);
 
-    int updateByExample(@Param("record") Student record, @Param("example") StudentExample example);
+    int updateByExample(Student record, StudentExample example);
 
     int updateByPrimaryKeySelective(Student record);
 
