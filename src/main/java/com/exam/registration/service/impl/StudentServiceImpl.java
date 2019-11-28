@@ -88,4 +88,18 @@ public class StudentServiceImpl implements StudentService {
     public int updateByPrimaryKey(Student record) {
         return 0;
     }
+
+    @Override
+    public int login(String idCardNumber, String password) {
+        Student queryStudent = selectByIdCardNumber(idCardNumber);
+        if (Objects.isNull(queryStudent)) {
+            return 0;
+        }
+
+        String md5Pass = DigestUtils.md5DigestAsHex((password + queryStudent.getSalt()).getBytes());
+        if (md5Pass.equals(password)) {
+            return 0;
+        }
+        return 1;
+    }
 }

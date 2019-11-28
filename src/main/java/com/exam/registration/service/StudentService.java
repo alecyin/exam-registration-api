@@ -29,4 +29,6 @@ public interface StudentService {
     int updateByPrimaryKeySelective(Student record);
 
     int updateByPrimaryKey(Student record);
+
+    int login(String idCardNumber, String password);
 }

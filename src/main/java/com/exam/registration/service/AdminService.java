@@ -20,6 +20,8 @@ public interface AdminService {
 
     Admin selectByPrimaryKey(Long id);
 
+    Admin selectByName(String name);
+
     int updateByExampleSelective(Admin record, AdminExample example);
 
     int updateByExample(Admin record, AdminExample example);
@@ -27,4 +29,6 @@ public interface AdminService {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    int login(String name, String password);
 }

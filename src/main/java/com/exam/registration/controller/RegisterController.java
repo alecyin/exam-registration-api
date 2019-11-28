@@ -33,7 +33,7 @@ public class RegisterController {
 
 	@RequestMapping(path = "/reg", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> reg(Model model,
+	public String reg(Model model,
 	                @RequestParam("idCardNumber") String idCardNumber,
 	                @RequestParam("phone") String phone,
 	                @RequestParam("email") String email,
@@ -47,7 +47,7 @@ public class RegisterController {
 		student.setEmail(email);
 
 		if (StringUtils.isEmpty(student.getIdCardNumber())) {
-			return MsgUtils.fail("身份证信息不能为空");
+			return MsgUtils.fail("身份证号码不能为空");
 		}
 		if (StringUtils.isEmpty(student.getEmail())) {
 			return MsgUtils.fail("邮箱不能为空");
@@ -56,11 +56,11 @@ public class RegisterController {
 		if (Objects.nonNull(queryStudent)) {
 			return MsgUtils.fail("用户名已经被注册");
 		}
+
 		int res = studentService.insert(student);
 		if (res == 0) {
 			return MsgUtils.fail("未知错误，稍后再试");
 		}
-
 		return MsgUtils.success();
 	}
 }

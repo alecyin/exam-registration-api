@@ -1,5 +1,7 @@
 package com.exam.registration.util;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,22 +28,22 @@ public class MsgUtils {
 		}
 	}
 
-	public static Map<String, Object> success(Object... data) {
-		Map<String, Object> result = new HashMap<>();
-		result.put("code", ResCode.SUCCESS);
-		result.put("msg", "success");
-		result.put("data", "{}");
+	public static String success(Object... data) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("code", ResCode.SUCCESS.code);
+		jsonObject.put("msg", "success");
+		jsonObject.put("data", "{}");
 		if (Objects.nonNull(data)) {
-			result.put("data", data);
+			jsonObject.put("data", data);
 		}
-		return result;
+		return jsonObject.toJSONString();
 	}
 
-	public static Map<String, Object> fail(String msg) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("ret", ResCode.FAIL);
-		result.put("msg", msg);
-		return result;
+	public static String fail(String msg) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("code", ResCode.FAIL.code);
+		jsonObject.put("msg", msg);
+		return jsonObject.toJSONString();
 	}
 
 }

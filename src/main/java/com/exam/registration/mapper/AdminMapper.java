@@ -3,8 +3,13 @@ package com.exam.registration.mapper;
 import com.exam.registration.model.Admin;
 import com.exam.registration.model.AdminExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Mapper
+@Repository
 public interface AdminMapper {
     long countByExample(AdminExample example);
 
@@ -19,6 +24,8 @@ public interface AdminMapper {
     List<Admin> selectByExample(AdminExample example);
 
     Admin selectByPrimaryKey(Long id);
+
+    Admin selectByName(String name);
 
     int updateByExampleSelective(@Param("record") Admin record, @Param("example") AdminExample example);
 
