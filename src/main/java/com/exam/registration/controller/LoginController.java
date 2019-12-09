@@ -20,45 +20,45 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LoginController {
 
-	@Autowired
-	StudentService studentService;
+    @Autowired
+    StudentService studentService;
 
-	@Autowired
-	AdminService adminService;
+    @Autowired
+    AdminService adminService;
 
-	@RequestMapping(path = "/login/student", method = RequestMethod.POST)
-	@ResponseBody
-	public String loginStudent(@RequestParam("idCardNumber") String idCardNumber,
-	                    @RequestParam("password") String password) {
-		if (StringUtils.isEmpty(idCardNumber)) {
-			return MsgUtils.fail("身份证号码不能为空");
-		}
-		if (StringUtils.isEmpty(password)) {
-			return MsgUtils.fail("密码不能为空");
-		}
+    @RequestMapping(path = "/login/student", method = RequestMethod.POST)
+    @ResponseBody
+    public String loginStudent(@RequestParam("idCardNumber") String idCardNumber, 
+            @RequestParam("password") String password) {
+        if (StringUtils.isEmpty(idCardNumber)) {
+            return MsgUtils.fail("身份证号码不能为空");
+        }
+        if (StringUtils.isEmpty(password)) {
+            return MsgUtils.fail("密码不能为空");
+        }
 
-		int res = studentService.login(idCardNumber, password);
-		if (res == 0) {
-			return MsgUtils.fail("身份证号码或密码错误");
-		}
-		return MsgUtils.success();
-	}
+        int res = studentService.login(idCardNumber, password);
+        if (res == 0) {
+            return MsgUtils.fail("身份证号码或密码错误");
+        }
+        return MsgUtils.success();
+    }
 
-	@RequestMapping(path = "/login/admin", method = RequestMethod.POST)
-	@ResponseBody
-	public String loginAdmin(@RequestParam("name") String name,
-	                    @RequestParam("password") String password) {
-		if (StringUtils.isEmpty(name)) {
-			return MsgUtils.fail("登录名不能为空");
-		}
-		if (StringUtils.isEmpty(password)) {
-			return MsgUtils.fail("密码不能为空");
-		}
+    @RequestMapping(path = "/login/admin", method = RequestMethod.POST)
+    @ResponseBody
+    public String loginAdmin(@RequestParam("name") String name,
+                        @RequestParam("password") String password) {
+        if (StringUtils.isEmpty(name)) {
+            return MsgUtils.fail("登录名不能为空");
+        }
+        if (StringUtils.isEmpty(password)) {
+            return MsgUtils.fail("密码不能为空");
+        }
 
-		int res = studentService.login(name, password);
-		if (res == 0) {
-			return MsgUtils.fail("登录名或密码错误");
-		}
-		return MsgUtils.success();
-	}
+        int res = studentService.login(name, password);
+        if (res == 0) {
+            return MsgUtils.fail("登录名或密码错误");
+        }
+        return MsgUtils.success();
+    }
 }
