@@ -3,43 +3,158 @@ package com.exam.registration.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 学生表
+ * 
+ * student
+ *
+ */
 public class Student implements Serializable {
+    /**
+     *
+     * student.id
+     *
+     */
     private Long id;
 
+    /**
+     * 身份证号码
+     *
+     * student.id_card_number
+     *
+     */
     private String idCardNumber;
 
+    /**
+     * 姓名
+     *
+     * student.name
+     *
+     */
     private String name;
 
+    /**
+     * 密码
+     *
+     * student.password
+     *
+     */
     private String password;
 
+    /**
+     * 盐
+     *
+     * student.salt
+     *
+     */
     private String salt;
 
+    /**
+     * 性别
+     *
+     * student.sex
+     *
+     */
     private String sex;
 
+    /**
+     * 手机号
+     *
+     * student.phone
+     *
+     */
     private String phone;
 
+    /**
+     * 地址
+     *
+     * student.address
+     *
+     */
     private String address;
 
+    /**
+     * 学校
+     *
+     * student.school
+     *
+     */
     private String school;
 
+    /**
+     * 邮箱
+     *
+     * student.email
+     *
+     */
     private String email;
 
+    /**
+     * 身份证正面照片
+     *
+     * student.id_card_pic
+     *
+     */
     private String idCardPic;
 
+    /**
+     * 省准考证照片
+     *
+     * student.provincial_examinee_pic
+     *
+     */
     private String provincialExamineePic;
 
+    /**
+     * 省准考证号码
+     *
+     * student.provincial_examinee_number
+     *
+     */
     private String provincialExamineeNumber;
 
+    /**
+     * 本人照片
+     *
+     * student.profile_pic
+     *
+     */
     private String profilePic;
 
+    /**
+     * 最后一次登录时间
+     *
+     * student.login_time
+     *
+     */
     private Date loginTime;
 
+    /**
+     * 创建时间
+     *
+     * student.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     *
+     * student.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * student.is_deleted
+     *
+     */
     private Boolean isDeleted;
 
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

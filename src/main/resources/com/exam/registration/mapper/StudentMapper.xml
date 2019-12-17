@@ -33,7 +33,7 @@
     where is_deleted = 0
   </select>
   <select id="getStudentByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from student
     where id = #{id,jdbcType=BIGINT}
@@ -50,18 +50,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into student (id_card_number, `name`, `password`, 
-      salt, sex, phone, address, 
-      school, email, id_card_pic, 
-      provincial_examinee_pic, provincial_examinee_number, 
-      profile_pic, login_time, create_time, 
-      update_time, is_deleted)
-    values (#{idCardNumber,jdbcType=CHAR}, #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
-      #{salt,jdbcType=CHAR}, #{sex,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, 
-      #{school,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{idCardPic,jdbcType=VARCHAR}, 
-      #{provincialExamineePic,jdbcType=VARCHAR}, #{provincialExamineeNumber,jdbcType=CHAR}, 
-      #{profilePic,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
+    insert into student (id_card_number, `name`, `password`,
+    salt, sex, phone, address,
+    school, email, id_card_pic,
+    provincial_examinee_pic, provincial_examinee_number,
+    profile_pic, login_time, create_time,
+    update_time, is_deleted)
+    values (#{idCardNumber,jdbcType=CHAR}, #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR},
+    #{salt,jdbcType=CHAR}, #{sex,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{address,jdbcType=VARCHAR},
+    #{school,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{idCardPic,jdbcType=VARCHAR},
+    #{provincialExamineePic,jdbcType=VARCHAR}, #{provincialExamineeNumber,jdbcType=CHAR},
+    #{profilePic,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertStudentSelective" parameterType="com.exam.registration.model.Student">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">

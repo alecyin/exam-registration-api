@@ -3,31 +3,118 @@ package com.exam.registration.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 考试表
+ * 
+ * exam
+ *
+ */
 public class Exam implements Serializable {
+    /**
+     *
+     * exam.id
+     *
+     */
     private Long id;
 
+    /**
+     * 所属专业id
+     *
+     * exam.major_id
+     *
+     */
     private Long majorId;
 
+    /**
+     * 地点id
+     *
+     * exam.site_id
+     *
+     */
     private Long siteId;
 
+    /**
+     * 开始考试时间
+     *
+     * exam.start_time
+     *
+     */
     private Date startTime;
 
+    /**
+     * 结束考试时间
+     *
+     * exam.end_time
+     *
+     */
     private Date endTime;
 
+    /**
+     * 不允许同时报的考试
+     *
+     * exam.conflict
+     *
+     */
     private String conflict;
 
+    /**
+     * 允许报考的省份
+     *
+     * exam.province
+     *
+     */
     private String province;
 
+    /**
+     * 起始考号
+     *
+     * exam.start_ examinee_number
+     *
+     */
     private String startExamineeNumber;
 
+    /**
+     * 当前考号
+     *
+     * exam.current_examinee_number
+     *
+     */
     private String currentExamineeNumber;
 
+    /**
+     * 注意事项
+     *
+     * exam.note
+     *
+     */
     private String note;
 
+    /**
+     * 创建时间
+     *
+     * exam.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     *
+     * exam.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * exam.is_deleted
+     *
+     */
+    private Boolean isDeleted;
+
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -126,6 +213,14 @@ public class Exam implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -144,6 +239,7 @@ public class Exam implements Serializable {
         sb.append(", note=").append(note);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

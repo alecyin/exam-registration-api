@@ -1,30 +1,23 @@
 package com.exam.registration.mapper;
 
 import com.exam.registration.model.Major;
-import com.exam.registration.model.MajorExample;
+
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface MajorMapper {
-    long countByExample(MajorExample example);
+    long countMajors();
 
-    int deleteByExample(MajorExample example);
+    int deleteMajorByPrimaryKey(Long id);
 
-    int deleteByPrimaryKey(Long id);
+    int insertMajor(Major record);
 
-    int insert(Major record);
+    int insertMajorSelective(Major record);
 
-    int insertSelective(Major record);
+    Major selectMajorByPrimaryKey(Long id);
 
-    List<Major> selectByExample(MajorExample example);
+    List<Major> listMajors();
 
-    Major selectByPrimaryKey(Long id);
+    int updateMajorByPrimaryKeySelective(Major record);
 
-    int updateByExampleSelective(@Param("record") Major record, @Param("example") MajorExample example);
-
-    int updateByExample(@Param("record") Major record, @Param("example") MajorExample example);
-
-    int updateByPrimaryKeySelective(Major record);
-
-    int updateByPrimaryKey(Major record);
+    int updateMajorByPrimaryKey(Major record);
 }

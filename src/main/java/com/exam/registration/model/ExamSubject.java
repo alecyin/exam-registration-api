@@ -3,23 +3,81 @@ package com.exam.registration.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 
+ * exam_subject
+ *
+ */
 public class ExamSubject implements Serializable {
+    /**
+     *
+     * exam_subject.id
+     *
+     */
     private Long id;
 
+    /**
+     * 开始时间
+     *
+     * exam_subject.start_time
+     *
+     */
     private Date startTime;
 
+    /**
+     * 结束时间
+     *
+     * exam_subject.end_time
+     *
+     */
     private Date endTime;
 
+    /**
+     * 地点
+     *
+     * exam_subject.address
+     *
+     */
     private String address;
 
+    /**
+     *
+     * exam_subject.subject_id
+     *
+     */
     private Long subjectId;
 
+    /**
+     *
+     * exam_subject.exam_id
+     *
+     */
     private Long examId;
 
+    /**
+     *
+     * exam_subject.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     *
+     * exam_subject.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * exam_subject.is_deleted
+     *
+     */
+    private Boolean isDeleted;
+
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -86,6 +144,14 @@ public class ExamSubject implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -100,6 +166,7 @@ public class ExamSubject implements Serializable {
         sb.append(", examId=").append(examId);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

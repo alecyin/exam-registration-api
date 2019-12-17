@@ -21,7 +21,7 @@
     where is_deleted = 0
   </select>
   <select id="getAdminByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from admin
     where id = #{id,jdbcType=BIGINT}
@@ -40,12 +40,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into admin (`name`, `password`, salt, 
-      login_time, create_time, update_time, 
-      is_deleted)
-    values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, #{salt,jdbcType=CHAR}, 
-      #{loginTime,jdbcType=TIMESTAMP}, NOW(), NOW(),
-      #{isDeleted,jdbcType=BIT})
+    insert into admin (`name`, `password`, salt,
+    login_time, create_time, update_time,
+    is_deleted)
+    values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, #{salt,jdbcType=CHAR},
+    #{loginTime,jdbcType=TIMESTAMP}, NOW(), NOW(),
+    #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertAdminSelective" parameterType="com.exam.registration.model.Admin">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">

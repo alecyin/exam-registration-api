@@ -3,23 +3,77 @@ package com.exam.registration.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 
+ * admin
+ *
+ */
 public class Admin implements Serializable {
+    /**
+     *
+     * admin.id
+     *
+     */
     private Long id;
 
+    /**
+     * 登录名
+     *
+     * admin.name
+     *
+     */
     private String name;
 
+    /**
+     * 密码
+     *
+     * admin.password
+     *
+     */
     private String password;
 
+    /**
+     * 盐
+     *
+     * admin.salt
+     *
+     */
     private String salt;
 
+    /**
+     * 最后一次登录时间
+     *
+     * admin.login_time
+     *
+     */
     private Date loginTime;
 
+    /**
+     * 创建时间
+     *
+     * admin.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     *
+     * admin.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * admin.is_deleted
+     *
+     */
     private Boolean isDeleted;
 
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

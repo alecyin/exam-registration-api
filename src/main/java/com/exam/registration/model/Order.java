@@ -4,27 +4,93 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 
+ * order
+ *
+ */
 public class Order implements Serializable {
+    /**
+     *
+     * order.id
+     *
+     */
     private Long id;
 
+    /**
+     * 考生id
+     *
+     * order.student_id
+     *
+     */
     private Long studentId;
 
+    /**
+     * 报名的考试id
+     *
+     * order.exam_id
+     *
+     */
     private Long examId;
 
+    /**
+     * 需要缴费
+     *
+     * order.cost
+     *
+     */
     private BigDecimal cost;
 
+    /**
+     * 分配的考号
+     *
+     * order.examinee_number
+     *
+     */
     private String examineeNumber;
 
+    /**
+     * 订单号
+     *
+     * order.order_number
+     *
+     */
     private String orderNumber;
 
+    /**
+     * 是否支付
+     *
+     * order.is_ paid
+     *
+     */
     private Boolean isPaid;
 
+    /**
+     * 创建时间
+     *
+     * order.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     *
+     * order.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * order.is_deleted
+     *
+     */
     private Boolean isDeleted;
 
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

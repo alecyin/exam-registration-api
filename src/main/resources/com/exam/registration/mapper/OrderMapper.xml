@@ -13,83 +13,10 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List">
     id, student_id, exam_id, cost, examinee_number, order_number, `is_ paid`, create_time, 
     update_time, is_deleted
   </sql>
-  <select id="selectByExample" parameterType="com.exam.registration.model.OrderExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -99,12 +26,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from order
     where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.exam.registration.model.OrderExample">
-    delete from order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   <insert id="insert" parameterType="com.exam.registration.model.Order">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -183,66 +104,6 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.exam.registration.model.OrderExample" resultType="java.lang.Long">
-    select count(*) from order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update order
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.studentId != null">
-        student_id = #{record.studentId,jdbcType=BIGINT},
-      </if>
-      <if test="record.examId != null">
-        exam_id = #{record.examId,jdbcType=BIGINT},
-      </if>
-      <if test="record.cost != null">
-        cost = #{record.cost,jdbcType=DECIMAL},
-      </if>
-      <if test="record.examineeNumber != null">
-        examinee_number = #{record.examineeNumber,jdbcType=CHAR},
-      </if>
-      <if test="record.orderNumber != null">
-        order_number = #{record.orderNumber,jdbcType=CHAR},
-      </if>
-      <if test="record.isPaid != null">
-        `is_ paid` = #{record.isPaid,jdbcType=BIT},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=BIT},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update order
-    set id = #{record.id,jdbcType=BIGINT},
-      student_id = #{record.studentId,jdbcType=BIGINT},
-      exam_id = #{record.examId,jdbcType=BIGINT},
-      cost = #{record.cost,jdbcType=DECIMAL},
-      examinee_number = #{record.examineeNumber,jdbcType=CHAR},
-      order_number = #{record.orderNumber,jdbcType=CHAR},
-      `is_ paid` = #{record.isPaid,jdbcType=BIT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      is_deleted = #{record.isDeleted,jdbcType=BIT}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.exam.registration.model.Order">
     update order
     <set>

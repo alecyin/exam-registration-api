@@ -31,8 +31,8 @@
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
 
         <!-- 注释 -->
-        <commentGenerator >
-            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+        <commentGenerator type="com.exam.registration.util.RemarksCommentGenerator">
+            <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->
             <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
         </commentGenerator>
 
@@ -42,6 +42,7 @@
                         userId="${spring.datasource.username}"
                         password="${spring.datasource.password}">
             <property name="nullCatalogMeansCurrent" value="true" />
+            <property name="useInformationSchema" value="true" />
         </jdbcConnection>
 
         <!-- 类型转换 -->
@@ -63,7 +64,8 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <!-- table可以有多个,每个数据库中的表都可以写一个table，tableName表示要匹配的数据库表,也可以在tableName属性中通过使用%通配符来匹配所有数据库表,只有匹配的表才会自动生成文件 -->
-        <table tableName="student" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+        <table tableName="%"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false" >
             <property name="useActualColumnNames" value="false" />
             <!-- 数据库表主键 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true" />
@@ -72,5 +74,6 @@
                 <property name="property" value="deleted"/>
             </columnOverride>
         </table>
+
     </context>
 </generatorConfiguration>

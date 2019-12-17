@@ -3,21 +3,69 @@ package com.exam.registration.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 
+ * announcement
+ *
+ */
 public class Announcement implements Serializable {
+    /**
+     *
+     * announcement.id
+     *
+     */
     private Long id;
 
+    /**
+     * 发布人id
+     *
+     * announcement.admin_id
+     *
+     */
     private Long adminId;
 
+    /**
+     * 标题
+     *
+     * announcement.title
+     *
+     */
     private String title;
 
+    /**
+     * 创建时间
+     *
+     * announcement.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     *
+     * announcement.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * announcement.is_deleted
+     *
+     */
     private Boolean isDeleted;
 
+    /**
+     * 内容
+     *
+     * announcement.content
+     *
+     */
     private String content;
 
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

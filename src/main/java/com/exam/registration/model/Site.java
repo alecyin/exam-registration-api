@@ -3,19 +3,69 @@ package com.exam.registration.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 
+ * site
+ *
+ */
 public class Site implements Serializable {
+    /**
+     *
+     * site.id
+     *
+     */
     private Long id;
 
+    /**
+     * 考点名称
+     *
+     * site.name
+     *
+     */
     private String name;
 
+    /**
+     * 考点代码
+     *
+     * site.code
+     *
+     */
     private String code;
 
+    /**
+     * 地址
+     *
+     * site.address
+     *
+     */
     private String address;
 
+    /**
+     * 创建时间
+     *
+     * site.create_time
+     *
+     */
     private Date createTime;
 
+    /**
+     * 更新时间
+     *
+     * site.update_time
+     *
+     */
     private Date updateTime;
 
+    /**
+     * 启用状态
+     *
+     * site.is_deleted
+     *
+     */
+    private Boolean isDeleted;
+
+    /**
+     */
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -66,6 +116,14 @@ public class Site implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -78,6 +136,7 @@ public class Site implements Serializable {
         sb.append(", address=").append(address);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
