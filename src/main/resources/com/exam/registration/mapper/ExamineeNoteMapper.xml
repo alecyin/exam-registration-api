@@ -3,63 +3,86 @@
 <mapper namespace="com.exam.registration.mapper.ExamineeNoteMapper">
   <resultMap id="BaseResultMap" type="com.exam.registration.model.ExamineeNote">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.exam.registration.model.ExamineeNote">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, is_deleted
+    id, create_time, update_time
   </sql>
   <sql id="Blob_Column_List">
     content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+  <select id="countExamineeNotes" resultType="java.lang.Long">
+    select count(*) from examinee_note
+  </select>
+
+  <select id="listExamineeNotes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from examinee_note
+  </select>
+  <select id="getExamineeNoteByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from examinee_note
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteExamineeNoteByPrimaryKey" parameterType="java.lang.Long">
     delete from examinee_note
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.exam.registration.model.ExamineeNote">
+  <insert id="insertExamineeNote" parameterType="com.exam.registration.model.ExamineeNote">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into examinee_note (is_deleted, content)
-    values (#{isDeleted,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR})
+    insert into examinee_note (create_time, update_time, content
+      )
+    values (#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.exam.registration.model.ExamineeNote">
+  <insert id="insertExamineeNoteSelective" parameterType="com.exam.registration.model.ExamineeNote">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into examinee_note
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="isDeleted != null">
-        is_deleted,
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
       </if>
       <if test="content != null">
         content,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=BIT},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.exam.registration.model.ExamineeNote">
+  <update id="updateExamineeNoteByPrimaryKeySelective" parameterType="com.exam.registration.model.ExamineeNote">
     update examinee_note
     <set>
-      <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=BIT},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
@@ -67,15 +90,23 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.exam.registration.model.ExamineeNote">
+  <update id="updateExamineeNoteByPrimaryKeyWithBLOBs" parameterType="com.exam.registration.model.ExamineeNote">
     update examinee_note
-    set is_deleted = #{isDeleted,jdbcType=BIT},
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.exam.registration.model.ExamineeNote">
+  <update id="updateExamineeNoteByPrimaryKey" parameterType="com.exam.registration.model.ExamineeNote">
     update examinee_note
-    set is_deleted = #{isDeleted,jdbcType=BIT}
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateExamineeNote" parameterType="com.exam.registration.model.ExamineeNote">
+    update examinee_note
+    set update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
   </update>
 </mapper>

@@ -4,20 +4,27 @@ import com.exam.registration.model.ExamineeNote;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 @Mapper
 @Repository
 public interface ExamineeNoteMapper {
-    int deleteByPrimaryKey(Long id);
+    long countExamineeNotes();
 
-    int insert(ExamineeNote record);
+    int deleteExamineeNoteByPrimaryKey(Long id);
 
-    int insertSelective(ExamineeNote record);
+    int insertExamineeNote(ExamineeNote examineeNote);
 
-    ExamineeNote selectByPrimaryKey(Long id);
+    int insertExamineeNoteSelective(ExamineeNote examineeNote);
 
-    int updateByPrimaryKeySelective(ExamineeNote record);
+    ExamineeNote getExamineeNoteByPrimaryKey(Long id);
 
-    int updateByPrimaryKeyWithBLOBs(ExamineeNote record);
+    List<ExamineeNote> listExamineeNotes();
 
-    int updateByPrimaryKey(ExamineeNote record);
+    int updateExamineeNoteByPrimaryKeySelective(ExamineeNote examineeNote);
+
+    int updateExamineeNoteByPrimaryKeyWithBLOBs(ExamineeNote examineeNote);
+
+    int updateExamineeNoteByPrimaryKey(ExamineeNote examineeNote);
+
+    int updateExamineeNote(ExamineeNote examineeNote);
 }

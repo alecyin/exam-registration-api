@@ -1,6 +1,7 @@
 package com.exam.registration.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 
@@ -16,12 +17,20 @@ public class ExamineeNote implements Serializable {
     private Long id;
 
     /**
-     * 启用状态
+     * 创建时间
      *
-     * examinee_note.is_deleted
+     * examinee_note.create_time
      *
      */
-    private Boolean isDeleted;
+    private Date createTime;
+
+    /**
+     * 修改时间
+     *
+     * examinee_note.update_time
+     *
+     */
+    private Date updateTime;
 
     /**
      * 准考证注意事项
@@ -43,12 +52,20 @@ public class ExamineeNote implements Serializable {
         this.id = id;
     }
 
-    public Boolean getIsDeleted() {
-        return isDeleted;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getContent() {
@@ -66,7 +83,8 @@ public class ExamineeNote implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", isDeleted=").append(isDeleted);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
