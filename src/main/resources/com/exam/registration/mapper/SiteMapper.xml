@@ -13,17 +13,33 @@
   <sql id="Base_Column_List">
     id, `name`, code, address, create_time, update_time, is_deleted
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="countSites" resultType="java.lang.Long">
+    select count(*) from site
+  </select>
+
+  <select id="listSites" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from site
+    where is_deleted = 0
+  </select>
+  <select id="getSiteByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from site
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <select id="getSiteByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from site
+    where code = #{code,jdbcType=CHAR}
+  </select>
+  <delete id="deleteSiteByPrimaryKey" parameterType="java.lang.Long">
     delete from site
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.exam.registration.model.Site">
+  <insert id="insertSite" parameterType="com.exam.registration.model.Site">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -34,7 +50,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.exam.registration.model.Site">
+  <insert id="insertSiteSelective" parameterType="com.exam.registration.model.Site">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -80,7 +96,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.exam.registration.model.Site">
+  <update id="updateSiteByPrimaryKeySelective" parameterType="com.exam.registration.model.Site">
     update site
     <set>
       <if test="name != null">
@@ -104,7 +120,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.exam.registration.model.Site">
+  <update id="updateSiteByPrimaryKey" parameterType="com.exam.registration.model.Site">
     update site
     set `name` = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=CHAR},

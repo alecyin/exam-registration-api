@@ -6,6 +6,7 @@ import com.exam.registration.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +32,10 @@ public class MajorServiceImpl implements MajorService {
 
     @Override
     public int insertMajor(Major major) {
+        Date now = new Date();
+        major.setCreateTime(now);
+        major.setUpdateTime(now);
+        major.setIsDeleted(false);
         return majorMapper.insertMajor(major);
     }
 
@@ -55,8 +60,9 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
-    public int updateMajorByPrimaryKeySelective(Major record) {
-        return 0;
+    public int updateMajorByPrimaryKeySelective(Major major) {
+        major.setUpdateTime(new Date());
+        return majorMapper.updateMajorByPrimaryKeySelective(major);
     }
 
     @Override

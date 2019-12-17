@@ -1,14 +1,16 @@
-package com.exam.registration.mapper;
+package com.exam.registration.service;
 
 import com.exam.registration.model.Site;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-@Repository
-public interface SiteMapper {
+/**
+ * @author yhf
+ * @classname SiteService
+ * @description TODO
+ * @date 2019/12/17
+ **/
+public interface SiteService {
     long countSites();
 
     int deleteSiteByPrimaryKey(Long id);
