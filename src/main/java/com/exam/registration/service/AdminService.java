@@ -1,34 +1,27 @@
 package com.exam.registration.service;
 
 import com.exam.registration.model.Admin;
-import com.exam.registration.model.AdminExample;
 
 import java.util.List;
 
 public interface AdminService {
-    long countByExample(AdminExample example);
+    long countAdmins();
 
-    int deleteByExample(AdminExample example);
+    int deleteAdminByPrimaryKey(Long id);
 
-    int deleteByPrimaryKey(Long id);
+    int insertAdmin(Admin record);
 
-    int insert(Admin record);
+    int insertAdminSelective(Admin record);
 
-    int insertSelective(Admin record);
+    List<Admin> listAdmins();
 
-    List<Admin> selectByExample(AdminExample example);
+    Admin getAdminByPrimaryKey(Long id);
 
-    Admin selectByPrimaryKey(Long id);
+    Admin getAdminByName(String name);
 
-    Admin selectByName(String name);
+    int updateAdminByPrimaryKeySelective(Admin record);
 
-    int updateByExampleSelective(Admin record, AdminExample example);
-
-    int updateByExample(Admin record, AdminExample example);
-
-    int updateByPrimaryKeySelective(Admin record);
-
-    int updateByPrimaryKey(Admin record);
+    int updateAdminByPrimaryKey(Admin record);
 
     int login(String name, String password);
 }

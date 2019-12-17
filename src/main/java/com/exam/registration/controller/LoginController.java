@@ -57,7 +57,7 @@ public class LoginController {
             return MsgUtils.fail("密码不能为空");
         }
 
-        int res = studentService.login(name, password);
+        int res = adminService.login(name, password);
         if (res == 0) {
             return MsgUtils.fail("登录名或密码错误");
         }

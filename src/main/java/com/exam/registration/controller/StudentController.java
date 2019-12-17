@@ -1,20 +1,14 @@
 package com.exam.registration.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.exam.registration.model.Student;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -77,7 +71,7 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}",method = RequestMethod.GET)
     @ResponseBody
-    public String getStudentById(@PathVariable("id") long id) {
+    public String getStudentByPrimaryKey(@PathVariable("id") long id) {
         return MsgUtils.success(studentService.getStudentByPrimaryKey(id));
     }
 }

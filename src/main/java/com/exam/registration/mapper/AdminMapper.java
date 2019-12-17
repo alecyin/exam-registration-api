@@ -1,37 +1,30 @@
 package com.exam.registration.mapper;
 
 import com.exam.registration.model.Admin;
-import com.exam.registration.model.AdminExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
 public interface AdminMapper {
-    long countByExample(AdminExample example);
+    long countAdmins();
 
-    int deleteByExample(AdminExample example);
+    int deleteAdminByPrimaryKey(Long id);
 
-    int deleteByPrimaryKey(Long id);
+    int insertAdmin(Admin record);
 
-    int insert(Admin record);
+    int insertAdminSelective(Admin record);
 
-    int insertSelective(Admin record);
+    List<Admin> listAdmins();
 
-    List<Admin> selectByExample(AdminExample example);
+    Admin getAdminByPrimaryKey(Long id);
 
-    Admin selectByPrimaryKey(Long id);
+    Admin getAdminByName(String name);
 
-    Admin selectByName(String name);
+    int updateAdminByPrimaryKeySelective(Admin record);
 
-    int updateByExampleSelective(@Param("record") Admin record, @Param("example") AdminExample example);
-
-    int updateByExample(@Param("record") Admin record, @Param("example") AdminExample example);
-
-    int updateByPrimaryKeySelective(Admin record);
-
-    int updateByPrimaryKey(Admin record);
+    int updateAdminByPrimaryKey(Admin record);
 }
