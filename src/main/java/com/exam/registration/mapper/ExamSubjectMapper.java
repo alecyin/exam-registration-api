@@ -1,7 +1,11 @@
 package com.exam.registration.mapper;
 
 import com.exam.registration.model.ExamSubject;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+@Mapper
+@Repository
 public interface ExamSubjectMapper {
     int deleteByPrimaryKey(Long id);
 

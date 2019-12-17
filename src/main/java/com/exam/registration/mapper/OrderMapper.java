@@ -1,7 +1,11 @@
 package com.exam.registration.mapper;
 
 import com.exam.registration.model.Order;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+@Mapper
+@Repository
 public interface OrderMapper {
     int deleteByPrimaryKey(Long id);
 

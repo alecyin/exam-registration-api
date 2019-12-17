@@ -1,13 +1,16 @@
-package com.exam.registration.mapper;
+package com.exam.registration.service;
 
 import com.exam.registration.model.Major;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Mapper
-@Repository
-public interface MajorMapper {
+
+/**
+ * @author yhf
+ * @classname MajorService
+ * @description TODO
+ * @date 2019/12/17
+ **/
+public interface MajorService {
     long countMajors();
 
     int deleteMajorByPrimaryKey(Long id);
@@ -17,6 +20,8 @@ public interface MajorMapper {
     int insertMajorSelective(Major record);
 
     Major getMajorByPrimaryKey(Long id);
+
+    Major getMajorByCode(String code);
 
     List<Major> listMajors();
 
