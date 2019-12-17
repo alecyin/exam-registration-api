@@ -1,34 +1,30 @@
 package com.exam.registration.service;
 
 import com.exam.registration.model.Student;
-import com.exam.registration.model.StudentExample;
 
 import java.util.List;
 
 public interface StudentService {
-    long countByExample(StudentExample example);
 
-    int deleteByExample(StudentExample example);
+    long countStudents();
 
-    int deleteByPrimaryKey(Long id);
+    int deleteStudentByPrimaryKey(Long id);
 
-    int insert(Student record);
+    int deleteStudentByIdCardNumber(String idCardNumber);
 
-    int insertSelective(Student record);
+    int insertStudent(Student record);
 
-    List<Student> selectByExample(StudentExample example);
+    int insertStudentSelective(Student record);
 
-    Student selectByPrimaryKey(Long id);
+    List<Student> listStudents();
 
-    Student selectByIdCardNumber(String idCardNumber);
+    Student getStudentByPrimaryKey(Long id);
 
-    int updateByExampleSelective(Student record, StudentExample example);
+    Student getStudentByIdCardNumber(String idCardNumber);
 
-    int updateByExample(Student record, StudentExample example);
+    int updateStudentByPrimaryKeySelective(Student record);
 
-    int updateByPrimaryKeySelective(Student record);
-
-    int updateByPrimaryKey(Student record);
+    int updateStudentByPrimaryKey(Student record);
 
     int login(String idCardNumber, String password);
 }

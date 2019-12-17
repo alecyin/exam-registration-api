@@ -1,37 +1,32 @@
 package com.exam.registration.mapper;
 
 import com.exam.registration.model.Student;
-import com.exam.registration.model.StudentExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
 public interface StudentMapper {
-    long countByExample(StudentExample example);
+    long countStudents();
 
-    int deleteByExample(StudentExample example);
+    int deleteStudentByPrimaryKey(Long id);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteStudentByIdCardNumber(String idCardNumber);
 
-    int insert(Student record);
+    int insertStudent(Student record);
 
-    int insertSelective(Student record);
+    int insertStudentSelective(Student record);
 
-    List<Student> selectByExample(StudentExample example);
+    List<Student> listStudents();
 
-    Student selectByPrimaryKey(Long id);
+    Student getStudentByPrimaryKey(Long id);
 
-    Student selectByIdCardNumber(String idCardNumber);
+    Student getStudentByIdCardNumber(String idCardNumber);
 
-    int updateByExampleSelective(@Param("record") Student record, @Param("example") StudentExample example);
+    int updateStudentByPrimaryKeySelective(Student record);
 
-    int updateByExample(@Param("record") Student record, @Param("example") StudentExample example);
-
-    int updateByPrimaryKeySelective(Student record);
-
-    int updateByPrimaryKey(Student record);
+    int updateStudentByPrimaryKey(Student record);
 }

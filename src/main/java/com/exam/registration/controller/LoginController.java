@@ -3,6 +3,8 @@ package com.exam.registration.controller;
 import com.exam.registration.service.AdminService;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -26,9 +28,9 @@ public class LoginController {
     @Autowired
     AdminService adminService;
 
-    @RequestMapping(path = "/login/student", method = RequestMethod.POST)
+    @RequestMapping(path = "/students/login", method = RequestMethod.POST)
     @ResponseBody
-    public String loginStudent(@RequestParam("idCardNumber") String idCardNumber, 
+    public String loginStudent(@RequestParam("idCardNumber") String idCardNumber,
             @RequestParam("password") String password) {
         if (StringUtils.isEmpty(idCardNumber)) {
             return MsgUtils.fail("身份证号码不能为空");
@@ -44,7 +46,7 @@ public class LoginController {
         return MsgUtils.success();
     }
 
-    @RequestMapping(path = "/login/admin", method = RequestMethod.POST)
+    @RequestMapping(path = "/admins/login", method = RequestMethod.POST)
     @ResponseBody
     public String loginAdmin(@RequestParam("name") String name,
                         @RequestParam("password") String password) {

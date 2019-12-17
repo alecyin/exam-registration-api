@@ -2,7 +2,6 @@ package com.exam.registration.service.impl;
 
 import com.exam.registration.mapper.StudentMapper;
 import com.exam.registration.model.Student;
-import com.exam.registration.model.StudentExample;
 import com.exam.registration.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,82 +23,87 @@ public class StudentServiceImpl implements StudentService {
     private StudentMapper studentMapper;
 
     @Override
-    public long countByExample(StudentExample example) {
-        return 0;
+    public long countStudents() {
+        return studentMapper.countStudents();
     }
 
     @Override
-    public int deleteByExample(StudentExample example) {
-        return 0;
+    public int deleteStudentByPrimaryKey(Long id) {
+        return studentMapper.deleteStudentByPrimaryKey(id);
     }
 
     @Override
-    public int deleteByPrimaryKey(Long id) {
-        return 0;
+    public int deleteStudentByIdCardNumber(String idCardNumber) {
+        return studentMapper.deleteStudentByIdCardNumber(idCardNumber);
     }
 
     @Override
-    public int insert(Student student) {
+    public int insertStudent(Student student) {
         String salt = UUID.randomUUID().toString().substring(0, 5);
         student.setSalt(salt);
         String password = DigestUtils.md5DigestAsHex((student.getPassword() + salt).getBytes());
         student.setPassword(password);
         student.setIsDeleted(false);
-        studentMapper.insert(student);
-        return 1;
+        Date now = new Date();
+        student.setCreateTime(now);
+        student.setUpdateTime(now);
+        return studentMapper.insertStudent(student);
     }
 
     @Override
-    public int insertSelective(Student record) {
+    public int insertStudentSelective(Student record) {
         return 0;
     }
 
     @Override
-    public List<Student> selectByExample(StudentExample example) {
-        return null;
+    public List<Student> listStudents() {
+        return studentMapper.listStudents();
     }
 
     @Override
-    public Student selectByPrimaryKey(Long id) {
-        return null;
+    public Student getStudentByPrimaryKey(Long id) {
+        return studentMapper.getStudentByPrimaryKey(id);
     }
 
     @Override
-    public Student selectByIdCardNumber(String idCardNumber) {
-        return studentMapper.selectByIdCardNumber(idCardNumber);
+    public Student getStudentByIdCardNumber(String idCardNumber) {
+        return studentMapper.getStudentByIdCardNumber(idCardNumber);
     }
 
     @Override
-    public int updateByExampleSelective(Student record, StudentExample example) {
-        return 0;
+    public int updateStudentByPrimaryKeySelective(Student student) {
+        Student queryStudent = getStudentByPrimaryKey(student.getId());
+        if (Objects.isNull(queryStudent)) {
+            return 0;
+        }
+
+        if (!StringUtils.isEmpty(student.getPassword())) {
+            String newPass = DigestUtils.md5DigestAsHex((student.getPassword() + queryStudent.getSalt())
+                    .getBytes());
+            student.setPassword(newPass);
+        }
+
+        student.setUpdateTime(new Date());
+
+        return studentMapper.updateStudentByPrimaryKeySelective(student);
     }
 
     @Override
-    public int updateByExample(Student record, StudentExample example) {
-        return 0;
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(Student record) {
-        return 0;
-    }
-
-    @Override
-    public int updateByPrimaryKey(Student record) {
+    public int updateStudentByPrimaryKey(Student student) {
         return 0;
     }
 
     @Override
     public int login(String idCardNumber, String password) {
-        Student queryStudent = selectByIdCardNumber(idCardNumber);
+        Student queryStudent = getStudentByIdCardNumber(idCardNumber);
         if (Objects.isNull(queryStudent)) {
             return 0;
         }
 
         String md5Pass = DigestUtils.md5DigestAsHex((password + queryStudent.getSalt()).getBytes());
-        if (md5Pass.equals(password)) {
-            return 0;
+        if (md5Pass.equals(queryStudent.getPassword())) {
+            return 1;
         }
-        return 1;
+        return 0;
     }
 }
