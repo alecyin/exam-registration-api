@@ -4,20 +4,26 @@ import com.exam.registration.model.Announcement;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface AnnouncementMapper {
-    int deleteByPrimaryKey(Long id);
+    long countAnnouncements();
 
-    int insert(Announcement record);
+    int deleteAnnouncementByPrimaryKey(Long id);
 
-    int insertSelective(Announcement record);
+    int insertAnnouncement(Announcement record);
 
-    Announcement selectByPrimaryKey(Long id);
+    int insertAnnouncementSelective(Announcement record);
 
-    int updateByPrimaryKeySelective(Announcement record);
+    Announcement getAnnouncementByPrimaryKey(Long id);
 
-    int updateByPrimaryKeyWithBLOBs(Announcement record);
+    List<Announcement> listAnnouncements();
 
-    int updateByPrimaryKey(Announcement record);
+    int updateAnnouncementByPrimaryKeySelective(Announcement record);
+
+    int updateAnnouncementByPrimaryKeyWithBLOBs(Announcement record);
+
+    int updateAnnouncementByPrimaryKey(Announcement record);
 }

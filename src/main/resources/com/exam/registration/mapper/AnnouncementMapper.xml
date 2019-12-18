@@ -18,7 +18,19 @@
   <sql id="Blob_Column_List">
     content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="countAnnouncements" resultType="java.lang.Long">
+    select count(*) from announcement
+  </select>
+
+  <select id="listAnnouncements" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from announcement
+    where is_deleted = 0
+  </select>
+  <select id="getAnnouncementByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
@@ -26,11 +38,11 @@
     from announcement
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteAnnouncementByPrimaryKey" parameterType="java.lang.Long">
     delete from announcement
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.exam.registration.model.Announcement">
+  <insert id="insertAnnouncement" parameterType="com.exam.registration.model.Announcement">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -41,7 +53,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.exam.registration.model.Announcement">
+  <insert id="insertAnnouncementSelective" parameterType="com.exam.registration.model.Announcement">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -87,7 +99,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.exam.registration.model.Announcement">
+  <update id="updateAnnouncementByPrimaryKeySelective" parameterType="com.exam.registration.model.Announcement">
     update announcement
     <set>
       <if test="adminId != null">
@@ -111,7 +123,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.exam.registration.model.Announcement">
+  <update id="updateAnnouncementByPrimaryKeyWithBLOBs" parameterType="com.exam.registration.model.Announcement">
     update announcement
     set admin_id = #{adminId,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},
@@ -121,7 +133,7 @@
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.exam.registration.model.Announcement">
+  <update id="updateAnnouncementByPrimaryKey" parameterType="com.exam.registration.model.Announcement">
     update announcement
     set admin_id = #{adminId,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},

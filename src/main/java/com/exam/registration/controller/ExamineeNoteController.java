@@ -1,17 +1,13 @@
 package com.exam.registration.controller;
 
 import com.exam.registration.model.ExamineeNote;
-import com.exam.registration.model.Major;
 import com.exam.registration.service.ExamineeNoteService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Objects;
 
 /**
  * @author yhf
