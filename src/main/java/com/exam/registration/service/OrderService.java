@@ -1,14 +1,16 @@
-package com.exam.registration.mapper;
+package com.exam.registration.service;
 
 import com.exam.registration.model.Order;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-@Repository
-public interface OrderMapper {
+/**
+ * @author yhf
+ * @classname OrderService
+ * @description TODO
+ * @date 2019/12/18
+ **/
+public interface OrderService {
     long countOrders();
 
     int deleteOrderByPrimaryKey(Long id);
