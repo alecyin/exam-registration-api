@@ -32,17 +32,14 @@ public class SiteController {
         if (StringUtils.isEmpty(site.getName())) {
             return MsgUtils.fail("考点名称不能为空");
         }
-
         if (StringUtils.isEmpty(site.getCode())) {
             return MsgUtils.fail("代号不能为空");
         }
-
         if (StringUtils.isEmpty(site.getAddress())) {
             return MsgUtils.fail("考点地址不能为空");
         }
 
-        Site querySite = siteService.getSiteByCode(site.getCode());
-        if (Objects.nonNull(querySite)) {
+        if (Objects.nonNull(siteService.getSiteByCode(site.getCode()))) {
             return MsgUtils.fail("代号重复");
         }
 

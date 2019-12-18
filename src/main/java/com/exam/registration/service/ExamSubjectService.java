@@ -1,14 +1,16 @@
-package com.exam.registration.mapper;
+package com.exam.registration.service;
 
 import com.exam.registration.model.ExamSubject;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-@Repository
-public interface ExamSubjectMapper {
+/**
+ * @author yhf
+ * @classname ExamSubjectService
+ * @description TODO
+ * @date 2019/12/18
+ **/
+public interface ExamSubjectService {
     long countExamSubjects();
 
     int deleteExamSubjectByPrimaryKey(Long id);

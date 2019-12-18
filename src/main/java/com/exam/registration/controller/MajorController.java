@@ -32,17 +32,14 @@ public class MajorController {
         if (StringUtils.isEmpty(major.getName())) {
             return MsgUtils.fail("专业名不能为空");
         }
-
         if (StringUtils.isEmpty(major.getCode())) {
             return MsgUtils.fail("代号不能为空");
         }
-
         if (StringUtils.isEmpty(major.getFee())) {
             return MsgUtils.fail("费用不能为空");
         }
 
-        Major queryMajor = majorService.getMajorByCode(major.getCode());
-        if (Objects.nonNull(queryMajor)) {
+        if (Objects.nonNull(majorService.getMajorByCode(major.getCode()))) {
             return MsgUtils.fail("代号重复");
         }
 

@@ -33,8 +33,8 @@ public class StudentController {
         if (StringUtils.isEmpty(student.getEmail())) {
             return MsgUtils.fail("邮箱不能为空");
         }
-        Student queryStudent = studentService.getStudentByIdCardNumber(student.getIdCardNumber());
-        if (Objects.nonNull(queryStudent)) {
+
+        if (Objects.nonNull(studentService.getStudentByIdCardNumber(student.getIdCardNumber()))) {
             return MsgUtils.fail("用户名已经被注册");
         }
 

@@ -32,7 +32,6 @@ public class AnnouncementController {
         if (StringUtils.isEmpty(announcement.getTitle())) {
             return MsgUtils.fail("标题不能为空");
         }
-
         if (StringUtils.isEmpty(announcement.getContent())) {
             return MsgUtils.fail("内容不能为空");
         }

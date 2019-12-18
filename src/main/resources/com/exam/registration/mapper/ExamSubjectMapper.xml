@@ -16,17 +16,27 @@
     id, start_time, end_time, address, subject_id, exam_id, create_time, update_time, 
     is_deleted
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="countExamSubjects" resultType="java.lang.Long">
+    select count(*) from exam_subject
+  </select>
+
+  <select id="listExamSubjects" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exam_subject
+    where is_deleted = 0
+  </select>
+  <select id="getExamSubjectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from exam_subject
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteExamSubjectByPrimaryKey" parameterType="java.lang.Long">
     delete from exam_subject
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.exam.registration.model.ExamSubject">
+  <insert id="insertExamSubject" parameterType="com.exam.registration.model.ExamSubject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -37,7 +47,7 @@
       #{subjectId,jdbcType=BIGINT}, #{examId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.exam.registration.model.ExamSubject">
+  <insert id="insertExamSubjectSelective" parameterType="com.exam.registration.model.ExamSubject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -95,7 +105,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.exam.registration.model.ExamSubject">
+  <update id="updateExamSubjectByPrimaryKeySelective" parameterType="com.exam.registration.model.ExamSubject">
     update exam_subject
     <set>
       <if test="startTime != null">
@@ -125,7 +135,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.exam.registration.model.ExamSubject">
+  <update id="updateExamSubjectByPrimaryKey" parameterType="com.exam.registration.model.ExamSubject">
     update exam_subject
     set start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},

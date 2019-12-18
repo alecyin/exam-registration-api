@@ -32,13 +32,11 @@ public class AdminController {
         if (StringUtils.isEmpty(admin.getName())) {
             return MsgUtils.fail("登录名不能为空");
         }
-
         if (StringUtils.isEmpty(admin.getPassword())) {
             return MsgUtils.fail("密码不能为空");
         }
 
-        Admin queryAdmin = adminService.getAdminByName(admin.getName());
-        if (Objects.nonNull(queryAdmin)) {
+        if (Objects.nonNull(adminService.getAdminByName(admin.getName()))) {
             return MsgUtils.fail("登录名重复");
         }
 

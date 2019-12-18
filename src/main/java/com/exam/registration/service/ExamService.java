@@ -1,14 +1,10 @@
-package com.exam.registration.mapper;
+package com.exam.registration.service;
 
 import com.exam.registration.model.Exam;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
-@Repository
-public interface ExamMapper {
+public interface ExamService {
     long countExams();
 
     int deleteExamByPrimaryKey(Long id);
