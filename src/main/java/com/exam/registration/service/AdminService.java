@@ -23,5 +23,5 @@ public interface AdminService {
 
     int updateAdminByPrimaryKey(Admin record);
 
-    int login(String name, String password);
+    int login(Admin admin);
 }

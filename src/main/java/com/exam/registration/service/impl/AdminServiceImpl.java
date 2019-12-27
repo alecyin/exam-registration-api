@@ -94,13 +94,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int login(String name, String password) {
-        Admin queryAdmin = getAdminByName(name);
+    public int login(Admin admin) {
+        Admin queryAdmin = getAdminByName(admin.getName());
         if (Objects.isNull(queryAdmin)) {
             return 0;
         }
 
-        String md5Pass = DigestUtils.md5DigestAsHex((password + queryAdmin.getSalt()).getBytes());
+        String md5Pass = DigestUtils.md5DigestAsHex((admin.getPassword() + queryAdmin.getSalt()).getBytes());
         if (md5Pass.equals(queryAdmin.getPassword())) {
             return 1;
         }

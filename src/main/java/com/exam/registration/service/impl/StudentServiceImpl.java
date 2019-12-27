@@ -61,6 +61,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> listStudentsByPage(Map<String, Object> map) {
+        return studentMapper.listStudentsByPage(map);
+    }
+
+    @Override
     public Student getStudentByPrimaryKey(Long id) {
         return studentMapper.getStudentByPrimaryKey(id);
     }
@@ -94,13 +99,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public int login(String idCardNumber, String password) {
-        Student queryStudent = getStudentByIdCardNumber(idCardNumber);
+    public int login(Student student) {
+        Student queryStudent = getStudentByIdCardNumber(student.getIdCardNumber());
         if (Objects.isNull(queryStudent)) {
             return 0;
         }
 
-        String md5Pass = DigestUtils.md5DigestAsHex((password + queryStudent.getSalt()).getBytes());
+        String md5Pass = DigestUtils.md5DigestAsHex((student.getPassword() + queryStudent.getSalt()).getBytes());
         if (md5Pass.equals(queryStudent.getPassword())) {
             return 1;
         }

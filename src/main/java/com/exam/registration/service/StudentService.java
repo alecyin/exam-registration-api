@@ -3,6 +3,7 @@ package com.exam.registration.service;
 import com.exam.registration.model.Student;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentService {
 
@@ -18,6 +19,8 @@ public interface StudentService {
 
     List<Student> listStudents();
 
+    List<Student> listStudentsByPage(Map<String, Object> map);
+
     Student getStudentByPrimaryKey(Long id);
 
     Student getStudentByIdCardNumber(String idCardNumber);
@@ -26,5 +29,5 @@ public interface StudentService {
 
     int updateStudentByPrimaryKey(Student record);
 
-    int login(String idCardNumber, String password);
+    int login(Student student);
 }

@@ -1,5 +1,6 @@
 package com.exam.registration.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Student;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -62,11 +65,31 @@ public class StudentController {
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
+
     public String listStudents() {
         List<Student> list = studentService.listStudents();
         return MsgUtils.success(list);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public String listStudentsByPage(@RequestParam(value = "name", required = false) String name,
+                                     @RequestParam(value = "idCardNumber", required = false) String idCardNumber,
+                                     @RequestParam("pageIndex") int pageIndex,
+                                     @RequestParam("pageSize") int pageSize) {
+        if (Objects.isNull(pageIndex) || Objects.isNull(pageSize)) {
+            return MsgUtils.fail("缺少参数");
+        }
+
+        Map<String, Object> map = new HashMap<>(4);
+        map.put("name", name);
+        map.put("idCardNumber", idCardNumber);
+        map.put("currentIndex", (pageIndex - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        List<Student> list = studentService.listStudentsByPage(map);
+//        long pageTotal = (studentService.countStudents() - 1)/pageSize + 1;
+        long pageTotal = studentService.countStudents();
+        return MsgUtils.querySuccess(list, pageTotal);
     }
 
     @RequestMapping(path = "/{id}",method = RequestMethod.GET)
@@ -74,4 +97,5 @@ public class StudentController {
     public String getStudentByPrimaryKey(@PathVariable("id") long id) {
         return MsgUtils.success(studentService.getStudentByPrimaryKey(id));
     }
+
 }

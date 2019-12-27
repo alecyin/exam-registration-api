@@ -32,6 +32,20 @@
     from student
     where is_deleted = 0
   </select>
+  <select id="listStudentsByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student
+    <where>
+      <if test="idCardNumber != null and idCardNumber != ''">
+        id_card_number = #{id_card_number,jdbcType=CHAR}
+      </if>
+      <if test="name != null and name != ''">
+        and `name` = #{name,jdbcType=CHAR}
+      </if>
+    </where>
+    limit #{currentIndex}, #{pageSize}
+  </select>
   <select id="getStudentByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

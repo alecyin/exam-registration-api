@@ -14,7 +14,7 @@ import java.util.Objects;
  **/
 public class MsgUtils {
     enum ResCode {
-        SUCCESS(1),FAIL(0);
+        SUCCESS(20000),FAIL(60204);
 
         private int code;
 
@@ -31,15 +31,32 @@ public class MsgUtils {
     public static String success(Object... data) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", ResCode.SUCCESS.code);
-        jsonObject.put("msg", "success");
+        jsonObject.put("message", "success");
         jsonObject.put("data", Objects.nonNull(data) ? data : "{}");
+        return jsonObject.toJSONString();
+    }
+
+    public static String success(JSONObject data) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.SUCCESS.code);
+        jsonObject.put("message", "success");
+        jsonObject.put("data", data);
+        return jsonObject.toJSONString();
+    }
+
+    public static String querySuccess(Object data, long pageTotal) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.SUCCESS.code);
+        jsonObject.put("message", "success");
+        jsonObject.put("data", data);
+        jsonObject.put("pageTotal", pageTotal);
         return jsonObject.toJSONString();
     }
 
     public static String fail(String msg) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", ResCode.FAIL.code);
-        jsonObject.put("msg", msg);
+        jsonObject.put("message", msg);
         return jsonObject.toJSONString();
     }
 
