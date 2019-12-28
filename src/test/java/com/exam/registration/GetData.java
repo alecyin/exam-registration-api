@@ -192,10 +192,18 @@ public class GetData {
         String sql;
         int i = 0;
         for (Data data : list) {
-            sql = "insert into student(id_card_number, `name`, password, salt, sex," +
-                    " phone, address, school, provincial_examinee_number, login_time, create_time)" +
-                    " values ('" + data.getIdCardNumber() + "', '" + data.getName() + "','03b7b6b68290652315ecc5da08b7700f','51c60','"
-                    + data.getSex() + "', '"+data.getPhone()+"','"+data.getAddress()+"','"+data.getSchool()+"','"+data.getProvincialExamineeNumber()+"',NOW(),NOW())";
+            String str = String.format("%2d", i);
+            if (data.getAddress().length() < 5) {
+                continue;
+            }
+            String name = data.getAddress().substring(0, 3);
+            sql = "insert into site(`name`, code, address) values ('"+name+"','"+str+"' ,'"+data.getAddress()+"')";
+
+
+//            sql = "insert into student(id_card_number, `name`, password, salt, sex," +
+//                    " phone, address, school, provincial_examinee_number, login_time, create_time)" +
+//                    " values ('" + data.getIdCardNumber() + "', '" + data.getName() + "','03b7b6b68290652315ecc5da08b7700f','51c60','"
+//                    + data.getSex() + "', '"+data.getPhone()+"','"+data.getAddress()+"','"+data.getSchool()+"','"+data.getProvincialExamineeNumber()+"',NOW(),NOW())";
             try {
                 stmt.execute(sql);
                 System.out.println(i++);

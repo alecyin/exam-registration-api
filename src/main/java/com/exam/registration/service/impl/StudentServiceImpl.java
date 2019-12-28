@@ -5,6 +5,7 @@ import com.exam.registration.model.Student;
 import com.exam.registration.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
@@ -23,13 +24,19 @@ public class StudentServiceImpl implements StudentService {
     private StudentMapper studentMapper;
 
     @Override
-    public long countStudents() {
-        return studentMapper.countStudents();
+    public long countStudents(String keyword) {
+        return studentMapper.countStudents(keyword);
     }
 
     @Override
+    @Transactional
     public int deleteStudentByPrimaryKey(Long id) {
         return studentMapper.deleteStudentByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteStudentByPrimaryKeys(String ids) {
+        return studentMapper.deleteStudentByPrimaryKeys(ids);
     }
 
     @Override

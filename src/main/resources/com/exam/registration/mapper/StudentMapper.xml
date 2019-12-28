@@ -37,11 +37,12 @@
     <include refid="Base_Column_List" />
     from student
     <where>
-      <if test="idCardNumber != null and idCardNumber != ''">
-        id_card_number = #{id_card_number,jdbcType=CHAR}
-      </if>
-      <if test="name != null and name != ''">
-        and `name` = #{name,jdbcType=CHAR}
+      <if test="keyword != null and keyword != ''">
+        id = #{keyword,jdbcType=BIGINT}
+        or
+        id_card_number = #{keyword,jdbcType=CHAR}
+        or
+        `name` = #{keyword,jdbcType=CHAR}
       </if>
     </where>
     limit #{currentIndex}, #{pageSize}
@@ -55,6 +56,10 @@
   <delete id="deleteStudentByPrimaryKey" parameterType="java.lang.Long">
     delete from student
     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteStudentByPrimaryKeys" parameterType="java.lang.String">
+    delete from student
+    where id in (${ids})
   </delete>
   <delete id="deleteStudentByIdCardNumber" parameterType="java.lang.String">
     delete from student
@@ -189,8 +194,17 @@
       </if>
     </trim>
   </insert>
-  <select id="countStudents" resultType="java.lang.Long">
+  <select id="countStudents" parameterType="java.lang.String" resultType="java.lang.Long">
     select count(*) from student
+    <where>
+      <if test="keyword != null and keyword != ''">
+        id = #{keyword,jdbcType=BIGINT}
+        or
+        id_card_number = #{keyword,jdbcType=CHAR}
+        or
+        `name` = #{keyword,jdbcType=CHAR}
+      </if>
+    </where>
   </select>
   <update id="updateStudentByPrimaryKeySelective" parameterType="com.exam.registration.model.Student">
     update student

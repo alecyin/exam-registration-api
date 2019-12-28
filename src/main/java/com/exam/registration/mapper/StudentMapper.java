@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface StudentMapper {
-    long countStudents();
+    long countStudents(String keyword);
 
     int deleteStudentByPrimaryKey(Long id);
+
+    int deleteStudentByPrimaryKeys(String ids);
 
     int deleteStudentByIdCardNumber(String idCardNumber);
 

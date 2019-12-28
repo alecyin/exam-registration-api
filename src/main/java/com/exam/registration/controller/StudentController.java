@@ -51,6 +51,18 @@ public class StudentController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteStudent(@PathVariable("id") long id) {
+        int res = studentService.deleteStudentByPrimaryKey(id);
+        return res == 1 ? MsgUtils.success() : MsgUtils.fail("删除失败，稍后再试");
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteAllStudent(@RequestParam("ids") String ids) {
+        int res = studentService.deleteStudentByPrimaryKeys(ids);
+        return res == 0 ? MsgUtils.fail("删除失败，稍后再试") : MsgUtils.success();
+    }
+
+    public String softDeleteStudent(@PathVariable("id") long id) {
         Student student = new Student();
         student.setId(id);
         student.setIsDeleted(true);
@@ -60,7 +72,7 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String updateStudent(Student student) {
+    public String updateStudent(@RequestBody Student student) {
         int res = studentService.updateStudentByPrimaryKeySelective(student);
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
@@ -73,8 +85,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public String listStudentsByPage(@RequestParam(value = "name", required = false) String name,
-                                     @RequestParam(value = "idCardNumber", required = false) String idCardNumber,
+    public String listStudentsByPage(@RequestParam(value = "keyword", required = false) String keyword,
                                      @RequestParam("pageIndex") int pageIndex,
                                      @RequestParam("pageSize") int pageSize) {
         if (Objects.isNull(pageIndex) || Objects.isNull(pageSize)) {
@@ -82,13 +93,12 @@ public class StudentController {
         }
 
         Map<String, Object> map = new HashMap<>(4);
-        map.put("name", name);
-        map.put("idCardNumber", idCardNumber);
+        map.put("keyword", keyword);
         map.put("currentIndex", (pageIndex - 1) * pageSize);
         map.put("pageSize", pageSize);
         List<Student> list = studentService.listStudentsByPage(map);
 //        long pageTotal = (studentService.countStudents() - 1)/pageSize + 1;
-        long pageTotal = studentService.countStudents();
+        long pageTotal = studentService.countStudents(keyword);
         return MsgUtils.querySuccess(list, pageTotal);
     }
 

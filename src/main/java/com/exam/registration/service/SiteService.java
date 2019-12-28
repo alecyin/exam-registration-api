@@ -3,6 +3,7 @@ package com.exam.registration.service;
 import com.exam.registration.model.Site;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yhf
@@ -11,15 +12,19 @@ import java.util.List;
  * @date 2019/12/17
  **/
 public interface SiteService {
-    long countSites();
+    long countSites(String keyword);
 
     int deleteSiteByPrimaryKey(Long id);
+
+    int deleteSiteByPrimaryKeys(String ids);
 
     int insertSite(Site site);
 
     int insertSiteSelective(Site site);
 
     List<Site> listSites();
+
+    List<Site> listSitesByPage(Map<String, Object> map);
 
     Site getSiteByPrimaryKey(Long id);
 

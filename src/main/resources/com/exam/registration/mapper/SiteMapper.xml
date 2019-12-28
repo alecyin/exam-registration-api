@@ -15,13 +15,36 @@
   </sql>
   <select id="countSites" resultType="java.lang.Long">
     select count(*) from site
+    <where>
+      <if test="keyword != null and keyword != ''">
+        id = #{keyword,jdbcType=BIGINT}
+        or
+        code = #{keyword,jdbcType=CHAR}
+        or
+        `name` = #{keyword,jdbcType=CHAR}
+      </if>
+    </where>
   </select>
-
   <select id="listSites" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from site
     where is_deleted = 0
+  </select>
+  <select id="listSitesByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from site
+    <where>
+      <if test="keyword != null and keyword != ''">
+        id = #{keyword,jdbcType=BIGINT}
+        or
+        code = #{keyword,jdbcType=CHAR}
+        or
+        `name` = #{keyword,jdbcType=CHAR}
+      </if>
+    </where>
+    limit #{currentIndex}, #{pageSize}
   </select>
   <select id="getSiteByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -38,6 +61,10 @@
   <delete id="deleteSiteByPrimaryKey" parameterType="java.lang.Long">
     delete from site
     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteSiteByPrimaryKeys" parameterType="java.lang.Long">
+    delete from site
+    where id in (${ids})
   </delete>
   <insert id="insertSite" parameterType="com.exam.registration.model.Site">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">

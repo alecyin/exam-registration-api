@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yhf
@@ -21,13 +22,18 @@ public class SiteServiceImpl implements SiteService {
     private SiteMapper siteMapper;
 
     @Override
-    public long countSites() {
-        return siteMapper.countSites();
+    public long countSites(String keyword) {
+        return siteMapper.countSites(keyword);
     }
 
     @Override
     public int deleteSiteByPrimaryKey(Long id) {
-        return 0;
+        return siteMapper.deleteSiteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteSiteByPrimaryKeys(String ids) {
+        return siteMapper.deleteSiteByPrimaryKeys(ids);
     }
 
     @Override
@@ -47,6 +53,11 @@ public class SiteServiceImpl implements SiteService {
     @Override
     public List<Site> listSites() {
         return siteMapper.listSites();
+    }
+
+    @Override
+    public List<Site> listSitesByPage(Map<String, Object> map) {
+        return siteMapper.listSitesByPage(map);
     }
 
     @Override

@@ -7,9 +7,11 @@ import java.util.Map;
 
 public interface StudentService {
 
-    long countStudents();
+    long countStudents(String keyword);
 
     int deleteStudentByPrimaryKey(Long id);
+
+    int deleteStudentByPrimaryKeys(String ids);
 
     int deleteStudentByIdCardNumber(String idCardNumber);
 

@@ -6,12 +6,11 @@ import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -28,7 +27,7 @@ public class SiteController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String insertSite(Site site) {
+    public String insertSite(@RequestBody Site site) {
         if (StringUtils.isEmpty(site.getName())) {
             return MsgUtils.fail("考点名称不能为空");
         }
@@ -53,6 +52,18 @@ public class SiteController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteSite(@PathVariable("id") long id) {
+        int res = siteService.deleteSiteByPrimaryKey(id);
+        return res == 1 ? MsgUtils.success() : MsgUtils.fail("删除失败，稍后再试");
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteAllSite(@RequestParam("ids") String ids) {
+        int res = siteService.deleteSiteByPrimaryKeys(ids);
+        return res == 0 ? MsgUtils.fail("删除失败，稍后再试") : MsgUtils.success();
+    }
+
+    public String softDeleteSite(@PathVariable("id") long id) {
         Site site = new Site();
         site.setId(id);
         site.setIsDeleted(true);
@@ -62,16 +73,32 @@ public class SiteController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String updateSite(Site site) {
+    public String updateSite(@RequestBody Site site) {
         int res = siteService.updateSiteByPrimaryKeySelective(site);
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
     public String listSites() {
         List<Site> list = siteService.listSites();
         return MsgUtils.success(list);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public String listSitesByPage(@RequestParam(value = "keyword", required = false) String keyword,
+                                     @RequestParam("pageIndex") int pageIndex,
+                                     @RequestParam("pageSize") int pageSize) {
+        if (Objects.isNull(pageIndex) || Objects.isNull(pageSize)) {
+            return MsgUtils.fail("缺少参数");
+        }
+
+        Map<String, Object> map = new HashMap<>(4);
+        map.put("keyword", keyword);
+        map.put("currentIndex", (pageIndex - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        List<Site> list = siteService.listSitesByPage(map);
+        long pageTotal = siteService.countSites(keyword);
+        return MsgUtils.querySuccess(list, pageTotal);
     }
 
     @RequestMapping(path = "/{id}",method = RequestMethod.GET)
