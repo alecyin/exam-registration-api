@@ -1,6 +1,5 @@
 package com.exam.registration.controller;
 
-import com.exam.registration.model.Site;
 import com.exam.registration.model.Subject;
 import com.exam.registration.service.MajorService;
 import com.exam.registration.service.SubjectService;
