@@ -79,6 +79,8 @@ public class MajorController {
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
 
+    @RequestMapping(path = "/enabled", method = RequestMethod.GET)
+    @ResponseBody
     public String listMajors() {
         List<Major> list = majorService.listMajors();
         return MsgUtils.success(list);

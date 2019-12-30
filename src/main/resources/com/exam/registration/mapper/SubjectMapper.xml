@@ -6,7 +6,7 @@
     <result column="major_id" jdbcType="BIGINT" property="majorId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="CHAR" property="code" />
-    <result column="type" jdbcType="BIT" property="type" />
+    <result column="type" jdbcType="CHAR" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
@@ -75,7 +75,7 @@
       `type`, create_time, update_time, 
       is_deleted)
     values (#{majorId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=CHAR}, 
-      #{type,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSubjectSelective" parameterType="com.exam.registration.model.Subject">
@@ -117,7 +117,7 @@
         #{code,jdbcType=CHAR},
       </if>
       <if test="type != null">
-        #{type,jdbcType=BIT},
+        #{type,jdbcType=CHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -143,7 +143,7 @@
         code = #{code,jdbcType=CHAR},
       </if>
       <if test="type != null">
-        `type` = #{type,jdbcType=BIT},
+        `type` = #{type,jdbcType=CHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -162,7 +162,7 @@
     set major_id = #{majorId,jdbcType=BIGINT},
       `name` = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=CHAR},
-      `type` = #{type,jdbcType=BIT},
+      `type` = #{type,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT}

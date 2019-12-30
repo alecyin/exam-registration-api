@@ -29,7 +29,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public int deleteSubjectByPrimaryKey(Long id) {
-        return 0;
+        return subjectMapper.deleteSubjectByPrimaryKey(id);
     }
 
     @Override

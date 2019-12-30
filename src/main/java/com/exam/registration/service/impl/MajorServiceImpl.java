@@ -56,7 +56,7 @@ public class MajorServiceImpl implements MajorService {
 
     @Override
     public Major getMajorByPrimaryKey(Long id) {
-        return null;
+        return majorMapper.getMajorByPrimaryKey(id);
     }
 
     @Override

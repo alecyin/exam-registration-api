@@ -1,9 +1,12 @@
 package com.exam.registration.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Subject;
 import com.exam.registration.service.MajorService;
 import com.exam.registration.service.SubjectService;
 import com.exam.registration.util.MsgUtils;
+import com.exam.registration.util.ResCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -107,7 +110,24 @@ public class SubjectController {
         map.put("pageSize", pageSize);
         List<Subject> list = subjectService.listSubjectsByPage(map);
         long pageTotal = subjectService.countSubjects(keyword);
-        return MsgUtils.querySuccess(list, pageTotal);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.SUCCESS.code());
+        jsonObject.put("pageTotal", pageTotal);
+        JSONArray jsonArray = new JSONArray();
+        for (Subject subject : list) {
+            StringBuilder jsonSub = new StringBuilder(JSONObject.toJSONString(subject));
+            long majorId = subject.getMajorId();
+            String majorName = majorService.getMajorByPrimaryKey(majorId).getName();
+            Map<String, Object> subMap = new HashMap<>();
+            subMap.put("majorId", majorId);
+            subMap.put("majorName", majorName);
+            String jsonSubMap = JSONObject.toJSONString(subMap);
+            StringBuilder sb = new StringBuilder(jsonSubMap).deleteCharAt(0);
+            jsonSub.deleteCharAt(jsonSub.length() - 1).append(",").append(sb);
+            jsonArray.add(JSONObject.parse(jsonSub.toString()));
+        }
+        jsonObject.put("data", jsonArray);
+        return jsonObject.toJSONString();
     }
 
 

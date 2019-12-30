@@ -46,7 +46,7 @@ public class Subject implements Serializable {
      * subject.type
      *
      */
-    private Boolean type;
+    private String type;
 
     /**
      * 创建时间
@@ -108,11 +108,11 @@ public class Subject implements Serializable {
         this.code = code;
     }
 
-    public Boolean getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 

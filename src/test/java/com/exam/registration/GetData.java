@@ -79,7 +79,43 @@ class Data {
 }
 public class GetData {
     public static void main(String[] args) throws Exception {
-        toDo(getFromRemote());
+        insertMajor();
+    }
+
+    private static void insertMajor() throws Exception {
+        // 注册 JDBC 驱动
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // 打开链接
+        System.out.println("连接数据库...");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/exam_registration?useSSL=false&serverTimezone=UTC", "root", "");
+
+        // 执行查询
+        System.out.println(" 实例化Statement对象...");
+        Statement stmt = conn.createStatement();
+        String sql;
+        int i = 0;
+        int j = 2;
+        for (;i < 100;i++) {
+            String str = String.format("%02d", i);
+            String name = "测试科目" + i;
+            String fee = i + ".4";
+//            sql = "insert into major(`name`, code, fee) values ('"+name+"','"+str+"' ,'"+fee+"')";
+            String type="";
+            if ((i & 1) == 1) {
+                type = "面试";
+            } else {
+                type = "笔试";
+            }
+            sql = "insert into subject(`major_id`,`name`, code, `type`) values ('"+j+"','"+name+"','"+str+"' ,'"+type+"')";
+            try {
+                stmt.execute(sql);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        stmt.close();
+        conn.close();
     }
 
     private static List<Data> getFromRemote() {
