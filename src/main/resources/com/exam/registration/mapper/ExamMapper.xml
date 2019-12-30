@@ -20,14 +20,36 @@
     id, major_id, site_id, start_time, end_time, conflict, province, `start_ examinee_number`, 
     current_examinee_number, note, create_time, update_time, is_deleted
   </sql>
-  <select id="countExams" resultType="java.lang.Long">
+  <select id="countExams" parameterType="java.util.Map" resultType="java.lang.Long">
     select count(*) from exam
+    <where>
+      <if test="siteId != null and siteId != ''">
+        siteId = #{siteId,jdbcType=BIGINT}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and majorId = #{majorId,jdbcType=BIGINT}
+      </if>
+    </where>
   </select>
   <select id="listExams" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from exam
     where is_deleted = 0
+  </select>
+  <select id="listExamsByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exam
+    <where>
+      <if test="siteId != null and siteId != ''">
+        siteId = #{siteId,jdbcType=BIGINT}
+      </if>
+      <if test="majorId != null and majorId != ''">
+        and majorId = #{majorId,jdbcType=BIGINT}
+      </if>
+    </where>
+    limit #{currentIndex}, #{pageSize}
   </select>
   <select id="getExamByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 

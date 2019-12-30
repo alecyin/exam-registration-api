@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -22,13 +23,18 @@ public class ExamServiceImpl implements ExamService {
     private ExamMapper examMapper;
 
     @Override
-    public long countExams() {
-        return examMapper.countExams();
+    public long countExams(Map<String, Object> map) {
+        return examMapper.countExams(map);
     }
 
     @Override
     public int deleteExamByPrimaryKey(Long id) {
         return examMapper.deleteExamByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteExamByPrimaryKeys(String ids) {
+        return examMapper.deleteExamByPrimaryKeys(ids);
     }
 
     @Override
@@ -55,6 +61,11 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<Exam> listExams() {
         return examMapper.listExams();
+    }
+
+    @Override
+    public List<Exam> listExamsByPage(Map<String, Object> map) {
+        return examMapper.listExamsByPage(map);
     }
 
     @Override

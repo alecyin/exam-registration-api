@@ -5,6 +5,8 @@ import com.exam.registration.service.ExamineeNoteService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,8 +25,14 @@ public class ExamineeNoteController {
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
-    public String insertOrUpdateMajor(ExamineeNote examineeNote) {
+    public String insertOrUpdateExamineeNote(@RequestBody String content) {
         int res;
+        if (!StringUtils.isEmpty(content)) {
+            StringBuilder sb = new StringBuilder(content);
+            content = sb.deleteCharAt(sb.length() - 1).deleteCharAt(0).toString();
+        }
+        ExamineeNote examineeNote = new ExamineeNote();
+        examineeNote.setContent(content);
         if (examineeNoteService.isExisted()) {
             res = examineeNoteService.updateExamineeNote(examineeNote);
         } else {

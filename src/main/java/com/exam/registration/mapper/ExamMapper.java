@@ -5,13 +5,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
 public interface ExamMapper {
-    long countExams();
+    long countExams(Map<String, Object> map);
 
     int deleteExamByPrimaryKey(Long id);
+
+    int deleteExamByPrimaryKeys(String ids);
 
     int insertExam(Exam record);
 
@@ -20,6 +23,8 @@ public interface ExamMapper {
     Exam getExamByPrimaryKey(Long id);
 
     List<Exam> listExams();
+
+    List<Exam> listExamsByPage(Map<String, Object> map);
 
     int updateExamByPrimaryKeySelective(Exam record);
 
