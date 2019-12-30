@@ -1,5 +1,6 @@
 package com.exam.registration.controller;
 
+import com.exam.registration.model.Site;
 import com.exam.registration.model.Subject;
 import com.exam.registration.service.MajorService;
 import com.exam.registration.service.SubjectService;
@@ -7,12 +8,11 @@ import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -31,7 +31,7 @@ public class SubjectController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String insertSubject(Subject subject) {
+    public String insertSubject(@RequestBody Subject subject) {
         if (StringUtils.isEmpty(subject.getName())) {
             return MsgUtils.fail("科目名不能为空");
         }
@@ -62,6 +62,18 @@ public class SubjectController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteSubject(@PathVariable("id") long id) {
+        int res = subjectService.deleteSubjectByPrimaryKey(id);
+        return res == 1 ? MsgUtils.success() : MsgUtils.fail("删除失败，稍后再试");
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteAllSubject(@RequestParam("ids") String ids) {
+        int res = subjectService.deleteSubjectByPrimaryKeys(ids);
+        return res == 0 ? MsgUtils.fail("删除失败，稍后再试") : MsgUtils.success();
+    }
+
+    public String softDeleteSubject(@PathVariable("id") long id) {
         Subject subject = new Subject();
         subject.setId(id);
         subject.setIsDeleted(true);
@@ -71,17 +83,34 @@ public class SubjectController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String updateSubject(Subject subject) {
+    public String updateSubject(@RequestBody Subject subject) {
         int res = subjectService.updateSubjectByPrimaryKeySelective(subject);
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
     public String listSubjects() {
         List<Subject> list = subjectService.listSubjects();
         return MsgUtils.success(list);
     }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public String listSubjectsByPage(@RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam("pageIndex") int pageIndex,
+                                  @RequestParam("pageSize") int pageSize) {
+        if (Objects.isNull(pageIndex) || Objects.isNull(pageSize)) {
+            return MsgUtils.fail("缺少参数");
+        }
+
+        Map<String, Object> map = new HashMap<>(4);
+        map.put("keyword", keyword);
+        map.put("currentIndex", (pageIndex - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        List<Subject> list = subjectService.listSubjectsByPage(map);
+        long pageTotal = subjectService.countSubjects(keyword);
+        return MsgUtils.querySuccess(list, pageTotal);
+    }
+
 
     @RequestMapping(path = "/{id}",method = RequestMethod.GET)
     @ResponseBody

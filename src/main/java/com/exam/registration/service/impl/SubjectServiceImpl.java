@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -21,8 +23,8 @@ public class SubjectServiceImpl implements SubjectService {
     private SubjectMapper subjectMapper;
 
     @Override
-    public long countSubjects() {
-        return 0;
+    public long countSubjects(String keyword) {
+        return subjectMapper.countSubjects(keyword);
     }
 
     @Override
@@ -31,11 +33,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public int deleteSubjectByPrimaryKeys(String ids) {
+        return subjectMapper.deleteSubjectByPrimaryKeys(ids);
+    }
+
+    @Override
     public int insertSubject(Subject subject) {
         Date now = new Date();
         subject.setCreateTime(now);
         subject.setUpdateTime(now);
-        subject.setIsDeleted(false);
+        if (Objects.isNull(subject.getIsDeleted())) {
+            subject.setIsDeleted(false);
+        }
         return subjectMapper.insertSubject(subject);
     }
 
@@ -57,6 +66,11 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List<Subject> listSubjects() {
         return subjectMapper.listSubjects();
+    }
+
+    @Override
+    public List<Subject> listSubjectsByPage(Map<String, Object> map) {
+        return subjectMapper.listSubjectsByPage(map);
     }
 
     @Override

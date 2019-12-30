@@ -5,13 +5,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
 public interface SubjectMapper {
-    long countSubjects();
+    long countSubjects(String keyword);
 
     int deleteSubjectByPrimaryKey(Long id);
+
+    int deleteSubjectByPrimaryKeys(String ids);
 
     int insertSubject(Subject subject);
 
@@ -22,6 +25,8 @@ public interface SubjectMapper {
     Subject getSubjectByCode(String code);
 
     List<Subject> listSubjects();
+
+    List<Subject> listSubjectsByPage(Map<String, Object> map);
 
     int updateSubjectByPrimaryKeySelective(Subject subject);
 
