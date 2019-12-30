@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -41,7 +42,9 @@ public class SiteServiceImpl implements SiteService {
         Date now = new Date();
         site.setCreateTime(now);
         site.setUpdateTime(now);
-        site.setIsDeleted(false);
+        if (Objects.isNull(site.getIsDeleted())) {
+            site.setIsDeleted(false);
+        }
         return siteMapper.insertSite(site);
     }
 

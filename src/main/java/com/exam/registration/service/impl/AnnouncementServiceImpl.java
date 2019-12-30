@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -21,8 +23,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private AnnouncementMapper announcementMapper;
 
     @Override
-    public long countAnnouncements() {
-        return announcementMapper.countAnnouncements();
+    public long countAnnouncements(String keyword) {
+        return announcementMapper.countAnnouncements(keyword);
     }
 
     @Override
@@ -31,11 +33,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public int deleteAnnouncementByPrimaryKeys(String ids) {
+        return announcementMapper.deleteAnnouncementByPrimaryKeys(ids);
+    }
+
+    @Override
     public int insertAnnouncement(Announcement announcement) {
         Date now = new Date();
         announcement.setCreateTime(now);
         announcement.setUpdateTime(now);
-        announcement.setIsDeleted(false);
+        if (Objects.isNull(announcement.getIsDeleted())) {
+            announcement.setIsDeleted(false);
+        }
         return announcementMapper.insertAnnouncement(announcement);
     }
 
@@ -47,6 +56,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public List<Announcement> listAnnouncements() {
         return announcementMapper.listAnnouncements();
+    }
+
+    @Override
+    public List<Announcement> listAnnouncementsByPage(Map<String, Object> map) {
+        return announcementMapper.listAnnouncementsByPage(map);
     }
 
     @Override

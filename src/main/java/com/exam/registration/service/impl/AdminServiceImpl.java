@@ -10,10 +10,7 @@ import org.springframework.util.StringUtils;
 import org.thymeleaf.util.DateUtils;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author yhf
@@ -28,8 +25,8 @@ public class AdminServiceImpl implements AdminService {
     AdminMapper adminMapper;
 
     @Override
-    public long countAdmins() {
-        return adminMapper.countAdmins();
+    public long countAdmins(String keyword) {
+        return adminMapper.countAdmins(keyword);
     }
 
     @Override
@@ -38,12 +35,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public int deleteAdminByPrimaryKeys(String ids) {
+        return adminMapper.deleteAdminByPrimaryKeys(ids);
+    }
+
+    @Override
     public int insertAdmin(Admin admin) {
         String salt = UUID.randomUUID().toString().substring(0, 5);
         admin.setSalt(salt);
         String password = DigestUtils.md5DigestAsHex((admin.getPassword() + salt).getBytes());
         admin.setPassword(password);
-        admin.setIsDeleted(false);
+        if (Objects.isNull(admin.getIsDeleted())) {
+            admin.setIsDeleted(false);
+        }
         Date now = new Date();
         admin.setCreateTime(now);
         admin.setUpdateTime(now);
@@ -58,6 +62,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Admin> listAdmins() {
         return adminMapper.listAdmins();
+    }
+
+    @Override
+    public List<Admin> listAdminsByPage(Map<String, Object> map) {
+        return adminMapper.listAdminsByPage(map);
     }
 
     @Override

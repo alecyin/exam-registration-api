@@ -5,12 +5,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+
 @Mapper
 @Repository
 public interface MajorMapper {
-    long countMajors();
+    long countMajors(String keyword);
 
     int deleteMajorByPrimaryKey(Long id);
+
+    int deleteMajorByPrimaryKeys(String ids);
 
     int insertMajor(Major record);
 
@@ -19,6 +23,8 @@ public interface MajorMapper {
     Major getMajorByPrimaryKey(Long id);
 
     List<Major> listMajors();
+
+    List<Major> listMajorsByPage(Map<String, Object> map);
 
     int updateMajorByPrimaryKeySelective(Major record);
 

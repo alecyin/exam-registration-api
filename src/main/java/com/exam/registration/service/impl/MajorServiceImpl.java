@@ -2,12 +2,15 @@ package com.exam.registration.service.impl;
 
 import com.exam.registration.mapper.MajorMapper;
 import com.exam.registration.model.Major;
+import com.exam.registration.model.Site;
 import com.exam.registration.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -21,8 +24,8 @@ public class MajorServiceImpl implements MajorService {
     private MajorMapper majorMapper;
 
     @Override
-    public long countMajors() {
-        return majorMapper.countMajors();
+    public long countMajors(String keyword) {
+        return majorMapper.countMajors(keyword);
     }
 
     @Override
@@ -31,11 +34,18 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
+    public int deleteMajorByPrimaryKeys(String ids) {
+        return majorMapper.deleteMajorByPrimaryKeys(ids);
+    }
+
+    @Override
     public int insertMajor(Major major) {
         Date now = new Date();
         major.setCreateTime(now);
         major.setUpdateTime(now);
-        major.setIsDeleted(false);
+        if (Objects.isNull(major.getIsDeleted())) {
+            major.setIsDeleted(false);
+        }
         return majorMapper.insertMajor(major);
     }
 
@@ -57,6 +67,11 @@ public class MajorServiceImpl implements MajorService {
     @Override
     public List<Major> listMajors() {
         return majorMapper.listMajors();
+    }
+
+    @Override
+    public List<Major> listMajorsByPage(Map<String, Object> map) {
+        return majorMapper.listMajorsByPage(map);
     }
 
     @Override
