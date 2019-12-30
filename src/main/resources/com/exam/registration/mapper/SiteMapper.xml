@@ -62,7 +62,7 @@
     delete from site
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteSiteByPrimaryKeys" parameterType="java.lang.Long">
+  <delete id="deleteSiteByPrimaryKeys" parameterType="java.lang.String">
     delete from site
     where id in (${ids})
   </delete>

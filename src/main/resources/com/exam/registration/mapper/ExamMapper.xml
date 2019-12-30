@@ -39,6 +39,10 @@
     delete from exam
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteSiteByPrimaryKeys" parameterType="java.lang.String">
+    delete from exam
+    where id in (${ids})
+  </delete>
   <insert id="insertExam" parameterType="com.exam.registration.model.Exam">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()

@@ -6,7 +6,9 @@ import com.exam.registration.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -26,17 +28,23 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public int deleteExamByPrimaryKey(Long id) {
-        return 0;
+        return examMapper.deleteExamByPrimaryKey(id);
     }
 
     @Override
-    public int insertExam(Exam record) {
-        return 0;
+    public int insertExam(Exam exam) {
+        return examMapper.insertExam(exam);
     }
 
     @Override
-    public int insertExamSelective(Exam record) {
-        return 0;
+    public int insertExamSelective(Exam exam) {
+        Date now = new Date();
+        exam.setCreateTime(now);
+        exam.setUpdateTime(now);
+        if (Objects.isNull(exam.getIsDeleted())) {
+            exam.setIsDeleted(false);
+        }
+        return examMapper.insertExamSelective(exam);
     }
 
     @Override
@@ -46,12 +54,13 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<Exam> listExams() {
-        return null;
+        return examMapper.listExams();
     }
 
     @Override
-    public int updateExamByPrimaryKeySelective(Exam record) {
-        return 0;
+    public int updateExamByPrimaryKeySelective(Exam exam) {
+        exam.setUpdateTime(new Date());
+        return examMapper.updateExamByPrimaryKeySelective(exam);
     }
 
     @Override
