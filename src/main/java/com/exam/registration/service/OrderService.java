@@ -3,6 +3,7 @@ package com.exam.registration.service;
 import com.exam.registration.model.Order;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yhf
@@ -11,9 +12,11 @@ import java.util.List;
  * @date 2019/12/18
  **/
 public interface OrderService {
-    long countOrders();
+    long countOrders(Map<String, Object> map);
 
     int deleteOrderByPrimaryKey(Long id);
+
+    int deleteOrderByPrimaryKeys(String ids);
 
     int insertOrder(Order record);
 
@@ -22,6 +25,8 @@ public interface OrderService {
     Order getOrderByPrimaryKey(Long id);
 
     List<Order> listOrders();
+
+    List<Order> listOrdersByPage(Map<String, Object> map);
 
     int updateOrderByPrimaryKeySelective(Order record);
 

@@ -3,8 +3,6 @@ package com.exam.registration.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Exam;
-import com.exam.registration.model.ExamSubject;
-import com.exam.registration.model.Site;
 import com.exam.registration.model.Subject;
 import com.exam.registration.service.*;
 import com.exam.registration.util.MsgUtils;

@@ -5,13 +5,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
 public interface OrderMapper {
-    long countOrders();
+    long countOrders(Map<String, Object> map);
 
     int deleteOrderByPrimaryKey(Long id);
+
+    int deleteOrderByPrimaryKeys(String ids);
 
     int insertOrder(Order record);
 
@@ -20,6 +23,8 @@ public interface OrderMapper {
     Order getOrderByPrimaryKey(Long id);
 
     List<Order> listOrders();
+
+    List<Order> listOrdersByPage(Map<String, Object> map);
 
     int updateOrderByPrimaryKeySelective(Order record);
 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -21,13 +23,18 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
-    public long countOrders() {
-        return orderMapper.countOrders();
+    public long countOrders(Map<String, Object> map) {
+        return orderMapper.countOrders(map);
     }
 
     @Override
     public int deleteOrderByPrimaryKey(Long id) {
-        return 0;
+        return orderMapper.deleteOrderByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteOrderByPrimaryKeys(String ids) {
+        return orderMapper.deleteOrderByPrimaryKeys(ids);
     }
 
     @Override
@@ -35,7 +42,9 @@ public class OrderServiceImpl implements OrderService {
         Date now = new Date();
         order.setCreateTime(now);
         order.setUpdateTime(now);
-        order.setIsDeleted(false);
+        if (Objects.isNull(order.getIsDeleted())) {
+            order.setIsDeleted(false);
+        }
         order.setIsPaid(false);
         // 此处写订单生成代码。。
         return orderMapper.insertOrder(order);
@@ -54,6 +63,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> listOrders() {
         return orderMapper.listOrders();
+    }
+
+    @Override
+    public List<Order> listOrdersByPage(Map<String, Object> map) {
+        return orderMapper.listOrdersByPage(map);
     }
 
     @Override
