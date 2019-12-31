@@ -3,6 +3,7 @@ package com.exam.registration.service;
 import com.exam.registration.model.ExamSubject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yhf
@@ -11,9 +12,11 @@ import java.util.List;
  * @date 2019/12/18
  **/
 public interface ExamSubjectService {
-    long countExamSubjects();
+    long countExamSubjects(Map<String, Object> map);
 
     int deleteExamSubjectByPrimaryKey(Long id);
+
+    int deleteExamSubjectByPrimaryKeys(String ids);
 
     int insertExamSubject(ExamSubject examSubject);
 
@@ -22,6 +25,8 @@ public interface ExamSubjectService {
     ExamSubject getExamSubjectByPrimaryKey(Long id);
 
     List<ExamSubject> listExamSubjects();
+
+    List<ExamSubject> listExamSubjectsByPage(Map<String, Object> map);
 
     int updateExamSubjectByPrimaryKeySelective(ExamSubject examSubject);
 

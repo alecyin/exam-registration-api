@@ -24,6 +24,8 @@ public interface SubjectService {
 
     List<Subject> listSubjectsByPage(Map<String, Object> map);
 
+    List<Subject> listSubjectsByMajorId(long majorId);
+
     int updateSubjectByPrimaryKeySelective(Subject subject);
 
     int updateSubjectByPrimaryKey(Subject subject);

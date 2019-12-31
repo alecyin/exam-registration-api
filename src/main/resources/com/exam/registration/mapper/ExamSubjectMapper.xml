@@ -16,15 +16,31 @@
     id, start_time, end_time, address, subject_id, exam_id, create_time, update_time, 
     is_deleted
   </sql>
-  <select id="countExamSubjects" resultType="java.lang.Long">
+  <select id="countExamSubjects" parameterType="java.util.Map" resultType="java.lang.Long">
     select count(*) from exam_subject
+    <where>
+      <if test="examId != null and examId != ''">
+        exam_id = #{examId,jdbcType=BIGINT}
+      </if>
+    </where>
   </select>
-
   <select id="listExamSubjects" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from exam_subject
     where is_deleted = 0
+  </select>
+  <select id="listExamSubjectsByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exam_subject
+    <where>
+      <if test="examId != null and examId != ''">
+        exam_id = #{examId,jdbcType=BIGINT}
+      </if>
+    </where>
+    order by exam_id
+    limit #{currentIndex}, #{pageSize}
   </select>
   <select id="getExamSubjectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,6 +51,10 @@
   <delete id="deleteExamSubjectByPrimaryKey" parameterType="java.lang.Long">
     delete from exam_subject
     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteExamSubjectByPrimaryKeys" parameterType="java.lang.String">
+    delete from exam_subject
+     where id in (${ids})
   </delete>
   <insert id="insertExamSubject" parameterType="com.exam.registration.model.ExamSubject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">

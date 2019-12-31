@@ -17,6 +17,22 @@ public class Exam implements Serializable {
      */
     private Long id;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 名称
+     *
+     * exam.name
+     *
+     */
+    private String name;
+
     /**
      * 所属专业id
      *

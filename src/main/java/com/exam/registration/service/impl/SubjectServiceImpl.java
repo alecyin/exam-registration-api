@@ -69,6 +69,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<Subject> listSubjectsByMajorId(long majorId) {
+        return subjectMapper.listSubjectsByMajorId(majorId);
+    }
+
+    @Override
     public List<Subject> listSubjectsByPage(Map<String, Object> map) {
         return subjectMapper.listSubjectsByPage(map);
     }

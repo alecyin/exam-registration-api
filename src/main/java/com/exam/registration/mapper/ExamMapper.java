@@ -24,6 +24,8 @@ public interface ExamMapper {
 
     List<Exam> listExams();
 
+    List<Exam> listExamsByMajorId(long majorId);
+
     List<Exam> listExamsByPage(Map<String, Object> map);
 
     int updateExamByPrimaryKeySelective(Exam record);

@@ -94,7 +94,7 @@ public class GetData {
         System.out.println(" 实例化Statement对象...");
         Statement stmt = conn.createStatement();
         String sql;
-        int i = 0;
+        int i = 20;
         int j = 2;
         for (;i < 100;i++) {
             String str = String.format("%02d", i);
@@ -107,7 +107,8 @@ public class GetData {
             } else {
                 type = "笔试";
             }
-            sql = "insert into subject(`major_id`,`name`, code, `type`) values ('"+j+"','"+name+"','"+str+"' ,'"+type+"')";
+            sql = "insert into exam_subject(`subject_id`,`exam_id`, start_time, `end_time`, address,create_time,update_time,is_deleted" +
+                    ") values ('"+i+"','"+i+"',NOW() ,NOW(), '山东省',NOW(),NOW(),0)";
             try {
                 stmt.execute(sql);
             } catch (Exception e) {

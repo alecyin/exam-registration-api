@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author yhf
@@ -21,8 +23,8 @@ public class ExamSubjectServiceImpl implements ExamSubjectService {
     private ExamSubjectMapper examSubjectMapper;
 
     @Override
-    public long countExamSubjects() {
-        return examSubjectMapper.countExamSubjects();
+    public long countExamSubjects(Map<String, Object> map) {
+        return examSubjectMapper.countExamSubjects(map);
     }
 
     @Override
@@ -31,11 +33,18 @@ public class ExamSubjectServiceImpl implements ExamSubjectService {
     }
 
     @Override
+    public int deleteExamSubjectByPrimaryKeys(String ids) {
+        return examSubjectMapper.deleteExamSubjectByPrimaryKeys(ids);
+    }
+
+    @Override
     public int insertExamSubject(ExamSubject examSubject) {
         Date now = new Date();
         examSubject.setCreateTime(now);
         examSubject.setUpdateTime(now);
-        examSubject.setIsDeleted(false);
+        if (Objects.isNull(examSubject.getIsDeleted())) {
+            examSubject.setIsDeleted(false);
+        }
         return examSubjectMapper.insertExamSubject(examSubject);
     }
 
@@ -52,6 +61,11 @@ public class ExamSubjectServiceImpl implements ExamSubjectService {
     @Override
     public List<ExamSubject> listExamSubjects() {
         return examSubjectMapper.listExamSubjects();
+    }
+
+    @Override
+    public List<ExamSubject> listExamSubjectsByPage(Map<String, Object> map) {
+        return examSubjectMapper.listExamSubjectsByPage(map);
     }
 
     @Override

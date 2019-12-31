@@ -3,6 +3,7 @@ package com.exam.registration.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Subject;
+import com.exam.registration.service.ExamService;
 import com.exam.registration.service.MajorService;
 import com.exam.registration.service.SubjectService;
 import com.exam.registration.util.MsgUtils;
@@ -30,6 +31,8 @@ public class SubjectController {
     private SubjectService subjectService;
     @Autowired
     private MajorService majorService;
+    @Autowired
+    private ExamService examService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -90,10 +93,21 @@ public class SubjectController {
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
 
+    @RequestMapping(path = "/enabled", method = RequestMethod.GET)
+    @ResponseBody
     public String listSubjects() {
         List<Subject> list = subjectService.listSubjects();
         return MsgUtils.success(list);
     }
+
+    @RequestMapping(path = "/enabled-condition", method = RequestMethod.GET)
+    @ResponseBody
+    public String listSubjectsByCondition(@RequestParam(value = "examId", required = true) long examId) {
+        long majorId = examService.getExamByPrimaryKey(examId).getMajorId();
+        List<Subject> list = subjectService.listSubjectsByMajorId(majorId);
+        return MsgUtils.success(list);
+    }
+
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody

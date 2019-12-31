@@ -32,6 +32,13 @@
     from subject
     where is_deleted = 0
   </select>
+  <select id="listSubjectsByMajorId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from subject
+    where major_id = #{majorId,jdbcType=BIGINT}
+    and is_deleted = 0
+  </select>
   <select id="listSubjectsByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

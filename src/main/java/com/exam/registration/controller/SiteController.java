@@ -78,6 +78,8 @@ public class SiteController {
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
 
+    @RequestMapping(path = "/enabled", method = RequestMethod.GET)
+    @ResponseBody
     public String listSites() {
         List<Site> list = siteService.listSites();
         return MsgUtils.success(list);

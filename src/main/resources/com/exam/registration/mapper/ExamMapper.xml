@@ -3,13 +3,14 @@
 <mapper namespace="com.exam.registration.mapper.ExamMapper">
   <resultMap id="BaseResultMap" type="com.exam.registration.model.Exam">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="major_id" jdbcType="BIGINT" property="majorId" />
     <result column="site_id" jdbcType="BIGINT" property="siteId" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="conflict" jdbcType="VARCHAR" property="conflict" />
     <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="start_ examinee_number" jdbcType="CHAR" property="startExamineeNumber" />
+    <result column="start_examinee_number" jdbcType="CHAR" property="startExamineeNumber" />
     <result column="current_examinee_number" jdbcType="CHAR" property="currentExamineeNumber" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -17,17 +18,22 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, major_id, site_id, start_time, end_time, conflict, province, `start_ examinee_number`, 
+    id, `name`, major_id, site_id, start_time, end_time, conflict, province, `start_examinee_number`,
     current_examinee_number, note, create_time, update_time, is_deleted
   </sql>
   <select id="countExams" parameterType="java.util.Map" resultType="java.lang.Long">
     select count(*) from exam
     <where>
       <if test="siteId != null and siteId != ''">
-        siteId = #{siteId,jdbcType=BIGINT}
+        site_Id = #{siteId,jdbcType=BIGINT}
       </if>
       <if test="majorId != null and majorId != ''">
-        and majorId = #{majorId,jdbcType=BIGINT}
+        and major_Id = #{majorId,jdbcType=BIGINT}
+      </if>
+      <if test="keyword != null and keyword != ''">
+        and `name` = #{keyword,jdbcType=VARCHAR}
+        or
+        id = #{keyword,jdbcType=BIGINT}
       </if>
     </where>
   </select>
@@ -37,16 +43,28 @@
     from exam
     where is_deleted = 0
   </select>
+  <select id="listExamsByMajorId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exam
+    where major_Id = #{majorId,jdbcType=BIGINT}
+    and is_deleted = 0
+  </select>
   <select id="listExamsByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from exam
     <where>
       <if test="siteId != null and siteId != ''">
-        siteId = #{siteId,jdbcType=BIGINT}
+        site_Id = #{siteId,jdbcType=BIGINT}
       </if>
       <if test="majorId != null and majorId != ''">
-        and majorId = #{majorId,jdbcType=BIGINT}
+        and major_Id = #{majorId,jdbcType=BIGINT}
+      </if>
+      <if test="keyword != null and keyword != ''">
+        and `name` = #{keyword,jdbcType=VARCHAR}
+        or
+        id = #{keyword,jdbcType=BIGINT}
       </if>
     </where>
     limit #{currentIndex}, #{pageSize}
@@ -61,7 +79,7 @@
     delete from exam
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteSiteByPrimaryKeys" parameterType="java.lang.String">
+  <delete id="deleteExamByPrimaryKeys" parameterType="java.lang.String">
     delete from exam
     where id in (${ids})
   </delete>
@@ -69,12 +87,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into exam (major_id, site_id, start_time, 
+    insert into exam (`name`, major_id, site_id, start_time,
       end_time, conflict, province, 
-      `start_ examinee_number`, current_examinee_number, note, 
+      `start_examinee_number`, current_examinee_number, note, 
       create_time, update_time, is_deleted
       )
-    values (#{majorId,jdbcType=BIGINT}, #{siteId,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, 
+    values (#{name,jdbcType=VARCHAR}, #{majorId,jdbcType=BIGINT}, #{siteId,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP},
       #{endTime,jdbcType=TIMESTAMP}, #{conflict,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{startExamineeNumber,jdbcType=CHAR}, #{currentExamineeNumber,jdbcType=CHAR}, #{note,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
@@ -86,6 +104,9 @@
     </selectKey>
     insert into exam
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
       <if test="majorId != null">
         major_id,
       </if>
@@ -105,7 +126,7 @@
         province,
       </if>
       <if test="startExamineeNumber != null">
-        `start_ examinee_number`,
+        `start_examinee_number`,
       </if>
       <if test="currentExamineeNumber != null">
         current_examinee_number,
@@ -124,6 +145,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
       <if test="majorId != null">
         #{majorId,jdbcType=BIGINT},
       </if>
@@ -165,6 +189,9 @@
   <update id="updateExamByPrimaryKeySelective" parameterType="com.exam.registration.model.Exam">
     update exam
     <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="majorId != null">
         major_id = #{majorId,jdbcType=BIGINT},
       </if>
@@ -184,7 +211,7 @@
         province = #{province,jdbcType=VARCHAR},
       </if>
       <if test="startExamineeNumber != null">
-        `start_ examinee_number` = #{startExamineeNumber,jdbcType=CHAR},
+        `start_examinee_number` = #{startExamineeNumber,jdbcType=CHAR},
       </if>
       <if test="currentExamineeNumber != null">
         current_examinee_number = #{currentExamineeNumber,jdbcType=CHAR},
@@ -206,13 +233,14 @@
   </update>
   <update id="updateExamByPrimaryKey" parameterType="com.exam.registration.model.Exam">
     update exam
-    set major_id = #{majorId,jdbcType=BIGINT},
+    set `name` = #{name,jdbcType=VARCHAR},
+      major_id = #{majorId,jdbcType=BIGINT},
       site_id = #{siteId,jdbcType=BIGINT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       conflict = #{conflict,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
-      `start_ examinee_number` = #{startExamineeNumber,jdbcType=CHAR},
+      `start_examinee_number` = #{startExamineeNumber,jdbcType=CHAR},
       current_examinee_number = #{currentExamineeNumber,jdbcType=CHAR},
       note = #{note,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

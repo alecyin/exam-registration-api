@@ -25,14 +25,14 @@ public class ExamineeNoteController {
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
-    public String insertOrUpdateExamineeNote(@RequestBody String content) {
+    public String insertOrUpdateExamineeNote(@RequestBody ExamineeNote examineeNote) {
         int res;
-        if (!StringUtils.isEmpty(content)) {
-            StringBuilder sb = new StringBuilder(content);
-            content = sb.deleteCharAt(sb.length() - 1).deleteCharAt(0).toString();
-        }
-        ExamineeNote examineeNote = new ExamineeNote();
-        examineeNote.setContent(content);
+//        if (!StringUtils.isEmpty(content)) {
+//            StringBuilder sb = new StringBuilder(content);
+//            content = sb.deleteCharAt(sb.length() - 1).deleteCharAt(0).toString();
+//        }
+//        ExamineeNote examineeNote = new ExamineeNote();
+//        examineeNote.setContent(content);
         if (examineeNoteService.isExisted()) {
             res = examineeNoteService.updateExamineeNote(examineeNote);
         } else {
