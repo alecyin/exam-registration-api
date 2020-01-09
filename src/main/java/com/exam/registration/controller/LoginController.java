@@ -7,13 +7,18 @@ import com.exam.registration.model.Student;
 import com.exam.registration.service.AdminService;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -33,7 +38,8 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @RequestMapping(path = "/students/login", method = RequestMethod.POST)
+    @RequestMapping(path = "/students/login",
+            method = RequestMethod.POST)
     @ResponseBody
     public String loginStudent(@RequestBody Student student) {
         if (StringUtils.isEmpty(student.getIdCardNumber())) {
@@ -47,7 +53,19 @@ public class LoginController {
         if (res == 0) {
             return MsgUtils.fail("身份证号码或密码错误");
         }
-        return MsgUtils.success();
+        // 生成令牌,主要是用它生成载荷
+        JwtBuilder builder = Jwts.builder()
+                // 设置头部,使用hs256加密, + key,也就是盐
+                .signWith(SignatureAlgorithm.HS256, "ceshi")
+                // 添加载荷
+                .setId(String.valueOf(student.getId())) // 用户id
+                .setSubject(student.getName()) // 用户名
+                .setExpiration(new Date(new Date().getTime() + 60*1000)) // 过期时间
+                .setIssuedAt(new Date())// 登录时间
+                // 添加自定义的键值对
+                .claim("role","student");
+        System.out.println(builder.compact());
+        return MsgUtils.success(builder.compact());
     }
 
     @RequestMapping(path = "/admins/login", method = RequestMethod.POST)
@@ -66,10 +84,21 @@ public class LoginController {
         if (res == 0) {
             return MsgUtils.fail("登录名或密码错误");
         }
-        // 先使用name调试。。
+        // 生成令牌,主要是用它生成载荷
+        JwtBuilder builder = Jwts.builder()
+                // 设置头部,使用hs256加密, + key,也就是盐
+                .signWith(SignatureAlgorithm.HS256, "ceshi")
+                // 添加载荷
+                .setId(String.valueOf(admin.getId())) // 用户id
+                .setSubject(admin.getName()) // 用户名
+                .setExpiration(new Date(new Date().getTime() + 60*1000)) // 过期时间
+                .setIssuedAt(new Date())// 登录时间
+                // 添加自定义的键值对
+                .claim("role","admin");
+        System.out.println(builder.compact());
         JSONObject data = new JSONObject();
         data.put("token", admin.getName());
-        return MsgUtils.success(data);
+        return MsgUtils.success(builder.compact());
     }
 
     @RequestMapping(path = "/admins/info", method = RequestMethod.GET)
