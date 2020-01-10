@@ -46,4 +46,10 @@ public class MsgUtils {
         return jsonObject.toJSONString();
     }
 
+    public static String noLogin() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.NOLOGIN.code());
+        return jsonObject.toJSONString();
+    }
+
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Admin;
 import com.exam.registration.model.AdminConvert;
 import com.exam.registration.model.Student;
+import com.exam.registration.security.JwtUtil;
 import com.exam.registration.service.AdminService;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
@@ -38,8 +39,7 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @RequestMapping(path = "/students/login",
-            method = RequestMethod.POST)
+    @RequestMapping(path = "/students/login", method = RequestMethod.POST)
     @ResponseBody
     public String loginStudent(@RequestBody Student student) {
         if (StringUtils.isEmpty(student.getIdCardNumber())) {
@@ -54,18 +54,18 @@ public class LoginController {
             return MsgUtils.fail("身份证号码或密码错误");
         }
         // 生成令牌,主要是用它生成载荷
-        JwtBuilder builder = Jwts.builder()
-                // 设置头部,使用hs256加密, + key,也就是盐
-                .signWith(SignatureAlgorithm.HS256, "ceshi")
-                // 添加载荷
-                .setId(String.valueOf(student.getId())) // 用户id
-                .setSubject(student.getName()) // 用户名
-                .setExpiration(new Date(new Date().getTime() + 60*1000)) // 过期时间
-                .setIssuedAt(new Date())// 登录时间
-                // 添加自定义的键值对
-                .claim("role","student");
-        System.out.println(builder.compact());
-        return MsgUtils.success(builder.compact());
+//        JwtBuilder builder = Jwts.builder()
+//                // 设置头部,使用hs256加密, + key,也就是盐
+//                .signWith(SignatureAlgorithm.HS256, "ceshi")
+//                // 添加载荷
+//                .setId(String.valueOf(student.getId())) // 用户id
+//                .setSubject(student.getName()) // 用户名
+//                .setExpiration(new Date(new Date().getTime() + 60*1000)) // 过期时间
+//                .setIssuedAt(new Date())// 登录时间
+//                // 添加自定义的键值对
+//                .claim("role","student");
+//        System.out.println(builder.compact());
+        return MsgUtils.success(JwtUtil.getToken(student.getIdCardNumber()));
     }
 
     @RequestMapping(path = "/admins/login", method = RequestMethod.POST)
@@ -84,21 +84,21 @@ public class LoginController {
         if (res == 0) {
             return MsgUtils.fail("登录名或密码错误");
         }
-        // 生成令牌,主要是用它生成载荷
-        JwtBuilder builder = Jwts.builder()
-                // 设置头部,使用hs256加密, + key,也就是盐
-                .signWith(SignatureAlgorithm.HS256, "ceshi")
-                // 添加载荷
-                .setId(String.valueOf(admin.getId())) // 用户id
-                .setSubject(admin.getName()) // 用户名
-                .setExpiration(new Date(new Date().getTime() + 60*1000)) // 过期时间
-                .setIssuedAt(new Date())// 登录时间
-                // 添加自定义的键值对
-                .claim("role","admin");
-        System.out.println(builder.compact());
+//        // 生成令牌,主要是用它生成载荷
+//        JwtBuilder builder = Jwts.builder()
+//                // 设置头部,使用hs256加密, + key,也就是盐
+//                .signWith(SignatureAlgorithm.HS256, "ceshi")
+//                // 添加载荷
+//                .setId(String.valueOf(admin.getId())) // 用户id
+//                .setSubject(admin.getName()) // 用户名
+//                .setExpiration(new Date(new Date().getTime() + 60*1000)) // 过期时间
+//                .setIssuedAt(new Date())// 登录时间
+//                // 添加自定义的键值对
+//                .claim("role","admin");
+//        System.out.println(builder.compact());
         JSONObject data = new JSONObject();
         data.put("token", admin.getName());
-        return MsgUtils.success(builder.compact());
+        return MsgUtils.success(JwtUtil.getToken(admin.getName()));
     }
 
     @RequestMapping(path = "/admins/info", method = RequestMethod.GET)

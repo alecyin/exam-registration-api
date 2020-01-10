@@ -17,6 +17,9 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public String handleException(Exception e) {
         e.printStackTrace();
-        return MsgUtils.fail(e.getMessage());
+        if (e.getMessage().startsWith("token")) {
+            return MsgUtils.noLogin();
+        }
+        return MsgUtils.fail("出异常啦");
     }
 }

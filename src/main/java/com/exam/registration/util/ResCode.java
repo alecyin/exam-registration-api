@@ -1,7 +1,7 @@
 package com.exam.registration.util;
 
 public enum ResCode {
-    SUCCESS(20000),FAIL(60204);
+    SUCCESS(20000), FAIL(60204), NOLOGIN(50008);
 
     private final int code;
 

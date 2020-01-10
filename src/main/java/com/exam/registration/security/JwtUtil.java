@@ -18,7 +18,10 @@ public class JwtUtil {
     /**
      * 私钥
      */
-    final static String base64EncodedSecretKey = "base64EncodedSecretKey";
+    final static String base64EncodedSecretKey = "8@A5jw1lVBVz!cD&DX$zAvnstN7!kKBMwQ5X8Xqrv0kXKLrv97"
+                                                + "g&53wYogdISX^f2KdzxtvV$judGkBo&k27gasBxq*#q3CKhgYg"
+                                                + "yhmWghHSBPq%KAoWgzrd5Uk5*s#LgTKWxp$Q!XQ*Ney@JEM8GC"
+                                                + "!yrM9q";
     /**
      * 过期时间,测试使用20分钟
      */
@@ -27,7 +30,6 @@ public class JwtUtil {
     public static String getToken(String userName) {
         return Jwts.builder()
                 .setSubject(userName)
-                .claim("roles", "user")
                 .setIssuedAt(new Date())
                 /*过期时间*/
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP))
@@ -46,7 +48,7 @@ public class JwtUtil {
         } catch (ExpiredJwtException e1) {
             throw new ServletException("token expired");
         } catch (Exception e) {
-            throw new ServletException("other token exception");
+            throw new ServletException("token other exception");
         }
     }
 
