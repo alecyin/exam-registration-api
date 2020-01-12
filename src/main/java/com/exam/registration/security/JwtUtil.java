@@ -37,11 +37,17 @@ public class JwtUtil {
                 .compact();
     }
 
-    /**
-     * @func 检查token, 只要不正确就会抛出异常
-     * @author jimo
-     * @date 17-12-12 下午6:21
-     */
+    public static String parserToken(String token) throws ServletException {
+        try {
+            final Claims claims = Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();
+            return claims.getSubject();
+        } catch (ExpiredJwtException e1) {
+            throw new ServletException("token expired");
+        } catch (Exception e) {
+            throw new ServletException("token other exception");
+        }
+    }
+
     static void checkToken(String token) throws ServletException {
         try {
             final Claims claims = Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();
@@ -52,11 +58,6 @@ public class JwtUtil {
         }
     }
 
-    /**
-     * @func token ok返回true
-     * @author wangpeng
-     * @date 2018/8/27 16:59
-     */
     public static boolean isTokenOk(String token) {
         try {
             Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();

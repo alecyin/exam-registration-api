@@ -2,6 +2,7 @@ package com.exam.registration.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Student;
+import com.exam.registration.security.JwtUtil;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,5 +109,18 @@ public class StudentController {
     public String getStudentByPrimaryKey(@PathVariable("id") long id) {
         return MsgUtils.success(studentService.getStudentByPrimaryKey(id));
     }
+
+    @RequestMapping(path = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public String getStudentByPrimaryKey(@RequestBody Map<String, Object> map,
+                                         @RequestHeader(value="Authorization") String authHeader) throws ServletException {
+        String token = authHeader.substring(7);
+        String tokenId = JwtUtil.parserToken(token);
+        if (!tokenId.equals(map.get("idCardNumber"))) {
+            return MsgUtils.fail("访问错误");
+        }
+        return MsgUtils.success(studentService.getStudentByIdCardNumber(map.get("idCardNumber").toString()));
+    }
+
 
 }
