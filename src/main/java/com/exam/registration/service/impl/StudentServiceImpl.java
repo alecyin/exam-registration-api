@@ -89,7 +89,8 @@ public class StudentServiceImpl implements StudentService {
             return 0;
         }
 
-        if (!StringUtils.isEmpty(student.getPassword())) {
+        if (!StringUtils.isEmpty(student.getPassword()) &&
+                !student.getPassword().equals(queryStudent.getPassword())) {
             String newPass = DigestUtils.md5DigestAsHex((student.getPassword() + queryStudent.getSalt())
                     .getBytes());
             student.setPassword(newPass);
