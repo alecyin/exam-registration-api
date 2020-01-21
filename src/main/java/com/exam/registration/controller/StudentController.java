@@ -6,15 +6,15 @@ import com.exam.registration.security.JwtUtil;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author yhf
@@ -25,6 +25,9 @@ import java.util.Objects;
 @RequestMapping("/students")
 @Controller
 public class StudentController {
+
+    @Value("${photo.upload.path}")
+    private String path;
 
     @Autowired
     private StudentService studentService;
@@ -122,5 +125,25 @@ public class StudentController {
         return MsgUtils.success(studentService.getStudentByIdCardNumber(map.get("idCardNumber").toString()));
     }
 
-
+    @RequestMapping("/upload/portrait")
+    @ResponseBody
+    public String uploadPortrait(@RequestParam("file") MultipartFile file) {
+        //获取上传文件名,包含后缀
+        String originalFilename = file.getOriginalFilename();
+        //获取后缀
+        String substring = originalFilename.substring(originalFilename.lastIndexOf("."));
+        //保存的文件名
+        String dFileName = UUID.randomUUID() + substring;
+        //保存路径
+        //生成保存文件
+        File uploadFile = new File(path + dFileName);
+        System.out.println(uploadFile);
+        //将上传文件保存到路径
+        try {
+            file.transferTo(uploadFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "上传"+dFileName+"成功";
+    }
 }

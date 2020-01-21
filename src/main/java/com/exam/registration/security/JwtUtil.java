@@ -25,7 +25,7 @@ public class JwtUtil {
     /**
      * 过期时间,测试使用20分钟
      */
-    final static long TOKEN_EXP = 1000 * 60 * 20;
+    final static long TOKEN_EXP = 1000 * 60 * 60;
 
     public static String getToken(String userName) {
         return Jwts.builder()
