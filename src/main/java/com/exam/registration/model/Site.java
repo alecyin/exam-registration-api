@@ -9,6 +9,7 @@ import java.util.Date;
  *
  */
 public class Site implements Serializable {
+
     /**
      *
      * site.id
@@ -39,6 +40,14 @@ public class Site implements Serializable {
      *
      */
     private String address;
+
+    /**
+     * 允许报考的省份
+     *
+     * site.allow_province
+     *
+     */
+    private String allowProvince;
 
     /**
      * 创建时间
@@ -122,6 +131,14 @@ public class Site implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getAllowProvince() {
+        return allowProvince;
+    }
+
+    public void setAllowProvince(String allowProvince) {
+        this.allowProvince = allowProvince;
     }
 
     @Override

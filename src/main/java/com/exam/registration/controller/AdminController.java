@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,5 +106,12 @@ public class AdminController {
     @ResponseBody
     public String getAdminByPrimaryKey(@PathVariable("id") long id) {
         return MsgUtils.success(adminService.getAdminByPrimaryKey(id));
+    }
+
+    @RequestMapping(path = "/info", method = RequestMethod.GET)
+    @ResponseBody
+    public String getStudentByPrimaryKey(HttpServletRequest request){
+        return MsgUtils.success(adminService
+                .getAdminByPrimaryKey(Long.valueOf((String) request.getAttribute("adminId"))));
     }
 }

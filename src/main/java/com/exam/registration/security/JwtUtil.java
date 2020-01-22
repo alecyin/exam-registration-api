@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.servlet.ServletException;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author yhf
@@ -27,20 +28,20 @@ public class JwtUtil {
      */
     final static long TOKEN_EXP = 1000 * 60 * 60;
 
-    public static String getToken(String userName) {
+    public static String getToken(String subject, Map<String, Object> map) {
         return Jwts.builder()
-                .setSubject(userName)
+                .setSubject(subject)
                 .setIssuedAt(new Date())
                 /*过期时间*/
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP))
                 .signWith(SignatureAlgorithm.HS256, base64EncodedSecretKey)
+                .addClaims(map)
                 .compact();
     }
 
-    public static String parserToken(String token) throws ServletException {
+    public static Claims parserToken(String token) throws ServletException {
         try {
-            final Claims claims = Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();
-            return claims.getSubject();
+            return Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();
         } catch (ExpiredJwtException e1) {
             throw new ServletException("token expired");
         } catch (Exception e) {

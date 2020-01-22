@@ -66,22 +66,6 @@ public class Exam implements Serializable {
     private Date endTime;
 
     /**
-     * 不允许同时报的考试
-     *
-     * exam.conflict
-     *
-     */
-    private String conflict;
-
-    /**
-     * 允许报考的省份
-     *
-     * exam.province
-     *
-     */
-    private String province;
-
-    /**
      * 起始考号
      *
      * exam.start_ examinee_number
@@ -173,22 +157,6 @@ public class Exam implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getConflict() {
-        return conflict;
-    }
-
-    public void setConflict(String conflict) {
-        this.conflict = conflict;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     public String getStartExamineeNumber() {
         return startExamineeNumber;
     }
@@ -248,8 +216,6 @@ public class Exam implements Serializable {
         sb.append(", siteId=").append(siteId);
         sb.append(", startTime=").append(startTime);
         sb.append(", endTime=").append(endTime);
-        sb.append(", conflict=").append(conflict);
-        sb.append(", province=").append(province);
         sb.append(", startExamineeNumber=").append(startExamineeNumber);
         sb.append(", currentExamineeNumber=").append(currentExamineeNumber);
         sb.append(", note=").append(note);

@@ -7,12 +7,14 @@ import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.*;
 
@@ -28,6 +30,8 @@ public class StudentController {
 
     @Value("${photo.upload.path}")
     private String path;
+    @Value("${photo.upload.suffix}")
+    private String suffix;
 
     @Autowired
     private StudentService studentService;
@@ -113,37 +117,65 @@ public class StudentController {
         return MsgUtils.success(studentService.getStudentByPrimaryKey(id));
     }
 
-    @RequestMapping(path = "/info", method = RequestMethod.POST)
+    @RequestMapping(path = "/info", method = RequestMethod.GET)
     @ResponseBody
-    public String getStudentByPrimaryKey(@RequestBody Map<String, Object> map,
-                                         @RequestHeader(value="Authorization") String authHeader) throws ServletException {
-        String token = authHeader.substring(7);
-        String tokenId = JwtUtil.parserToken(token);
-        if (!tokenId.equals(map.get("idCardNumber"))) {
-            return MsgUtils.fail("访问错误");
-        }
-        return MsgUtils.success(studentService.getStudentByIdCardNumber(map.get("idCardNumber").toString()));
+    public String getStudentByPrimaryKey(HttpServletRequest request){
+        return MsgUtils.success(studentService
+                .getStudentByIdCardNumber(request.getAttribute("idCardNumber").toString()));
     }
 
-    @RequestMapping("/upload/portrait")
+    @RequestMapping(path = "/pic", method = RequestMethod.POST)
     @ResponseBody
-    public String uploadPortrait(@RequestParam("file") MultipartFile file) {
-        //获取上传文件名,包含后缀
-        String originalFilename = file.getOriginalFilename();
-        //获取后缀
-        String substring = originalFilename.substring(originalFilename.lastIndexOf("."));
-        //保存的文件名
-        String dFileName = UUID.randomUUID() + substring;
-        //保存路径
-        //生成保存文件
-        File uploadFile = new File(path + dFileName);
-        System.out.println(uploadFile);
-        //将上传文件保存到路径
-        try {
-            file.transferTo(uploadFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String getStudentPicByPrimaryKey(@RequestBody Map<String, Object> map,
+                                         HttpServletRequest request) throws ServletException {
+        if (!request.getAttribute("idCardNumber").equals(map.get("idCardNumber"))) {
+            return MsgUtils.fail("访问错误");
         }
-        return "上传"+dFileName+"成功";
+        Student student = studentService.getStudentByIdCardNumber(map.get("idCardNumber").toString());
+        Map<String, Object> pic = new HashMap<>();
+        pic.put("idCardPic", student.getIdCardPic() + suffix);
+        pic.put("profilePic", student.getProfilePic() + suffix);
+        pic.put("provincialExamineePic", student.getProvincialExamineePic() + suffix);
+        return MsgUtils.success(pic);
+    }
+
+    @RequestMapping("/upload/{type}")
+    @ResponseBody
+    public String uploadPortrait(@PathVariable("type") int type,
+                                 @RequestParam("file") MultipartFile file,
+                                 HttpServletRequest request) throws IOException {
+        String idCardNumber = (String) request.getAttribute("idCardNumber");
+        //保存的文件名
+        String dFileName = UUID.randomUUID().toString()
+                                .replace("-", "");
+        //生成保存文件
+        File uploadFile = new File(path + dFileName + suffix);
+        //将上传文件保存到路径
+        file.transferTo(uploadFile);
+        Student student = studentService.getStudentByIdCardNumber(idCardNumber);
+        String oldPicPath = null;
+        if (type == 1) {// 上传的是身份证图片
+            if (!StringUtils.isEmpty(student.getIdCardPic())) {// 如果之前存在文件，则需要删除之前的文件
+                oldPicPath = path + student.getIdCardPic() + suffix;
+            }
+            student.setIdCardPic(dFileName);
+        } else if (type == 2) {// 上传的是手持身份证图片
+            if (!StringUtils.isEmpty(student.getProfilePic())) {
+                oldPicPath = path + student.getProfilePic() + suffix;
+            }
+            student.setProfilePic(dFileName);
+        } else if (type == 3) {// 上传的是省准考证图片
+            if (!StringUtils.isEmpty(student.getProvincialExamineePic())) {
+                oldPicPath = path + student.getProvincialExamineePic() + suffix;
+            }
+            student.setProvincialExamineePic(dFileName);
+        }
+
+        if (!StringUtils.isEmpty(oldPicPath)) {
+            new File(oldPicPath).delete();
+        }
+
+        return studentService.updateStudentByPrimaryKeySelective(student) == 1 ?
+                MsgUtils.success("保存成功") : MsgUtils.fail("保存失败");
     }
 }

@@ -29,6 +29,8 @@ public interface StudentService {
 
     int updateStudentByPrimaryKeySelective(Student record);
 
+    int updateStudentByIdCardNumberSelective(Student record);
+
     int updateStudentByPrimaryKey(Student record);
 
     int login(Student student);

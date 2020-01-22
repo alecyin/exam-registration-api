@@ -102,6 +102,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public int updateStudentByIdCardNumberSelective(Student student) {
+        long id = studentMapper.getStudentByIdCardNumber(student.getIdCardNumber()).getId();
+        student.setId(id);
+        return updateStudentByPrimaryKeySelective(student);
+    }
+
+
+    @Override
     public int updateStudentByPrimaryKey(Student student) {
         return 0;
     }

@@ -1,5 +1,6 @@
 package com.exam.registration.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -8,6 +9,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.nio.charset.Charset;
@@ -22,6 +24,18 @@ import java.util.List;
  **/
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport{
+
+
+    @Value("${photo.upload.staticAccessPath}")
+    private String staticAccessPath;
+    @Value("${photo.upload.path}")
+    private String photoUploadFolder;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(staticAccessPath).addResourceLocations("file:///" + photoUploadFolder);
+        super.addResourceHandlers(registry);
+    }
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {
@@ -44,6 +58,7 @@ public class WebConfig extends WebMvcConfigurationSupport{
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JwtInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/**/login");
+                .excludePathPatterns("/**/login")
+                .excludePathPatterns("/photo/**");
     }
 }

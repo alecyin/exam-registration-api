@@ -6,12 +6,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="CHAR" property="code" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="allow_province" jdbcType="VARCHAR" property="allowProvince" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, `name`, code, address, create_time, update_time, is_deleted
+    id, `name`, code, address, allow_province, create_time, update_time, is_deleted
   </sql>
   <select id="countSites" parameterType="java.lang.String" resultType="java.lang.Long">
     select count(*) from site
@@ -70,10 +71,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into site (`name`, code, address, 
+    insert into site (`name`, code, address, allow_province,
       create_time, update_time, is_deleted
       )
-    values (#{name,jdbcType=VARCHAR}, #{code,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, 
+    values (#{name,jdbcType=VARCHAR}, #{code,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, #{allowProvince,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}
       )
   </insert>
@@ -91,6 +92,9 @@
       </if>
       <if test="address != null">
         address,
+      </if>
+      <if test="allowProvince != null">
+        allow_province,
       </if>
       <if test="createTime != null">
         create_time,
@@ -111,6 +115,9 @@
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="allowProvince != null">
+        #{allowProvince,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -135,6 +142,9 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="allowProvince != null">
+        allow_province = #{allowProvince,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -152,6 +162,7 @@
     set `name` = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=CHAR},
       address = #{address,jdbcType=VARCHAR},
+      allow_province = #{allowProvince,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT}

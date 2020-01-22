@@ -1,5 +1,7 @@
 package com.exam.registration.security;
 
+import com.exam.registration.util.MsgUtils;
+import io.jsonwebtoken.Claims;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.ServletException;
@@ -24,6 +26,14 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
         String token = authHeader.substring(7);
         try {
             JwtUtil.checkToken(token);
+            Claims claims = JwtUtil.parserToken(token);
+            String role = (String) claims.get("role");
+            if ("student".equals(role)) {
+                request.setAttribute("idCardNumber", claims.getSubject());
+            } else {
+                String a = claims.getSubject();
+                request.setAttribute("adminId", claims.getSubject());
+            }
             return true;
         } catch (Exception e) {
             throw new ServletException(e.getMessage());
