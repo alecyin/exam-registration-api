@@ -64,6 +64,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public List<Exam> listExamsBySiteId(long siteId) {
+        return examMapper.listExamsBySiteId(siteId);
+    }
+
+    @Override
     public List<Exam> listExams() {
         return examMapper.listExams();
     }

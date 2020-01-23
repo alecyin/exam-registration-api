@@ -1,7 +1,10 @@
 package com.exam.registration.controller;
 
+import com.exam.registration.model.Exam;
 import com.exam.registration.model.Major;
 import com.exam.registration.model.Site;
+import com.exam.registration.model.Subject;
+import com.exam.registration.service.ExamService;
 import com.exam.registration.service.MajorService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author yhf
@@ -25,6 +25,8 @@ import java.util.Objects;
 public class MajorController {
     @Autowired
     private MajorService majorService;
+    @Autowired
+    private ExamService examService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -108,5 +110,17 @@ public class MajorController {
     @ResponseBody
     public String getMajorByPrimaryKey(@PathVariable("id") long id) {
         return MsgUtils.success(majorService.getMajorByPrimaryKey(id));
+    }
+
+    @RequestMapping(path = "/enabled-condition", method = RequestMethod.GET)
+    @ResponseBody
+    public String listMajorsByCondition(@RequestParam(value = "siteId", required = true) long siteId) {
+        List<Exam> examList = examService.listExamsBySiteId(siteId);
+        List<Major> majorList = new ArrayList<>();
+        for (Exam exam : examList) {
+            Major major = majorService.getMajorByPrimaryKey(exam.getMajorId());
+            majorList.add(major);
+        }
+        return MsgUtils.success(majorList);
     }
 }
