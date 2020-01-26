@@ -18,6 +18,8 @@ public interface ExamService {
 
     Exam getExamByPrimaryKey(Long id);
 
+    Exam getExamByMajorIdAndSiteId(Long majorId, Long siteId);
+
     List<Exam> listExams();
 
     List<Exam> listExamsByMajorId(long majorId);

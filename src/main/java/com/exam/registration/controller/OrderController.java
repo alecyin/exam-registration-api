@@ -4,10 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.Exam;
 import com.exam.registration.model.Order;
+import com.exam.registration.model.Site;
 import com.exam.registration.model.Student;
-import com.exam.registration.service.ExamService;
-import com.exam.registration.service.OrderService;
-import com.exam.registration.service.StudentService;
+import com.exam.registration.service.*;
 import com.exam.registration.util.MsgUtils;
 import com.exam.registration.util.ResCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * @author yhf
@@ -35,6 +32,10 @@ public class OrderController {
     private StudentService studentService;
     @Autowired
     private ExamService examService;
+    @Autowired
+    private SiteService siteService;
+    @Autowired
+    private MajorService majorService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -144,4 +145,41 @@ public class OrderController {
     public String getOrderByPrimaryKey(@PathVariable("id") long id) {
         return MsgUtils.success(orderService.getOrderByPrimaryKey(id));
     }
+
+    @RequestMapping(path = "/apply", method = RequestMethod.POST)
+    @ResponseBody
+    public String apply(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+        if (StringUtils.isEmpty(map.get("majorId"))) {
+            return MsgUtils.fail("专业id不能为空");
+        }
+        if (StringUtils.isEmpty(map.get("siteId"))) {
+            return MsgUtils.fail("考场id不能为空");
+        }
+
+        Long majorId = Long.valueOf(String.valueOf(map.get("majorId")));
+        Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
+        String idCardNumber = (String) request.getAttribute("idCardNumber");
+        Student student = studentService.getStudentByIdCardNumber(idCardNumber);
+        Site site = siteService.getSiteByPrimaryKey(majorId);
+        if (site.getAllowProvince().indexOf(student.getAddress().split("|")[0]) == -1) {
+            return MsgUtils.fail("生源地不允许报名该场考试");
+        }
+
+        Exam exam = examService.getExamByMajorIdAndSiteId(majorId, siteId);
+        if (exam.getStartTime().before(new Date())) {
+            return MsgUtils.fail("报名日期已截止");
+        }
+
+        Order order = new Order();
+        order.setIsPaid(false);
+        order.setExamId(exam.getId());
+        order.setStudentId(student.getId());
+        order.setCost(majorService.getMajorByPrimaryKey(majorId).getFee());
+        int res = orderService.insertOrder(order);
+        if (res == 0) {
+            return MsgUtils.fail("未知错误，稍后再试");
+        }
+        return MsgUtils.success();
+    }
+
 }

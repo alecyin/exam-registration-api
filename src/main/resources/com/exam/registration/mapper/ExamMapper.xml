@@ -80,6 +80,13 @@
     from exam
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="getExamByMajorIdAndSiteId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exam
+    where site_id = #{siteId,jdbcType=BIGINT}
+    and major_id = #{majorId,jdbcType=BIGINT}
+  </select>
   <delete id="deleteExamByPrimaryKey" parameterType="java.lang.Long">
     delete from exam
     where id = #{id,jdbcType=BIGINT}

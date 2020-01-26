@@ -34,6 +34,8 @@ public class ExamController {
     private SiteService siteService;
     @Autowired
     private SubjectService subjectService;
+    @Autowired
+    private StudentService studentService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -44,9 +46,7 @@ public class ExamController {
         if (StringUtils.isEmpty(exam.getMajorId())) {
             return MsgUtils.fail("专业Id不能为空");
         }
-        if (StringUtils.isEmpty(exam.getStartExamineeNumber())) {
-            return MsgUtils.fail("起始准考证号码不能为空");
-        }
+
 //        if (StringUtils.isEmpty(exam.getProvince())) {
 //            return MsgUtils.fail("省份不能为空");
 //        }
