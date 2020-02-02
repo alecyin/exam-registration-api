@@ -2,10 +2,7 @@ package com.exam.registration.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.exam.registration.model.Exam;
-import com.exam.registration.model.Order;
-import com.exam.registration.model.Site;
-import com.exam.registration.model.Student;
+import com.exam.registration.model.*;
 import com.exam.registration.service.*;
 import com.exam.registration.util.MsgUtils;
 import com.exam.registration.util.ResCode;
@@ -15,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -160,13 +158,14 @@ public class OrderController {
         Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
         String idCardNumber = (String) request.getAttribute("idCardNumber");
         Student student = studentService.getStudentByIdCardNumber(idCardNumber);
-        Site site = siteService.getSiteByPrimaryKey(majorId);
-        if (site.getAllowProvince().indexOf(student.getAddress().split("|")[0]) == -1) {
+        Site site = siteService.getSiteByPrimaryKey(siteId);
+        if (site.getAllowProvince().replace("，", "|")
+                .indexOf(student.getAddress().split("|")[0]) == -1) {
             return MsgUtils.fail("生源地不允许报名该场考试");
         }
 
         Exam exam = examService.getExamByMajorIdAndSiteId(majorId, siteId);
-        if (exam.getStartTime().before(new Date())) {
+        if (exam.getEndTime().before(new Date())) {
             return MsgUtils.fail("报名日期已截止");
         }
 
@@ -180,6 +179,38 @@ public class OrderController {
             return MsgUtils.fail("未知错误，稍后再试");
         }
         return MsgUtils.success();
+    }
+
+    @RequestMapping(path = "/apply-info",method = RequestMethod.GET)
+    @ResponseBody
+    public String getOrderByStudentId(HttpServletRequest request) {
+        String idCardNumber = (String) request.getAttribute("idCardNumber");
+        Student student = studentService.getStudentByIdCardNumber(idCardNumber);
+        List<Order> list = orderService.listOrdersByStudentId(student.getId());
+        // 返回考生已报名的考点名称、专业名称、是否支付、应缴金额
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.SUCCESS.code());
+        JSONArray jsonArray = new JSONArray();
+        for (Order order : list) {
+            Exam exam = examService.getExamByPrimaryKey(order.getExamId());
+            Long majorId = exam.getMajorId();
+            Long siteId = exam.getSiteId();
+            Major major = majorService.getMajorByPrimaryKey(majorId);
+            Site site = siteService.getSiteByPrimaryKey(siteId);
+            String majorName = major.getName();
+            BigDecimal fee = major.getFee();
+            String siteName = site.getName();
+            String address = site.getAddress();
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("majorName", majorName);
+            jsonObject1.put("siteName", siteName);
+            jsonObject1.put("address", address);
+            jsonObject1.put("fee", fee);
+            jsonObject1.put("isPaid", order.getIsPaid());
+            jsonArray.add(jsonObject1);
+        }
+        jsonObject.put("data", jsonArray);
+        return jsonObject.toJSONString();
     }
 
 }

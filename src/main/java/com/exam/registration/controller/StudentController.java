@@ -1,6 +1,7 @@
 package com.exam.registration.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.exam.registration.annotation.RequireRoles;
 import com.exam.registration.model.Student;
 import com.exam.registration.security.JwtUtil;
 import com.exam.registration.service.StudentService;
@@ -126,6 +127,7 @@ public class StudentController {
 
     @RequestMapping(path = "/pic", method = RequestMethod.POST)
     @ResponseBody
+    @RequireRoles("student")
     public String getStudentPicByPrimaryKey(@RequestBody Map<String, Object> map,
                                          HttpServletRequest request) throws ServletException {
         if (!request.getAttribute("idCardNumber").equals(map.get("idCardNumber"))) {

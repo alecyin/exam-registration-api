@@ -28,6 +28,8 @@ public interface OrderService {
 
     List<Order> listOrdersByPage(Map<String, Object> map);
 
+    List<Order> listOrdersByStudentId(Long studentId);
+
     int updateOrderByPrimaryKeySelective(Order record);
 
     int updateOrderByPrimaryKey(Order record);

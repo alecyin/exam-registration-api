@@ -1,5 +1,6 @@
 package com.exam.registration.controller;
 
+import com.exam.registration.annotation.RequireRoles;
 import com.exam.registration.model.Admin;
 import com.exam.registration.model.Student;
 import com.exam.registration.service.AdminService;

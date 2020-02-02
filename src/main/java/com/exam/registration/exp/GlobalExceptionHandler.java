@@ -20,6 +20,6 @@ public class GlobalExceptionHandler {
         if (e.getMessage().startsWith("token")) {
             return MsgUtils.noLogin();
         }
-        return MsgUtils.fail("出异常啦");
+        return MsgUtils.fail(e.getMessage());
     }
 }

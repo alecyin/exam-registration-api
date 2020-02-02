@@ -1,5 +1,6 @@
 package com.exam.registration.security;
 
+import com.exam.registration.interceptor.PermissionInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,6 +58,10 @@ public class WebConfig extends WebMvcConfigurationSupport{
 
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JwtInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/**/login")
+                .excludePathPatterns("/photo/**");
+        registry.addInterceptor(new PermissionInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/login")
                 .excludePathPatterns("/photo/**");

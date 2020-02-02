@@ -71,6 +71,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> listOrdersByStudentId(Long studentId) {
+        return orderMapper.listOrdersByStudentId(studentId);
+    }
+
+    @Override
     public int updateOrderByPrimaryKeySelective(Order order) {
         order.setUpdateTime(new Date());
         return orderMapper.updateOrderByPrimaryKeySelective(order);

@@ -42,6 +42,12 @@
     </where>
     limit #{currentIndex}, #{pageSize}
   </select>
+  <select id="listOrdersByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    where student_id = #{studentId,jdbcType=BIGINT}
+  </select>
   <select id="getOrderByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

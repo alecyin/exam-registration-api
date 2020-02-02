@@ -18,6 +18,7 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("jwtprehandler");
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new ServletException("token invalid Authorization header, 请重新登陆");
@@ -28,10 +29,10 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
             JwtUtil.checkToken(token);
             Claims claims = JwtUtil.parserToken(token);
             String role = (String) claims.get("role");
+            request.setAttribute("role", role);
             if ("student".equals(role)) {
                 request.setAttribute("idCardNumber", claims.getSubject());
             } else {
-                String a = claims.getSubject();
                 request.setAttribute("adminId", claims.getSubject());
             }
             return true;
