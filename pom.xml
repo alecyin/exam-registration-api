@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.exam.registration</groupId>
-    <artifactId>exam-registration-backend</artifactId>
+    <artifactId>exam-registration-api</artifactId>
     <version>0.0.1</version>
-    <name>demo</name>
+    <name>api</name>
     <description>Graduation Project</description>
 
     <properties>
