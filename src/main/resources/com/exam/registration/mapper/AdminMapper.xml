@@ -17,13 +17,13 @@
   <select id="listAdmins" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from admin
+    from `admin`
     where is_deleted = 0
   </select>
   <select id="listAdminsByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from admin
+    from `admin`
     <where>
       <if test="keyword != null and keyword != ''">
         id = #{keyword,jdbcType=BIGINT}
@@ -36,28 +36,28 @@
   <select id="getAdminByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from admin
+    from `admin`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="getAdminByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from admin
+    from `admin`
     where name = #{name,jdbcType=VARCHAR}
   </select>
   <delete id="deleteAdminByPrimaryKey" parameterType="java.lang.Long">
-    delete from admin
+    delete from `admin`
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteAdminByPrimaryKeys" parameterType="java.lang.String">
-    delete from admin
+    delete from `admin`
     where id in (${ids})
   </delete>
   <insert id="insertAdmin" parameterType="com.exam.registration.model.Admin">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into admin (`name`, `password`, salt,
+    insert into `admin` (`name`, `password`, salt,
     login_time, create_time, update_time,
     is_deleted)
     values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, #{salt,jdbcType=CHAR},
@@ -68,7 +68,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into admin
+    insert into `admin`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
         `name`,
@@ -117,7 +117,7 @@
     </trim>
   </insert>
   <select id="countAdmins" resultType="java.lang.Long">
-    select count(*) from admin
+    select count(*) from `admin`
     <where>
       <if test="keyword != null and keyword != ''">
         id = #{keyword,jdbcType=BIGINT}
@@ -127,7 +127,7 @@
     </where>
   </select>
   <update id="updateAdminByPrimaryKeySelective" parameterType="com.exam.registration.model.Admin">
-    update admin
+    update `admin`
     <set>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
@@ -154,7 +154,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateAdminByPrimaryKey" parameterType="com.exam.registration.model.Admin">
-    update admin
+    update `admin`
     set `name` = #{name,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=CHAR},
       salt = #{salt,jdbcType=CHAR},

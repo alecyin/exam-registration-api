@@ -60,6 +60,7 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
+    @RequireRoles("admin")
     public String deleteStudent(@PathVariable("id") long id) {
         int res = studentService.deleteStudentByPrimaryKey(id);
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("删除失败，稍后再试");
@@ -67,6 +68,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
+    @RequireRoles("admin")
     public String deleteAllStudent(@RequestParam("ids") String ids) {
         int res = studentService.deleteStudentByPrimaryKeys(ids);
         return res == 0 ? MsgUtils.fail("删除失败，稍后再试") : MsgUtils.success();
@@ -95,6 +97,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
+    @RequireRoles("admin")
     public String listStudentsByPage(@RequestParam(value = "keyword", required = false) String keyword,
                                      @RequestParam("pageIndex") int pageIndex,
                                      @RequestParam("pageSize") int pageSize) {
