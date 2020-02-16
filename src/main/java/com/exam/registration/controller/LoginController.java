@@ -7,9 +7,14 @@ import com.exam.registration.security.JwtUtil;
 import com.exam.registration.service.AdminService;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
+import com.exam.registration.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yhf
@@ -31,8 +37,18 @@ public class LoginController {
     StudentService studentService;
     @Autowired
     AdminService adminService;
-
+    private RedisTemplate redisTemplate;
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    @Autowired(required = false)
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        RedisSerializer stringSerializer = new StringRedisSerializer();//序列化为String
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
+        redisTemplate.setValueSerializer(stringSerializer);
+        redisTemplate.setHashValueSerializer(stringSerializer);
+        this.redisTemplate = redisTemplate;
+    }
 
     @RequestMapping(path = "/students/login", method = RequestMethod.POST)
     @ResponseBody
@@ -49,8 +65,12 @@ public class LoginController {
             return MsgUtils.fail("身份证号码或密码错误");
         }
         Map<String, Object> map = new HashMap<>();
+        student = studentService.getStudentByIdCardNumber(student.getIdCardNumber());
         map.put("role","student");
-        return MsgUtils.success(JwtUtil.getToken(student.getIdCardNumber(), map));
+        String token = JwtUtil.getToken(String.valueOf(student.getId()), map);
+        redisTemplate.opsForValue().set(RedisUtils.STUDENT_TOKEN_PREFIX + student.getId(), token,
+                                                                JwtUtil.TOKEN_EXP, TimeUnit.MILLISECONDS);
+        return MsgUtils.success(token);
     }
 
     @RequestMapping(path = "/admins/login", method = RequestMethod.POST)
@@ -69,6 +89,9 @@ public class LoginController {
         Map<String, Object> map = new HashMap<>();
         map.put("role","admin");
         admin = adminService.getAdminByName(admin.getName());
+        String token = JwtUtil.getToken(String.valueOf(admin.getId()), map);
+        redisTemplate.opsForValue().set(RedisUtils.ADMIN_TOKEN_PREFIX + admin.getId(),
+                                                    token,JwtUtil.TOKEN_EXP, TimeUnit.MILLISECONDS);
         return MsgUtils.success(JwtUtil.getToken(String.valueOf(admin.getId()), map));
     }
 }

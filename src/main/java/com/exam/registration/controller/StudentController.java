@@ -125,7 +125,7 @@ public class StudentController {
     @ResponseBody
     public String getStudentByPrimaryKey(HttpServletRequest request){
         return MsgUtils.success(studentService
-                .getStudentByIdCardNumber(request.getAttribute("idCardNumber").toString()));
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId"))));
     }
 
     @RequestMapping(path = "/pic", method = RequestMethod.POST)
@@ -133,10 +133,11 @@ public class StudentController {
     @RequireRoles("student")
     public String getStudentPicByPrimaryKey(@RequestBody Map<String, Object> map,
                                          HttpServletRequest request) throws ServletException {
-        if (!request.getAttribute("idCardNumber").equals(map.get("idCardNumber"))) {
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
+        if (!student.getIdCardNumber().equals(map.get("idCardNumber"))) {
             return MsgUtils.fail("访问错误");
         }
-        Student student = studentService.getStudentByIdCardNumber(map.get("idCardNumber").toString());
         Map<String, Object> pic = new HashMap<>();
         pic.put("idCardPic", student.getIdCardPic() + suffix);
         pic.put("profilePic", student.getProfilePic() + suffix);
@@ -149,7 +150,9 @@ public class StudentController {
     public String uploadPortrait(@PathVariable("type") int type,
                                  @RequestParam("file") MultipartFile file,
                                  HttpServletRequest request) throws IOException {
-        String idCardNumber = (String) request.getAttribute("idCardNumber");
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
+        String idCardNumber = student.getIdCardNumber();
         //保存的文件名
         String dFileName = UUID.randomUUID().toString()
                                 .replace("-", "");
@@ -157,7 +160,6 @@ public class StudentController {
         File uploadFile = new File(path + dFileName + suffix);
         //将上传文件保存到路径
         file.transferTo(uploadFile);
-        Student student = studentService.getStudentByIdCardNumber(idCardNumber);
         String oldPicPath = null;
         if (type == 1) {// 上传的是身份证图片
             if (!StringUtils.isEmpty(student.getIdCardPic())) {// 如果之前存在文件，则需要删除之前的文件

@@ -26,7 +26,7 @@ public class JwtUtil {
     /**
      * 过期时间,测试使用20分钟
      */
-    final static long TOKEN_EXP = 1000 * 60 * 60;
+    public final static long TOKEN_EXP = 1000 * 60 * 60;
 
     public static String getToken(String subject, Map<String, Object> map) {
         return Jwts.builder()

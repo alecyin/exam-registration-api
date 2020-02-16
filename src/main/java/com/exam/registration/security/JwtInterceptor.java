@@ -1,7 +1,15 @@
 package com.exam.registration.security;
 
+import com.exam.registration.model.Student;
+import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
+import com.exam.registration.util.RedisUtils;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.ServletException;
@@ -29,10 +37,22 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
             Claims claims = JwtUtil.parserToken(token);
             String role = (String) claims.get("role");
             request.setAttribute("role", role);
+            String userId = claims.getSubject();
+            RedisTemplate redisTemplate = RedisUtils.getRedisTemplate();
             if ("student".equals(role)) {
-                request.setAttribute("idCardNumber", claims.getSubject());
+                String savedToken = (String) redisTemplate.opsForValue()
+                                        .get(RedisUtils.STUDENT_TOKEN_PREFIX + userId);
+                if (!savedToken.equals(token)) {
+                    throw new Exception("token 在其他地方登录");
+                }
+                request.setAttribute("studentId", userId);
             } else {
-                request.setAttribute("adminId", claims.getSubject());
+                String savedToken = (String) redisTemplate.opsForValue()
+                        .get(RedisUtils.ADMIN_TOKEN_PREFIX + userId);
+                if (!savedToken.equals(token)) {
+                    throw new Exception("token 在其他地方登录");
+                }
+                request.setAttribute("adminId", userId);
             }
             return true;
         } catch (Exception e) {
