@@ -60,7 +60,7 @@ public class Order implements Serializable {
     /**
      * 是否支付
      *
-     * order.is_ paid
+     * order.is_paid
      *
      */
     private Boolean isPaid;

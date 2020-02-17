@@ -8,13 +8,13 @@
     <result column="cost" jdbcType="DECIMAL" property="cost" />
     <result column="examinee_number" jdbcType="CHAR" property="examineeNumber" />
     <result column="order_number" jdbcType="CHAR" property="orderNumber" />
-    <result column="is_ paid" jdbcType="BIT" property="isPaid" />
+    <result column="is_paid" jdbcType="BIT" property="isPaid" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, student_id, exam_id, cost, examinee_number, order_number, `is_ paid`, create_time, 
+    id, student_id, exam_id, cost, examinee_number, order_number, `is_paid`, create_time, 
     update_time, is_deleted
   </sql>
   <select id="countOrders" parameterType="java.util.Map" resultType="java.lang.Long">
@@ -56,6 +56,13 @@
     from `order`
     where student_id = #{studentId,jdbcType=BIGINT}
   </select>
+  <select id="listPaidOrdersByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    where student_id = #{studentId,jdbcType=BIGINT}
+    AND `is_paid` = 1
+  </select>
   <select id="getOrderByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -81,7 +88,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `order` (student_id, exam_id, cost,
-      examinee_number, order_number, `is_ paid`, 
+      examinee_number, order_number, `is_paid`, 
       create_time, update_time, is_deleted
       )
     values (#{studentId,jdbcType=BIGINT}, #{examId,jdbcType=BIGINT}, #{cost,jdbcType=DECIMAL}, 
@@ -111,7 +118,7 @@
         order_number,
       </if>
       <if test="isPaid != null">
-        `is_ paid`,
+        `is_paid`,
       </if>
       <if test="createTime != null">
         create_time,
@@ -172,7 +179,7 @@
         order_number = #{orderNumber,jdbcType=CHAR},
       </if>
       <if test="isPaid != null">
-        `is_ paid` = #{isPaid,jdbcType=BIT},
+        `is_paid` = #{isPaid,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -193,7 +200,7 @@
       cost = #{cost,jdbcType=DECIMAL},
       examinee_number = #{examineeNumber,jdbcType=CHAR},
       order_number = #{orderNumber,jdbcType=CHAR},
-      `is_ paid` = #{isPaid,jdbcType=BIT},
+      `is_paid` = #{isPaid,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_deleted = #{isDeleted,jdbcType=BIT}

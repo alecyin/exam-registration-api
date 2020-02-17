@@ -36,6 +36,8 @@ public interface OrderService {
 
     List<Order> listOrdersByStudentId(Long studentId);
 
+    List<Order> listPaidOrdersByStudentId(Long studentId);
+
     int updateOrderByPrimaryKeySelective(Order record);
 
     int updateOrderByPrimaryKey(Order record);
