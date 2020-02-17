@@ -63,6 +63,13 @@
     where student_id = #{studentId,jdbcType=BIGINT}
     AND `is_paid` = 1
   </select>
+  <select id="listUnPaidOrdersByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    where student_id = #{studentId,jdbcType=BIGINT}
+    AND `is_paid` = 0
+  </select>
   <select id="getOrderByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

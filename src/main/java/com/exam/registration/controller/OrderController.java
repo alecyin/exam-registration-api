@@ -181,12 +181,12 @@ public class OrderController {
         return MsgUtils.success();
     }
 
-    @RequestMapping(path = "/apply-info",method = RequestMethod.GET)
+    @RequestMapping(path = "/unpaid/apply-info",method = RequestMethod.GET)
     @ResponseBody
     public String getOrderByStudentId(HttpServletRequest request) {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
-        List<Order> list = orderService.listOrdersByStudentId(student.getId());
+        List<Order> list = orderService.listUnPaidOrdersByStudentId(student.getId());
         // 返回考生已报名的考点名称、专业名称、应缴金额
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", ResCode.SUCCESS.code());
@@ -216,7 +216,7 @@ public class OrderController {
         return jsonObject.toJSONString();
     }
 
-    @RequestMapping(path = "/paid/apply-info",method = RequestMethod.GET)
+    @RequestMapping(path = "/all/apply-info",method = RequestMethod.GET)
     @ResponseBody
     public String getPaidOrderByStudentId(HttpServletRequest request) {
         Student student = studentService

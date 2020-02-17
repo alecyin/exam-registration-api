@@ -34,6 +34,8 @@ public interface OrderMapper {
 
     List<Order> listPaidOrdersByStudentId(Long studentId);
 
+    List<Order> listUnPaidOrdersByStudentId(Long studentId);
+
     int updateOrderByPrimaryKeySelective(Order record);
 
     int updateOrderByPrimaryKey(Order record);
