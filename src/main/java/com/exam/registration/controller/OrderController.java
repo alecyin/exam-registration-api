@@ -187,7 +187,7 @@ public class OrderController {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         List<Order> list = orderService.listOrdersByStudentId(student.getId());
-        // 返回考生已报名的考点名称、专业名称、是否支付、应缴金额
+        // 返回考生已报名的考点名称、专业名称、应缴金额
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", ResCode.SUCCESS.code());
         JSONArray jsonArray = new JSONArray();
@@ -221,7 +221,7 @@ public class OrderController {
     public String getPaidOrderByStudentId(HttpServletRequest request) {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
-        List<Order> list = orderService.listPaidOrdersByStudentId(student.getId());
+        List<Order> list = orderService.listOrdersByStudentId(student.getId());
         // 返回考生已报名的考点名称、专业名称、应缴金额、考号
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", ResCode.SUCCESS.code());
@@ -241,7 +241,12 @@ public class OrderController {
             jsonObject1.put("siteName", siteName);
             jsonObject1.put("startTime", exam.getStartTime());
             jsonObject1.put("endTime", exam.getEndTime());
-            jsonObject1.put("examineeNumber", order.getExamineeNumber());
+            jsonObject1.put("isPaid", order.getIsPaid());
+            if (order.getIsPaid()) {// 已支付的订单添加准考证号码
+                jsonObject1.put("examineeNumber", order.getExamineeNumber());
+            } else {
+                jsonObject1.put("examineeNumber", "-");
+            }
             jsonObject1.put("address", address);
             jsonObject1.put("fee", fee);
             jsonArray.add(jsonObject1);
