@@ -4,16 +4,15 @@ import com.exam.registration.mapper.OrderMapper;
 import com.exam.registration.model.Exam;
 import com.exam.registration.model.Order;
 import com.exam.registration.service.ExamService;
+import com.exam.registration.service.MajorService;
 import com.exam.registration.service.OrderService;
+import com.exam.registration.service.SiteService;
 import com.exam.registration.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,6 +27,10 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private ExamService examService;
+    @Autowired
+    private MajorService majorService;
+    @Autowired
+    private SiteService siteService;
 
     @Override
     public long countOrders(Map<String, Object> map) {
@@ -91,10 +94,14 @@ public class OrderServiceImpl implements OrderService {
             examineeNumber = String.valueOf(redisTemplate.opsForValue()
                                         .increment(RedisUtils.EXAM_NUMBER_PREFIX + order.getExamId()));
         }
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        String majorCode = majorService.getMajorByPrimaryKey(exam.getMajorId()).getCode();
+        String siteCode = siteService.getSiteByPrimaryKey(exam.getSiteId()).getCode();
         exam.setCurrentExamineeNumber(examineeNumber);
         examService.updateExamByPrimaryKeySelective(exam);
         examineeNumber = String.format("%04d", Integer.valueOf(examineeNumber));
-        order.setExamineeNumber(examineeNumber);
+        order.setExamineeNumber(year + siteCode + majorCode + examineeNumber);
         updateOrderByPrimaryKeySelective(order);
     }
 
