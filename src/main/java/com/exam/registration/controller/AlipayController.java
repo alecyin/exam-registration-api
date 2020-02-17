@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author yhf
@@ -85,11 +82,16 @@ public class AlipayController {
         } catch (com.alipay.api.AlipayApiException e) {
         }
         if (signVerified) {
-            //处理你的业务逻辑，更细订单状态等
-            System.out.println(out_trade_no);
-            System.out.println("成功");
+            //处理业务逻辑，更细订单状态等
+            Order order = orderService.getOrderByOrderNumber(out_trade_no);
+            BigDecimal trueCost = new BigDecimal(String.valueOf(map.get("total_amount")));
+            if (Objects.isNull(order) || trueCost != order.getCost()) {
+                throw new Exception("缴费单错误");
+            }
+            // 验证通过，修改订单的支付状态
+            orderService.updateOrderByPrimaryKeySelective(order);
         } else {
-            System.out.println("失败");
+            throw new Exception("签名验证错误");
         }
     }
 

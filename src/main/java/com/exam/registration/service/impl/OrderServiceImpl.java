@@ -61,6 +61,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getOrderByOrderNumber(String orderNumber) {
+        return orderMapper.getOrderByOrderNumber(orderNumber);
+    }
+
+    @Override
     public List<Order> listOrders() {
         return orderMapper.listOrders();
     }

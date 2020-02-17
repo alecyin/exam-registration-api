@@ -22,6 +22,8 @@ public interface OrderMapper {
 
     Order getOrderByPrimaryKey(Long id);
 
+    Order getOrderByOrderNumber(String orderNumber);
+
     List<Order> listOrders();
 
     List<Order> listOrdersByPage(Map<String, Object> map);
