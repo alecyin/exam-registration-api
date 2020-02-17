@@ -249,4 +249,17 @@ public class OrderController {
         jsonObject.put("data", jsonArray);
         return jsonObject.toJSONString();
     }
+
+    @RequestMapping(path = "/cancel-order", method = RequestMethod.POST)
+    public String cancelOrder(@RequestBody Map<String, Object> map,
+                              HttpServletRequest request) {
+        Long studentId = Long.valueOf((String) request.getAttribute("studentId"));
+        Long orderId = Long.valueOf(String.valueOf(map.get("orderId")));
+        if (studentId.compareTo(orderService.getOrderByPrimaryKey(orderId).getId()) != 0) {
+            return MsgUtils.fail("访问错误！");
+        }
+        return orderService.deleteOrderByPrimaryKey(orderId) == 1 ?
+                MsgUtils.success() : MsgUtils.fail("删除失败，刷新重试！");
+    }
+
 }
