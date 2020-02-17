@@ -60,10 +60,12 @@ public class WebConfig extends WebMvcConfigurationSupport{
         registry.addInterceptor(new JwtInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/login")
-                .excludePathPatterns("/photo/**");
+                .excludePathPatterns("/photo/**")
+                .excludePathPatterns("/**/getPagePay");
         registry.addInterceptor(new PermissionInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/login")
-                .excludePathPatterns("/photo/**");
+                .excludePathPatterns("/photo/**")
+                .excludePathPatterns("/**/getPagePay");
     }
 }
