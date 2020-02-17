@@ -239,6 +239,8 @@ public class OrderController {
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("majorName", majorName);
             jsonObject1.put("siteName", siteName);
+            jsonObject1.put("startTime", exam.getStartTime());
+            jsonObject1.put("endTime", exam.getEndTime());
             jsonObject1.put("examineeNumber", order.getExamineeNumber());
             jsonObject1.put("address", address);
             jsonObject1.put("fee", fee);
