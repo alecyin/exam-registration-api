@@ -18,8 +18,6 @@ import java.util.*;
 /**
  * @author yhf
  * @classname OrderController
- * @description TODO
- * @date 2019/12/18
  **/
 @RequestMapping("/orders")
 @Controller
@@ -156,8 +154,8 @@ public class OrderController {
 
         Long majorId = Long.valueOf(String.valueOf(map.get("majorId")));
         Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
-        String idCardNumber = (String) request.getAttribute("idCardNumber");
-        Student student = studentService.getStudentByIdCardNumber(idCardNumber);
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         Site site = siteService.getSiteByPrimaryKey(siteId);
         if (site.getAllowProvince().replace("，", "|")
                 .indexOf(student.getAddress().split("|")[0]) == -1) {
@@ -184,8 +182,8 @@ public class OrderController {
     @RequestMapping(path = "/apply-info",method = RequestMethod.GET)
     @ResponseBody
     public String getOrderByStudentId(HttpServletRequest request) {
-        String idCardNumber = (String) request.getAttribute("idCardNumber");
-        Student student = studentService.getStudentByIdCardNumber(idCardNumber);
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         List<Order> list = orderService.listOrdersByStudentId(student.getId());
         // 返回考生已报名的考点名称、专业名称、是否支付、应缴金额
         JSONObject jsonObject = new JSONObject();
