@@ -94,7 +94,10 @@ public class AlipayController {
                 throw new Exception("金额错误！");
             }
             // 验证通过，修改订单的支付状态
+            order.setIsPaid(true);
             orderService.updateOrderByPrimaryKeySelective(order);
+            // 生成考号
+            orderService.getExamNumber(order);
         } else {
             throw new Exception("签名验证错误");
         }

@@ -26,6 +26,8 @@ public interface OrderService {
 
     Order getOrderByOrderNumber(String orderNumber);
 
+    void getExamNumber(Order order);
+
     List<Order> listOrders();
 
     List<Order> listOrdersByPage(Map<String, Object> map);

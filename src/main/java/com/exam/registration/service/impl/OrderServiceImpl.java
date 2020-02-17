@@ -1,15 +1,20 @@
 package com.exam.registration.service.impl;
 
 import com.exam.registration.mapper.OrderMapper;
+import com.exam.registration.model.Exam;
 import com.exam.registration.model.Order;
+import com.exam.registration.service.ExamService;
 import com.exam.registration.service.OrderService;
+import com.exam.registration.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author yhf
@@ -21,6 +26,8 @@ import java.util.Objects;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private ExamService examService;
 
     @Override
     public long countOrders(Map<String, Object> map) {
@@ -63,6 +70,27 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderByOrderNumber(String orderNumber) {
         return orderMapper.getOrderByOrderNumber(orderNumber);
+    }
+
+    @Override
+    public void getExamNumber(Order order) {
+        RedisTemplate redisTemplate = RedisUtils.getRedisTemplate();
+        String examineeNumber = null;
+        Exam exam = examService.getExamByPrimaryKey(order.getExamId());
+        if (!redisTemplate.hasKey(RedisUtils.EXAM_NUMBER_PREFIX + order.getExamId())) {// 第一个考生报名
+            // 去掉数字前面的0
+            examineeNumber = exam.getStartExamineeNumber().replaceAll("^(0+)", "");
+            redisTemplate.opsForValue().set(RedisUtils.EXAM_NUMBER_PREFIX + order.getExamId(), examineeNumber);
+            // 再补上0...
+        } else {// 非第一个考生，redis内的数字递增1，需重新获取，避免值已经更改
+            examineeNumber = String.valueOf(redisTemplate.opsForValue()
+                                        .increment(RedisUtils.EXAM_NUMBER_PREFIX + order.getExamId()));
+        }
+        exam.setCurrentExamineeNumber(examineeNumber);
+        examService.updateExamByPrimaryKeySelective(exam);
+        examineeNumber = String.format("%0" + 4 + "d", examineeNumber);
+        order.setExamineeNumber(examineeNumber);
+        updateOrderByPrimaryKeySelective(order);
     }
 
     @Override
