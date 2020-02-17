@@ -47,24 +47,27 @@ public class AlipayController {
         Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
         Long orderId = Long.valueOf(String.valueOf(map.get("orderId")));
         Order order = orderService.getOrderByPrimaryKey(orderId);
-        if (order.getIsPaid() || StringUtils.areNotEmpty(order.getOrderNumber())) {
-            return MsgUtils.fail("已支付或已存在其他未支付的缴费单");
+        if (order.getIsPaid()) {
+            return MsgUtils.fail("缴费单已支付，请刷新！");
         }
         Major major = majorService.getMajorByPrimaryKey(majorId);
         Site site = siteService.getSiteByPrimaryKey(siteId);
         BigDecimal fee = major.getFee();
         //生成订单
-        String outTradeNo = site.getCode()
-                + major.getCode() + student.getId() + "-"
-                + UUID.randomUUID().toString().replace("-","");
+        String outTradeNo = null;
+        if (StringUtils.areNotEmpty(order.getOrderNumber())) {// 之前有订单号，用之前的订单号
+            outTradeNo = order.getOrderNumber();
+        } else {// 之前未有订单号，新生成
+            outTradeNo = site.getCode()
+                    + major.getCode() + student.getId() + "-"
+                    + UUID.randomUUID().toString().replace("-","");
+        }
         String subject = site.getName() + "-" + major.getName();
         order.setOrderNumber(outTradeNo);
         order.setCost(fee);
         orderService.updateOrderByPrimaryKeySelective(order);
-        String pay = alipayService.webPagePay(outTradeNo, fee, subject);
-//        Map<Object, Object> pays = new HashMap<>();
-//        pays.put("pay", pay);
-        return MsgUtils.success(pay);
+        String payForm = alipayService.webPagePay(outTradeNo, fee, subject);
+        return MsgUtils.success(payForm);
     }
 
     @RequestMapping(path = "/notify", method = RequestMethod.POST)
