@@ -86,6 +86,7 @@ public class AlipayController {
         }
         if (signVerified) {
             //处理你的业务逻辑，更细订单状态等
+            System.out.println(out_trade_no);
             System.out.println("成功");
         } else {
             System.out.println("失败");
