@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
         }
         exam.setCurrentExamineeNumber(examineeNumber);
         examService.updateExamByPrimaryKeySelective(exam);
-        examineeNumber = String.format("%04d", examineeNumber);
+        examineeNumber = String.format("%04d", Integer.valueOf(examineeNumber));
         order.setExamineeNumber(examineeNumber);
         updateOrderByPrimaryKeySelective(order);
     }
