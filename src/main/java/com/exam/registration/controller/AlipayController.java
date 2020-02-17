@@ -103,6 +103,10 @@ public class AlipayController {
         }
     }
 
+    @RequestMapping(path = "/return", method = RequestMethod.GET)
+    public String returnMsg() {
+        return "支付成功！";
+    }
 }
 
 
