@@ -3,6 +3,7 @@ package com.exam.registration.controller;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.exam.registration.config.AlipayConfig;
 import com.exam.registration.service.AlipayService;
+import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +33,16 @@ public class AlipayController {
     /**
      * web 订单支付
      */
-    @RequestMapping(path = "/getPagePay", method = RequestMethod.GET)
+    @RequestMapping(path = "/getWebPay", method = RequestMethod.GET)
     public String getPagePay() throws Exception{
         /** 模仿数据库，从后台调数据*/
         String outTradeNo = UUID.randomUUID().toString();
         Integer totalAmount = 1000;
         String subject = "苹果28";
         String pay = alipayService.webPagePay(outTradeNo, totalAmount, subject);
-        System.out.println(pay);
 //        Map<Object, Object> pays = new HashMap<>();
 //        pays.put("pay", pay);
-        return pay;
+        return MsgUtils.success(pay);
     }
 
     @RequestMapping(path = "/notify", method = RequestMethod.POST)
