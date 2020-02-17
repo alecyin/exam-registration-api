@@ -85,7 +85,7 @@ public class AlipayController {
             //处理业务逻辑，更细订单状态等
             Order order = orderService.getOrderByOrderNumber(out_trade_no);
             BigDecimal trueCost = new BigDecimal(String.valueOf(map.get("total_amount")));
-            if (Objects.isNull(order) || trueCost != order.getCost()) {
+            if (Objects.isNull(order) || !trueCost.equals(order.getCost())) {
                 throw new Exception("缴费单错误");
             }
             // 验证通过，修改订单的支付状态
