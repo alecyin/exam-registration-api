@@ -45,9 +45,9 @@ public class AlipayController {
                              HttpServletRequest request) throws Exception{
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
-        Long majorId = Long.valueOf((String)map.get("majorId"));
-        Long siteId = Long.valueOf((String)map.get("siteId"));
-        Long orderId = Long.valueOf((String)map.get("orderId"));
+        Long majorId = (Long) map.get("majorId");
+        Long siteId = (Long) map.get("siteId");
+        Long orderId = (Long) map.get("orderId");
         Major major = majorService.getMajorByPrimaryKey(majorId);
         Site site = siteService.getSiteByPrimaryKey(siteId);
         BigDecimal fee = major.getFee();
