@@ -204,6 +204,7 @@ public class OrderController {
             jsonObject1.put("siteName", siteName);
             jsonObject1.put("address", address);
             jsonObject1.put("fee", fee);
+            jsonObject1.put("orderId", order.getId());
             jsonObject1.put("isPaid", order.getIsPaid());
             jsonArray.add(jsonObject1);
         }

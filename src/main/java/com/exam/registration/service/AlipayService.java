@@ -2,6 +2,8 @@ package com.exam.registration.service;
 
 import com.alipay.api.AlipayApiException;
 
+import java.math.BigDecimal;
+
 /**
  * @author yhf
  * @classname AlipayService
@@ -16,7 +18,7 @@ public interface AlipayService {
      * @param totalAmount   订单价格
      * @param subject       商品名称
      */
-    String webPagePay(String outTradeNo,Integer totalAmount,String subject) throws Exception;
+    String webPagePay(String outTradeNo, BigDecimal totalAmount, String subject) throws Exception;
 
     /**
      * app端订单支付
