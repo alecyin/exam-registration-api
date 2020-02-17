@@ -251,12 +251,17 @@ public class OrderController {
     }
 
     @RequestMapping(path = "/cancel-order", method = RequestMethod.POST)
+    @ResponseBody
     public String cancelOrder(@RequestBody Map<String, Object> map,
                               HttpServletRequest request) {
         Long studentId = Long.valueOf((String) request.getAttribute("studentId"));
         Long orderId = Long.valueOf(String.valueOf(map.get("orderId")));
-        if (studentId.compareTo(orderService.getOrderByPrimaryKey(orderId).getId()) != 0) {
+        Order order = orderService.getOrderByPrimaryKey(orderId);
+        if (studentId.compareTo(order.getId()) != 0) {
             return MsgUtils.fail("访问错误！");
+        }
+        if (order.getIsPaid()) {
+            return MsgUtils.fail("缴费单已完成，无法删除！");
         }
         return orderService.deleteOrderByPrimaryKey(orderId) == 1 ?
                 MsgUtils.success() : MsgUtils.fail("删除失败，刷新重试！");
