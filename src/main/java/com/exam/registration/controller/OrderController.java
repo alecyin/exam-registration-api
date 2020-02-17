@@ -257,7 +257,7 @@ public class OrderController {
         Long studentId = Long.valueOf((String) request.getAttribute("studentId"));
         Long orderId = Long.valueOf(String.valueOf(map.get("orderId")));
         Order order = orderService.getOrderByPrimaryKey(orderId);
-        if (studentId.compareTo(order.getId()) != 0) {
+        if (studentId.compareTo(order.getStudentId()) != 0) {
             return MsgUtils.fail("访问错误！");
         }
         if (order.getIsPaid()) {
