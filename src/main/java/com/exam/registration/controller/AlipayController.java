@@ -88,7 +88,7 @@ public class AlipayController {
             if (Objects.isNull(order)) {
                 throw new Exception("订单号不存在！");
             }
-            if (!trueCost.equals(order.getCost())) {
+            if (trueCost.compareTo(order.getCost()) != 0) {
                 System.out.println(trueCost.toString());
                 System.out.println(order.getCost().toString());
                 throw new Exception("金额错误！");
