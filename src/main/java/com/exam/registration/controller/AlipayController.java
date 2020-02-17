@@ -1,6 +1,7 @@
 package com.exam.registration.controller;
 
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.internal.util.StringUtils;
 import com.exam.registration.config.AlipayConfig;
 import com.exam.registration.model.*;
 import com.exam.registration.service.*;
@@ -45,6 +46,10 @@ public class AlipayController {
         Long majorId = Long.valueOf(String.valueOf(map.get("majorId")));
         Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
         Long orderId = Long.valueOf(String.valueOf(map.get("orderId")));
+        Order order = orderService.getOrderByPrimaryKey(orderId);
+        if (order.getIsPaid() || StringUtils.areNotEmpty(order.getOrderNumber())) {
+            return MsgUtils.fail("已支付或已存在其他未支付的缴费单");
+        }
         Major major = majorService.getMajorByPrimaryKey(majorId);
         Site site = siteService.getSiteByPrimaryKey(siteId);
         BigDecimal fee = major.getFee();
@@ -53,7 +58,6 @@ public class AlipayController {
                 + major.getCode() + student.getId() + "-"
                 + UUID.randomUUID().toString().replace("-","");
         String subject = site.getName() + "-" + major.getName();
-        Order order = orderService.getOrderByPrimaryKey(orderId);
         order.setOrderNumber(outTradeNo);
         order.setCost(fee);
         orderService.updateOrderByPrimaryKeySelective(order);
@@ -105,7 +109,7 @@ public class AlipayController {
 
     @RequestMapping(path = "/return", method = RequestMethod.GET)
     public String returnMsg() {
-        return "支付成功！";
+        return "支付成功！请返回界面刷新查看";
     }
 }
 

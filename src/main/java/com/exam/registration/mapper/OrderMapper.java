@@ -12,6 +12,8 @@ import java.util.Map;
 public interface OrderMapper {
     long countOrders(Map<String, Object> map);
 
+    long countOrdersByExamId(Long id);
+
     int deleteOrderByPrimaryKey(Long id);
 
     int deleteOrderByPrimaryKeys(String ids);

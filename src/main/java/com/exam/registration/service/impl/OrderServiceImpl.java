@@ -35,6 +35,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public long countOrdersByExamId(Long id) {
+        return orderMapper.countOrdersByExamId(id);
+    }
+
+    @Override
     public int deleteOrderByPrimaryKey(Long id) {
         return orderMapper.deleteOrderByPrimaryKey(id);
     }

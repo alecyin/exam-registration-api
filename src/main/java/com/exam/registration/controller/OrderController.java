@@ -166,7 +166,9 @@ public class OrderController {
         if (exam.getEndTime().before(new Date())) {
             return MsgUtils.fail("报名日期已截止");
         }
-
+        if (orderService.countOrdersByExamId(exam.getId()) > 0) {
+            return MsgUtils.fail("不允许重复报名");
+        }
         Order order = new Order();
         order.setIsPaid(false);
         order.setExamId(exam.getId());

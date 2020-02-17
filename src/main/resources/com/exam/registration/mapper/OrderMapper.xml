@@ -25,6 +25,14 @@
       </if>
     </where>
   </select>
+  <select id="countOrdersByExamId" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select count(*) from `order`
+    <where>
+      <if test="keyword != null and keyword != ''">
+        exam_id = #{examId,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
   <select id="listOrders" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
