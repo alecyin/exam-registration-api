@@ -30,8 +30,10 @@ import java.util.Map;
 @Controller
 public class TicketController {
 
-    @Value("${photo.upload.path}")
-    private String path;
+    @Value("${ticket.create.path}")
+    private String ticketPath;
+    @Value("${ticket.font.path}")
+    private String fontPath;
     @Value("${photo.host.ip}")
     private String photoIp;
     @Value("${photo.upload.suffix}")
@@ -68,13 +70,11 @@ public class TicketController {
         List<ExamSubject> examSubjectList = examSubjectService.listExamSubjectsByExamId(exam.getId());
         String fileName = student.getIdCardPic();
         Document document = new Document(PageSize.A4.rotate());
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path + fileName + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(ticketPath + fileName + ".pdf"));
         document.open();
         //中文字体,解决中文不能显示问题
 //        String fontPath = this.getClass().getClassLoader().getResource("font/simsun.ttf").getPath().substring(6);
-        String fontPath = System.getProperty("user.dir")+"/src/main/resources/font/simsun.ttf";
-        System.out.printf(fontPath);
-        BaseFont bfChinese = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        BaseFont bfChinese = BaseFont.createFont(fontPath + "simsun.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
         Font titleFont = new Font(bfChinese);
         titleFont.setSize(20);
         titleFont.setStyle(Font.BOLD);
