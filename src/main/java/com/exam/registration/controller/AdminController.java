@@ -7,6 +7,7 @@ import com.exam.registration.service.AdminService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,4 +114,29 @@ public class AdminController {
         return MsgUtils.success(adminService
                 .getAdminByPrimaryKey(Long.valueOf((String) request.getAttribute("adminId"))));
     }
+
+    @RequestMapping(path = "/update-pass", method = RequestMethod.GET)
+    @ResponseBody
+    public String updatePass(@RequestBody Map<String, Object> map,
+                             HttpServletRequest request){
+        Admin admin = adminService
+                .getAdminByPrimaryKey(Long.valueOf((String) request.getAttribute("adminId")));
+        String oldPass = (String) map.get("oldPass");
+        String newPass = (String) map.get("newPass");
+        String confirmPass = (String) map.get("confirmPass");
+        if (!newPass.equals(confirmPass)) {
+            return MsgUtils.fail("两次密码输入不一致！");
+        }
+        if (StringUtils.isEmpty(oldPass)) {
+            return MsgUtils.fail("原密码不能为空！");
+        }
+        if (!DigestUtils.md5DigestAsHex((oldPass + admin.getSalt()).getBytes())
+                .equals(admin.getPassword())) {
+            return MsgUtils.fail("原密码错误！");
+        }
+        admin.setPassword(newPass);
+        return adminService.updateAdminByPrimaryKeySelective(admin) == 1 ? MsgUtils.success()
+                : MsgUtils.fail("请稍后再试");
+    }
+
 }

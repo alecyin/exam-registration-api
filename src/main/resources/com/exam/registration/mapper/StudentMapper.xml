@@ -22,7 +22,7 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, id_card_number, `name`, `password`, salt, sex, phone, address, school, email, 
+    id, id_card_number, `name`, `password`, salt, sex, phone, address, school, email,
     id_card_pic, provincial_examinee_pic, provincial_examinee_number, profile_pic, login_time, 
     create_time, update_time, is_deleted
   </sql>
