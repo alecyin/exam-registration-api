@@ -12,8 +12,6 @@ import java.util.List;
 /**
  * @author yhf
  * @classname ExamineeNoteServiceImpl
- * @description TODO
- * @date 2019/12/17
  **/
 @Service
 public class ExamineeNoteServiceImpl implements ExamineeNoteService {

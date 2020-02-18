@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * @author yhf
  * @classname IndexController
- * @description TODO
- * @date 2019/11/27
  **/
 @Controller
 public class IndexController {

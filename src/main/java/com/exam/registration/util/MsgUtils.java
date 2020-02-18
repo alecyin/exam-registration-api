@@ -9,8 +9,6 @@ import java.util.Objects;
 /**
  * @author yhf
  * @classname MsgUtils
- * @description TODO
- * @date 2019/11/27
  **/
 public class MsgUtils {
 

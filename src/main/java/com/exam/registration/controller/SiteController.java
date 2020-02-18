@@ -16,8 +16,6 @@ import java.util.Objects;
 /**
  * @author yhf
  * @classname SiteController
- * @description TODO
- * @date 2019/12/17
  **/
 @RequestMapping("/sites")
 @Controller

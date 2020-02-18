@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 /**
  * @author yhf
  * @classname RedisUtils
- * @description TODO
- * @date 2020/2/16
  **/
 @Component
 public class RedisUtils {

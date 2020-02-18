@@ -20,8 +20,6 @@ import java.util.Objects;
 /**
  * @author yhf
  * @classname AdminController
- * @description TODO
- * @date 2019/12/17
  **/
 @RequestMapping("/admins")
 @Controller

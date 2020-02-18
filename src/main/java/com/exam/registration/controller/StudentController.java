@@ -22,8 +22,6 @@ import java.util.*;
 /**
  * @author yhf
  * @classname RegisteredController
- * @description TODO
- * @date 2019/11/27
  **/
 @RequestMapping("/students")
 @Controller

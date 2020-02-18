@@ -17,8 +17,6 @@ import java.util.Objects;
 /**
  * @author yhf
  * @classname AnnouncementController
- * @description TODO
- * @date 2019/12/17
  **/
 @RequestMapping("/announcements")
 @Controller

@@ -14,12 +14,6 @@ import org.mybatis.generator.config.MergeConstants;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
-/**
- * 官方类似的功能见，在版本1.3.3中添加的 addRemarkComments <br>
- * http://www.mybatis.org/generator/configreference/commentGenerator.html <br>
- * https://github.com/mybatis/generator/issues/23
- *
- */
 public class RemarksCommentGenerator extends DefaultCommentGenerator {
 
     @Override

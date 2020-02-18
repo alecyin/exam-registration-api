@@ -20,8 +20,6 @@ import java.util.List;
 /**
  * @author yhf
  * @classname WebConfig
- * @description TODO
- * @date 2020/1/9
  **/
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport{

@@ -21,8 +21,6 @@ import java.util.Objects;
 /**
  * @author yhf
  * @classname ExamSubjectController
- * @description TODO
- * @date 2019/12/18
  **/
 @RequestMapping("/exam-subjects")
 @Controller

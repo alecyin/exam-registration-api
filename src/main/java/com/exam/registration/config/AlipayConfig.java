@@ -6,8 +6,6 @@ import java.io.IOException;
 /**
  * @author yhf
  * @classname AlipayConfig
- * @description TODO
- * @date 2020/2/17
  **/
 public class AlipayConfig {
 

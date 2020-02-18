@@ -12,8 +12,6 @@ import java.util.Map;
 /**
  * @author yhf
  * @classname JwtUtil
- * @description TODO
- * @date 2020/1/9
  **/
 public class JwtUtil {
     /**

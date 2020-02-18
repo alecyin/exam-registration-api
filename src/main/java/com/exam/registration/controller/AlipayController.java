@@ -17,8 +17,6 @@ import java.util.*;
 /**
  * @author yhf
  * @classname AlipayController
- * @description TODO
- * @date 2020/2/17
  **/
 @RequestMapping("/alipay")
 @RestController

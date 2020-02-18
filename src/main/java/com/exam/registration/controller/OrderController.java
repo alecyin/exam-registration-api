@@ -151,7 +151,6 @@ public class OrderController {
         if (StringUtils.isEmpty(map.get("siteId"))) {
             return MsgUtils.fail("考场id不能为空");
         }
-
         Long majorId = Long.valueOf(String.valueOf(map.get("majorId")));
         Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
         Student student = studentService
@@ -161,7 +160,12 @@ public class OrderController {
                 .indexOf(student.getAddress().split("|")[0]) == -1) {
             return MsgUtils.fail("生源地不允许报名该场考试");
         }
-
+        if (!com.alipay.api.internal.util.StringUtils.areNotEmpty(student.getIdCardNumber(),
+                        student.getIdCardPic(), student.getProfilePic(), student.getProvincialExamineePic(),
+                        student.getAddress(), student.getEmail(), student.getName(), student.getSchool(),
+                        student.getPhone(), student.getProvincialExamineeNumber(), student.getSex())) {
+            return MsgUtils.fail("请完善个人信息及上传所有照片再报名");
+        }
         Exam exam = examService.getExamByMajorIdAndSiteId(majorId, siteId);
         if (exam.getEndTime().before(new Date())) {
             return MsgUtils.fail("报名日期已截止");

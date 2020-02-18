@@ -14,8 +14,6 @@ import java.util.Objects;
 /**
  * @author yhf
  * @classname ExamSubjectServiceImpl
- * @description TODO
- * @date 2019/12/18
  **/
 @Service
 public class ExamSubjectServiceImpl implements ExamSubjectService {

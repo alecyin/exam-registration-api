@@ -1,15 +1,8 @@
 package com.exam.registration.security;
 
-import com.exam.registration.model.Student;
-import com.exam.registration.service.StudentService;
-import com.exam.registration.util.MsgUtils;
 import com.exam.registration.util.RedisUtils;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.ServletException;
@@ -19,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author yhf
  * @classname JwtInterceptor
- * @description TODO
- * @date 2020/1/9
  **/
 public class JwtInterceptor extends HandlerInterceptorAdapter {
 

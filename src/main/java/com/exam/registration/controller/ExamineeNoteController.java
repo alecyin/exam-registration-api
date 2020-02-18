@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @author yhf
  * @classname ExamineeNoteController
- * @description TODO
- * @date 2019/12/17
  **/
 @RequestMapping("/examinee-notes")
 @Controller

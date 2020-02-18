@@ -17,8 +17,6 @@ import java.util.*;
 /**
  * @author yhf
  * @classname MajorController
- * @description TODO
- * @date 2019/12/17
  **/
 @RequestMapping("/majors")
 @Controller

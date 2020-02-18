@@ -14,8 +14,6 @@ import java.math.BigDecimal;
 /**
  * @author yhf
  * @classname AlipayServiceImpl
- * @description TODO
- * @date 2020/2/17
  **/
 @Service
 public class AlipayServiceImpl implements AlipayService {

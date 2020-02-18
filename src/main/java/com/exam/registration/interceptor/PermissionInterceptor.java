@@ -14,8 +14,6 @@ import java.util.Set;
 /**
  * @author yhf
  * @classname PermissionInterceptor
- * @description TODO
- * @date 2020/2/2
  **/
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
     // 在调用方法之前执行拦截
