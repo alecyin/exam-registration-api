@@ -42,10 +42,12 @@ public class StudentController {
         if (StringUtils.isEmpty(student.getIdCardNumber())) {
             return MsgUtils.fail("身份证号码不能为空");
         }
-        if (StringUtils.isEmpty(student.getEmail())) {
-            return MsgUtils.fail("邮箱不能为空");
+//        if (StringUtils.isEmpty(student.getEmail())) {
+//            return MsgUtils.fail("邮箱不能为空");
+//        }
+        if (StringUtils.isEmpty(student.getPassword())) {
+            return MsgUtils.fail("密码不能为空");
         }
-
         if (Objects.nonNull(studentService.getStudentByIdCardNumber(student.getIdCardNumber()))) {
             return MsgUtils.fail("用户名已经被注册");
         }
