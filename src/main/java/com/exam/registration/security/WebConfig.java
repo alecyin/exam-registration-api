@@ -26,13 +26,18 @@ public class WebConfig extends WebMvcConfigurationSupport{
 
 
     @Value("${photo.upload.staticAccessPath}")
-    private String staticAccessPath;
+    private String staticPhotoPath;
     @Value("${photo.upload.path}")
     private String photoUploadFolder;
+    @Value("${ticket.create.staticAccessPath}")
+    private String staticTicketPath;
+    @Value("${ticket.create.path}")
+    private String ticketCreteFolder;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(staticAccessPath).addResourceLocations("file:///" + photoUploadFolder);
+        registry.addResourceHandler(staticPhotoPath).addResourceLocations("file:///" + photoUploadFolder);
+        registry.addResourceHandler(staticTicketPath).addResourceLocations("file:///" + ticketCreteFolder);
         super.addResourceHandlers(registry);
     }
 
@@ -59,12 +64,14 @@ public class WebConfig extends WebMvcConfigurationSupport{
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/login")
                 .excludePathPatterns("/photo/**")
+                .excludePathPatterns("/ticket/**")
                 .excludePathPatterns("/**/alipay/notify")
                 .excludePathPatterns("/**/alipay/return");
         registry.addInterceptor(new PermissionInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/login")
                 .excludePathPatterns("/photo/**")
+                .excludePathPatterns("/ticket/**")
                 .excludePathPatterns("/**/alipay/notify")
                 .excludePathPatterns("/**/alipay/return");
     }
