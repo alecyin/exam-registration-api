@@ -159,8 +159,8 @@ public class StudentController {
         if (StringUtils.isEmpty(oldPass)) {
             return MsgUtils.fail("原密码不能为空！");
         }
-        if (!DigestUtils.md5DigestAsHex((student.getPassword() + student.getSalt()).getBytes())
-                .equals(DigestUtils.md5DigestAsHex((oldPass + student.getSalt()).getBytes()))) {
+        if (!DigestUtils.md5DigestAsHex((oldPass + student.getSalt()).getBytes())
+                .equals(student.getPassword())) {
             return MsgUtils.fail("原密码错误！");
         }
         student.setPassword(newPass);
