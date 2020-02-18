@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -141,6 +142,30 @@ public class StudentController {
         pic.put("profilePic", student.getProfilePic() + suffix);
         pic.put("provincialExamineePic", student.getProvincialExamineePic() + suffix);
         return MsgUtils.success(pic);
+    }
+
+    @RequestMapping(path = "/update-pass", method = RequestMethod.POST)
+    @ResponseBody
+    public String updatePass(@RequestBody Map<String, Object> map,
+                                            HttpServletRequest request) throws ServletException {
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
+        String oldPass = (String) map.get("oldPass");
+        String newPass = (String) map.get("newPass");
+        String confirmPass = (String) map.get("confirmPass");
+        if (!newPass.equals(confirmPass)) {
+            return MsgUtils.fail("两次密码输入不一致！");
+        }
+        if (StringUtils.isEmpty(oldPass)) {
+            return MsgUtils.fail("原密码不能为空！");
+        }
+        if (!DigestUtils.md5DigestAsHex((student.getPassword() + student.getSalt()).getBytes())
+                .equals(DigestUtils.md5DigestAsHex((oldPass + student.getSalt()).getBytes()))) {
+            return MsgUtils.fail("原密码错误！");
+        }
+        student.setPassword(newPass);
+        return studentService.updateStudentByPrimaryKeySelective(student) == 1 ? MsgUtils.success()
+                                : MsgUtils.fail("请稍后再试");
     }
 
     @RequestMapping("/upload/{type}")
