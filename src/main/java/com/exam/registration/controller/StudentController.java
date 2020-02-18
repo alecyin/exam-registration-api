@@ -2,6 +2,7 @@ package com.exam.registration.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.annotation.RequireRoles;
+import com.exam.registration.model.Admin;
 import com.exam.registration.model.Student;
 import com.exam.registration.security.JwtUtil;
 import com.exam.registration.service.StudentService;
@@ -210,4 +211,14 @@ public class StudentController {
         return studentService.updateStudentByPrimaryKeySelective(student) == 1 ?
                 MsgUtils.success("保存成功") : MsgUtils.fail("保存失败");
     }
+
+    @RequestMapping(path = "/reset-pass", method = RequestMethod.PUT)
+    @ResponseBody
+    public String resetPass(@RequestBody Student student){
+        student = studentService.getStudentByPrimaryKey(student.getId());
+        student.setPassword("123456");
+        return studentService.updateStudentByPrimaryKeySelective(student) == 1 ? MsgUtils.success()
+                : MsgUtils.fail("请稍后再试");
+    }
+
 }
