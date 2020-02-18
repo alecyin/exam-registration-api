@@ -74,6 +74,7 @@ public class AdminController {
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
     public String updateAdmin(@RequestBody Admin admin) {
+        admin = adminService.getAdminByPrimaryKey(admin.getId());
         int res = adminService.updateAdminByPrimaryKeySelective(admin);
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
@@ -135,6 +136,15 @@ public class AdminController {
             return MsgUtils.fail("原密码错误！");
         }
         admin.setPassword(newPass);
+        return adminService.updateAdminByPrimaryKeySelective(admin) == 1 ? MsgUtils.success()
+                : MsgUtils.fail("请稍后再试");
+    }
+
+    @RequestMapping(path = "/reset-pass", method = RequestMethod.PUT)
+    @ResponseBody
+    public String resetPass(@RequestBody Admin admin){
+        admin = adminService.getAdminByPrimaryKey(admin.getId());
+        admin.setPassword("123456");
         return adminService.updateAdminByPrimaryKeySelective(admin) == 1 ? MsgUtils.success()
                 : MsgUtils.fail("请稍后再试");
     }
