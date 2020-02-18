@@ -115,7 +115,7 @@ public class AdminController {
                 .getAdminByPrimaryKey(Long.valueOf((String) request.getAttribute("adminId"))));
     }
 
-    @RequestMapping(path = "/update-pass", method = RequestMethod.GET)
+    @RequestMapping(path = "/update-pass", method = RequestMethod.POST)
     @ResponseBody
     public String updatePass(@RequestBody Map<String, Object> map,
                              HttpServletRequest request){
