@@ -92,8 +92,7 @@ public class OrderServiceImpl implements OrderService {
             examineeNumber = String.valueOf(redisTemplate.opsForValue()
                                         .increment(RedisUtils.EXAM_NUMBER_PREFIX + order.getExamId()));
         }
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
         String majorCode = majorService.getMajorByPrimaryKey(exam.getMajorId()).getCode();
         String siteCode = siteService.getSiteByPrimaryKey(exam.getSiteId()).getCode();
         exam.setCurrentExamineeNumber(examineeNumber);

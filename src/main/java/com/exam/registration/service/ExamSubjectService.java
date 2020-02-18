@@ -26,6 +26,8 @@ public interface ExamSubjectService {
 
     List<ExamSubject> listExamSubjects();
 
+    List<ExamSubject> listExamSubjectsByExamId(Long examId);
+
     List<ExamSubject> listExamSubjectsByPage(Map<String, Object> map);
 
     int updateExamSubjectByPrimaryKeySelective(ExamSubject examSubject);

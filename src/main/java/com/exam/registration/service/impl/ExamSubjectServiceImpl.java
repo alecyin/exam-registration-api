@@ -62,6 +62,11 @@ public class ExamSubjectServiceImpl implements ExamSubjectService {
     }
 
     @Override
+    public List<ExamSubject> listExamSubjectsByExamId(Long examId) {
+        return examSubjectMapper.listExamSubjectsByExamId(examId);
+    }
+
+    @Override
     public List<ExamSubject> listExamSubjectsByPage(Map<String, Object> map) {
         return examSubjectMapper.listExamSubjectsByPage(map);
     }
