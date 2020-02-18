@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,12 +58,17 @@ public class TicketController {
     /**
      * 生成pdf，以考生的身份证图片文件名称命名文件
      */
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @RequestMapping(path = "/download", method = RequestMethod.POST)
     @ResponseBody
     public String createTicket(@RequestBody Map<String, Object> map, HttpServletRequest request) throws Exception {
         request.setAttribute("studentId", "54");
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
+        Map<String, Object> pdf = new HashMap<>();
+        pdf.put("pdfPath", student.getIdCardPic() + ".pdf");
+        if (new File(ticketPath + student.getIdCardPic() + ".pdf").exists()) {
+            return MsgUtils.success(pdf);
+        }
         Long orderId = Long.valueOf(String.valueOf(map.get("orderId")));
         Order order = orderService.getOrderByPrimaryKey(orderId);
         Exam exam = examService.getExamByPrimaryKey(order.getExamId());
@@ -228,6 +235,6 @@ public class TicketController {
         document.add(table2);
         document.close();
         writer.close();
-        return MsgUtils.success();
+        return MsgUtils.success(pdf);
     }
 }
