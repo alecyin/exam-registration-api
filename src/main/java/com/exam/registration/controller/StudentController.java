@@ -38,7 +38,7 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String reg(Student student) {
+    public String reg(@RequestBody Student student) {
         if (StringUtils.isEmpty(student.getIdCardNumber())) {
             return MsgUtils.fail("身份证号码不能为空");
         }
