@@ -187,7 +187,7 @@ public class OrderController {
 
     @RequestMapping(path = "/unpaid/apply-info",method = RequestMethod.GET)
     @ResponseBody
-    public String getOrderByStudentId(HttpServletRequest request) {
+    public String getUnpaidOrderByStudentId(HttpServletRequest request) {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         List<Order> list = orderService.listUnPaidOrdersByStudentId(student.getId());
@@ -222,7 +222,7 @@ public class OrderController {
 
     @RequestMapping(path = "/all/apply-info",method = RequestMethod.GET)
     @ResponseBody
-    public String getPaidOrderByStudentId(HttpServletRequest request) {
+    public String getAllOrderByStudentId(HttpServletRequest request) {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         List<Order> list = orderService.listOrdersByStudentId(student.getId());
@@ -275,5 +275,40 @@ public class OrderController {
         return orderService.deleteOrderByPrimaryKey(orderId) == 1 ?
                 MsgUtils.success() : MsgUtils.fail("删除失败，刷新重试！");
     }
+
+    @RequestMapping(path = "/paid/apply-info",method = RequestMethod.GET)
+    @ResponseBody
+    public String getPaidOrderByStudentId(HttpServletRequest request) {
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
+        List<Order> list = orderService.listPaidOrdersByStudentId(student.getId());
+        // 返回考生已报名的考点名称、专业名称、应缴金额、考号
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.SUCCESS.code());
+        JSONArray jsonArray = new JSONArray();
+        for (Order order : list) {
+            Exam exam = examService.getExamByPrimaryKey(order.getExamId());
+            Long majorId = exam.getMajorId();
+            Long siteId = exam.getSiteId();
+            Major major = majorService.getMajorByPrimaryKey(majorId);
+            Site site = siteService.getSiteByPrimaryKey(siteId);
+            String majorName = major.getName();
+            BigDecimal fee = major.getFee();
+            String siteName = site.getName();
+            String address = site.getAddress();
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("majorName", majorName);
+            jsonObject1.put("siteName", siteName);
+            jsonObject1.put("orderId", order.getId());
+            jsonObject1.put("startTime", exam.getStartTime());
+            jsonObject1.put("endTime", exam.getEndTime());
+            jsonObject1.put("examineeNumber", order.getExamineeNumber());
+            jsonObject1.put("address", address);
+            jsonArray.add(jsonObject1);
+        }
+        jsonObject.put("data", jsonArray);
+        return jsonObject.toJSONString();
+    }
+
 
 }
