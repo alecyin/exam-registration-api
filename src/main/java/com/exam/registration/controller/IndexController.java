@@ -104,6 +104,7 @@ public class IndexController {
             DecimalFormat df = new DecimalFormat("0.00");
             String percent = df.format((float)e.getValue()/orderList.size());
             jsonArray1.add(percent);
+            jsonArray.add(jsonArray1);
         }
         return MsgUtils.success(jsonArray);
     }
