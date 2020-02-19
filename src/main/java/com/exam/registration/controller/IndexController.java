@@ -56,21 +56,23 @@ public class IndexController {
     public String site() {
         List<Site> siteList = siteService.listSites();
         List<Order> orderList = orderService.listPaidOrders();
-        List<Integer> timesList = new ArrayList<>();
+        JSONArray timesArray = new JSONArray();
+        JSONArray siteNameArray = new JSONArray();
         for (Site site : siteList) {
             Long siteId = site.getId();
             int times = 0;
+            siteNameArray.add(site.getName());
             for (Order order : orderList) {
                 Exam exam = examService.getExamByPrimaryKey(order.getExamId());
                 if (exam.getSiteId() == siteId) {
                     times++;
                 }
             }
-            timesList.add(times);
+            timesArray.add(times);
         }
         JSONArray jsonArray = new JSONArray();
-        jsonArray.add(siteList);
-        jsonArray.add(timesList);
+        jsonArray.add(siteNameArray);
+        jsonArray.add(timesArray);
         return MsgUtils.success(jsonArray);
     }
 }
