@@ -3,6 +3,7 @@ package com.exam.registration.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.exam.registration.annotation.RequireRoles;
 import com.exam.registration.model.Exam;
+import com.exam.registration.model.Major;
 import com.exam.registration.model.Order;
 import com.exam.registration.model.Site;
 import com.exam.registration.service.*;
@@ -13,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author yhf
@@ -74,5 +72,30 @@ public class IndexController {
         jsonArray.add(siteNameArray);
         jsonArray.add(timesArray);
         return MsgUtils.success(jsonArray);
+    }
+
+    @RequestMapping(path = {"/percent"}, method = RequestMethod.GET)
+    @RequireRoles("admin")
+    @ResponseBody
+    public String percent() {
+        List<Major> majorList = majorService.listMajors();
+        List<Order> orderList = orderService.listPaidOrders();
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        for (Major major : majorList) {
+            Long majorId = major.getId();
+            int times = 0;
+            for (Order order : orderList) {
+                Exam exam = examService.getExamByPrimaryKey(order.getExamId());
+                if (exam.getMajorId() == majorId) {
+                    times++;
+                }
+            }
+            treeMap.put(major.getName(), times);
+        }
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(treeMap.entrySet());
+        //升序排序
+        Collections.sort(list, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        return MsgUtils.success(list);
     }
 }
