@@ -113,6 +113,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> listPaidOrders() {
+        return orderMapper.listPaidOrders();
+    }
+
+    @Override
     public List<Order> listOrdersByPage(Map<String, Object> map) {
         return orderMapper.listOrdersByPage(map);
     }
@@ -130,6 +135,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> listUnPaidOrdersByStudentId(Long studentId) {
         return orderMapper.listUnPaidOrdersByStudentId(studentId);
+    }
+
+    @Override
+    public Map getPaidOrderOrderByExamId() {
+        return orderMapper.getPaidOrderOrderByExamId();
     }
 
     @Override

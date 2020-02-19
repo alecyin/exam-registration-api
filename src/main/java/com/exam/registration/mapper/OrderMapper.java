@@ -30,6 +30,8 @@ public interface OrderMapper {
 
     List<Order> listOrders();
 
+    List<Order> listPaidOrders();
+
     List<Order> listOrdersByPage(Map<String, Object> map);
 
     List<Order> listOrdersByStudentId(Long studentId);
@@ -37,6 +39,8 @@ public interface OrderMapper {
     List<Order> listPaidOrdersByStudentId(Long studentId);
 
     List<Order> listUnPaidOrdersByStudentId(Long studentId);
+
+    Map getPaidOrderOrderByExamId();
 
     int updateOrderByPrimaryKeySelective(Order record);
 

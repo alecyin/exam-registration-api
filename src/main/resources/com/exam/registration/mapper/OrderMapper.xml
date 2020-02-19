@@ -44,6 +44,13 @@
     from `order`
     where is_deleted = 0
   </select>
+  <select id="listPaidOrders" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    where is_deleted = 0
+    and is_paid = 1
+  </select>
   <select id="listOrdersByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -67,6 +74,9 @@
     from `order`
     where student_id = #{studentId,jdbcType=BIGINT}
     AND `is_paid` = 1
+  </select>
+  <select id="getPaidOrderOrderByExamId" parameterType="java.lang.Long" resultType="Map">
+    select count(*) `count`, exam_id from `order` where is_paid = 1 group by exam_id order by `count`
   </select>
   <select id="listUnPaidOrdersByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
