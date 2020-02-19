@@ -12,7 +12,10 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, `name`, `password`, salt, login_time, create_time, update_time, is_deleted
+    id, `name`, salt, login_time, create_time, update_time, is_deleted
+  </sql>
+  <sql id="NO_SHOW_Column_List">
+    `password`
   </sql>
   <select id="listAdmins" resultMap="BaseResultMap">
     select
@@ -36,12 +39,16 @@
   <select id="getAdminByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="NO_SHOW_Column_List" />
     from `admin`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="getAdminByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="NO_SHOW_Column_List" />
     from `admin`
     where name = #{name,jdbcType=VARCHAR}
   </select>
