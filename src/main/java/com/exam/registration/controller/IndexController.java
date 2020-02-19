@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -94,8 +95,16 @@ public class IndexController {
         }
 
         List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(treeMap.entrySet());
-        //升序排序
-        Collections.sort(list, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
-        return MsgUtils.success(list);
+        //降序排序
+        Collections.sort(list, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        JSONArray jsonArray = new JSONArray();
+        for (Map.Entry<String, Integer> e: list) {
+            JSONArray jsonArray1 = new JSONArray();
+            jsonArray1.add(e.getKey());
+            DecimalFormat df = new DecimalFormat("0.00");
+            String percent = df.format((float)e.getValue()/orderList.size());
+            jsonArray1.add(percent);
+        }
+        return MsgUtils.success(jsonArray);
     }
 }
