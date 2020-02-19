@@ -36,6 +36,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public long countPaidOrders() {
+        return orderMapper.countPaidOrders();
+    }
+
+    @Override
     public long countOrdersByExamId(Long id) {
         return orderMapper.countOrdersByExamId(id);
     }

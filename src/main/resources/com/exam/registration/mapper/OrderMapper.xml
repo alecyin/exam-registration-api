@@ -25,6 +25,11 @@
       </if>
     </where>
   </select>
+  <select id="countPaidOrders" resultType="java.lang.Long">
+    select count(*) from `order`
+    where
+        is_paid = 1
+  </select>
   <select id="countOrdersByExamId" parameterType="java.lang.Long" resultType="java.lang.Long">
     select count(*) from `order`
     <where>

@@ -107,7 +107,7 @@ public class StudentController {
             return MsgUtils.fail("缺少参数");
         }
 
-        Map<String, Object> map = new HashMap<>(4);
+        Map<String, Object> map = new HashMap<>();
         map.put("keyword", keyword);
         map.put("currentIndex", (pageIndex - 1) * pageSize);
         map.put("pageSize", pageSize);
