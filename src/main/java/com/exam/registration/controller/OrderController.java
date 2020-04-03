@@ -110,6 +110,9 @@ public class OrderController {
         map.put("keyword", keyword);
         map.put("currentIndex", (pageIndex - 1) * pageSize);
         map.put("pageSize", pageSize);
+        if (map.get("keyword").toString().matches("[0-9]+")) {
+            map.put("studentId", studentService.getStudentByIdCardNumber(map.get("keyword").toString()).getId());
+        }
         List<Order> list = orderService.listOrdersByPage(map);
         long pageTotal = orderService.countOrders(map);
 
