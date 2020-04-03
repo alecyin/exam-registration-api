@@ -91,7 +91,8 @@ public class StudentController {
     @ResponseBody
     public String updateStudent(@RequestBody Student student, HttpServletRequest request) {
         String role = (String) request.getAttribute("role");
-        if ("student".equals(role) && Long.valueOf((String) request.getAttribute("studentId")) != student.getId()) {
+        if ("student".equals(role)
+                && Long.valueOf((String) request.getAttribute("studentId")).compareTo(student.getId()) != 0 ) {
             return MsgUtils.fail("无权进行此操作");
         }
         if (orderService.listOrdersByStudentId(student.getId()).size() != 0) {
