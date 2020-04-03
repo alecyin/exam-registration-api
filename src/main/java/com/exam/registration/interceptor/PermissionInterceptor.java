@@ -45,8 +45,6 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
             // 这里我为了方便是直接参数传入权限, 在实际操作中应该是从参数中获取用户Id
             // 到数据库权限表中查询用户拥有的权限集合, 与set集合中的权限进行对比完成权限校验
             String role = (String) request.getAttribute("role");
-            System.out.println(role);
-            System.out.println(authSet.toString());
             if (StringUtils.isNotBlank(role)) {
                 if (authSet.contains(role)) {
                     // 校验通过返回true, 否则拦截请求

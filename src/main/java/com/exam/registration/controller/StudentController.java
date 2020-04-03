@@ -5,6 +5,7 @@ import com.exam.registration.annotation.RequireRoles;
 import com.exam.registration.model.Admin;
 import com.exam.registration.model.Student;
 import com.exam.registration.security.JwtUtil;
+import com.exam.registration.service.OrderService;
 import com.exam.registration.service.StudentService;
 import com.exam.registration.util.MsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -86,7 +89,14 @@ public class StudentController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String updateStudent(@RequestBody Student student) {
+    public String updateStudent(@RequestBody Student student, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if ("student".equals(role) && Long.valueOf((String) request.getAttribute("studentId")) != student.getId()) {
+            return MsgUtils.fail("无权进行此操作");
+        }
+        if (orderService.listOrdersByStudentId(student.getId()).size() != 0) {
+            return MsgUtils.fail("已报名的学生不允许再修改基本信息");
+        }
         int res = studentService.updateStudentByPrimaryKeySelective(student);
         return res == 1 ? MsgUtils.success() : MsgUtils.fail("修改失败，稍后再试");
     }
@@ -178,7 +188,9 @@ public class StudentController {
                                  HttpServletRequest request) throws IOException {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
-        String idCardNumber = student.getIdCardNumber();
+        if (orderService.listOrdersByStudentId(student.getId()).size() != 0) {
+            return MsgUtils.fail("已报名的学生不允许再修改基本信息");
+        }
         //保存的文件名
         String dFileName = UUID.randomUUID().toString()
                                 .replace("-", "");
