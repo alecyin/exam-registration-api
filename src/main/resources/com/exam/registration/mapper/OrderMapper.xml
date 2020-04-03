@@ -58,6 +58,8 @@
     <where>
       <if test="keyword != null and keyword != ''">
         id = #{keyword,jdbcType=BIGINT}
+        or
+        student_id = #{keyword,jdbcType=BIGINT}
       </if>
     </where>
     limit #{currentIndex}, #{pageSize}
