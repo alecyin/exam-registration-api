@@ -159,15 +159,15 @@ public class OrderController {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         Site site = siteService.getSiteByPrimaryKey(siteId);
-        if (site.getAllowProvince().replace("，", "|")
-                .indexOf(student.getAddress().split("|")[0]) == -1) {
-            return MsgUtils.fail("生源地不允许报名该场考试");
-        }
         if (!com.alipay.api.internal.util.StringUtils.areNotEmpty(student.getIdCardNumber(),
                         student.getIdCardPic(), student.getProfilePic(), student.getProvincialExamineePic(),
                         student.getAddress(), student.getEmail(), student.getName(), student.getSchool(),
                         student.getPhone(), student.getProvincialExamineeNumber(), student.getSex())) {
             return MsgUtils.fail("请完善个人信息及上传所有照片再报名");
+        }
+        if (site.getAllowProvince().replace("，", "|")
+                .indexOf(student.getAddress().split("|")[0]) == -1) {
+            return MsgUtils.fail("生源地不允许报名该场考试");
         }
         Exam exam = examService.getExamByMajorIdAndSiteId(majorId, siteId);
         if (exam.getEndTime().before(new Date())) {
