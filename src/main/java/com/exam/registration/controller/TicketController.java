@@ -61,7 +61,6 @@ public class TicketController {
     @RequestMapping(path = "/download", method = RequestMethod.POST)
     @ResponseBody
     public String createTicket(@RequestBody Map<String, Object> map, HttpServletRequest request) throws Exception {
-        request.setAttribute("studentId", "54");
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         Map<String, Object> pdf = new HashMap<>();
