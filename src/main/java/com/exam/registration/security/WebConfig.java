@@ -66,13 +66,15 @@ public class WebConfig extends WebMvcConfigurationSupport{
                 .excludePathPatterns("/photo/**")
                 .excludePathPatterns("/ticket/**")
                 .excludePathPatterns("/**/alipay/notify")
-                .excludePathPatterns("/**/alipay/return");
+                .excludePathPatterns("/**/alipay/return")
+                .excludePathPatterns("/**/students/reg");
         registry.addInterceptor(new PermissionInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/**/login")
                 .excludePathPatterns("/photo/**")
                 .excludePathPatterns("/ticket/**")
                 .excludePathPatterns("/**/alipay/notify")
-                .excludePathPatterns("/**/alipay/return");
+                .excludePathPatterns("/**/alipay/return")
+                .excludePathPatterns("/**/students/reg");
     }
 }

@@ -40,7 +40,7 @@ public class StudentController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
     @ResponseBody
     public String reg(@RequestBody Student student) {
         if (StringUtils.isEmpty(student.getIdCardNumber())) {
