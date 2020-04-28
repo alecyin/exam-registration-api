@@ -64,7 +64,7 @@ public class TicketController {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
         Order order = orderService.getOrderByPrimaryKey(orderId);
-        if (order.getStudentId() != orderId) {
+        if (order.getStudentId().compareTo(student.getId()) != 0) {
             return MsgUtils.fail("改准考证不属于你");
         }
         Exam exam = examService.getExamByPrimaryKey(order.getExamId());
