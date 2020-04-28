@@ -57,7 +57,7 @@ public class TicketController {
     @Autowired
     private ExamineeNoteController examineeNoteController;
 
-    @RequestMapping(path = "/detail/{orderId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{orderId}", method = RequestMethod.GET)
     @ResponseBody
     public String ticketDetail(@PathVariable("orderId") long orderId,
                                HttpServletRequest request) {
