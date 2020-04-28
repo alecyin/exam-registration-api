@@ -1,17 +1,17 @@
 package com.exam.registration.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.exam.registration.model.*;
 import com.exam.registration.service.*;
 import com.exam.registration.util.MsgUtils;
+import com.exam.registration.util.ResCode;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -54,6 +54,45 @@ public class TicketController {
     private SubjectService subjectService;
     @Autowired
     private ExamSubjectService examSubjectService;
+    @Autowired
+    private ExamineeNoteController examineeNoteController;
+
+    @RequestMapping(path = "/detail/{orderId}", method = RequestMethod.GET)
+    @ResponseBody
+    public String ticketDetail(@RequestParam("orderId") long orderId,
+                               HttpServletRequest request) {
+        Student student = studentService
+                .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
+        Order order = orderService.getOrderByPrimaryKey(orderId);
+        if (order.getStudentId() != orderId) {
+            return MsgUtils.fail("改准考证不属于你");
+        }
+        Exam exam = examService.getExamByPrimaryKey(order.getExamId());
+        Site site = siteService.getSiteByPrimaryKey(exam.getSiteId());
+        Major major = majorService.getMajorByPrimaryKey(exam.getMajorId());
+        List<ExamSubject> examSubjectList = examSubjectService.listExamSubjectsByExamId(exam.getId());
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", ResCode.SUCCESS.code());
+        JSONObject jsonObject1 = new JSONObject();
+        student.setPassword("");
+        jsonObject1.put("student", student);
+        jsonObject1.put("major", major.getName());
+        jsonObject1.put("note", examineeNoteController.getExamineeNote());
+        JSONArray jsonArray = new JSONArray();
+        for (ExamSubject examSubject : examSubjectList) {
+            JSONObject jsonObject11 = new JSONObject();
+            Subject subject = subjectService.getSubjectByPrimaryKey(examSubject.getSubjectId());
+            jsonObject11.put("subjectName", subject.getName());
+            jsonObject11.put("address", examSubject.getAddress());
+            jsonObject11.put("startTime", examSubject.getStartTime());
+            jsonObject11.put("endTime", examSubject.getEndTime());
+            jsonArray.add(jsonObject11);
+        }
+        jsonObject1.put("subjects", jsonArray);
+        jsonObject.put("data", jsonObject1);
+        return jsonObject.toJSONString();
+    }
 
     /**
      * 生成pdf，以考生的身份证图片文件名称命名文件
