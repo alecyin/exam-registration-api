@@ -59,7 +59,7 @@ public class TicketController {
 
     @RequestMapping(path = "/detail/{orderId}", method = RequestMethod.GET)
     @ResponseBody
-    public String ticketDetail(@RequestParam("orderId") long orderId,
+    public String ticketDetail(@PathVariable("orderId") long orderId,
                                HttpServletRequest request) {
         Student student = studentService
                 .getStudentByPrimaryKey(Long.valueOf((String) request.getAttribute("studentId")));
