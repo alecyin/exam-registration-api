@@ -55,7 +55,7 @@ public class TicketController {
     @Autowired
     private ExamSubjectService examSubjectService;
     @Autowired
-    private ExamineeNoteController examineeNoteController;
+    private ExamineeNoteService examineeNoteService;
 
     @RequestMapping(path = "/{orderId}", method = RequestMethod.GET)
     @ResponseBody
@@ -77,8 +77,9 @@ public class TicketController {
         JSONObject jsonObject1 = new JSONObject();
         student.setPassword("");
         jsonObject1.put("student", student);
+        jsonObject1.put("number", order.getExamineeNumber());
         jsonObject1.put("major", major.getName());
-        jsonObject1.put("note", examineeNoteController.getExamineeNote());
+        jsonObject1.put("note", examineeNoteService.getExamineeNote());
         JSONArray jsonArray = new JSONArray();
         for (ExamSubject examSubject : examSubjectList) {
             JSONObject jsonObject11 = new JSONObject();
