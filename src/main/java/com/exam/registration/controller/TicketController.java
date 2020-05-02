@@ -67,6 +67,9 @@ public class TicketController {
         if (order.getStudentId().compareTo(student.getId()) != 0) {
             return MsgUtils.fail("改准考证不属于你");
         }
+        if (!order.getIsPaid()) {
+            return MsgUtils.fail("请先支付订单");
+        }
         Exam exam = examService.getExamByPrimaryKey(order.getExamId());
         Site site = siteService.getSiteByPrimaryKey(exam.getSiteId());
         Major major = majorService.getMajorByPrimaryKey(exam.getMajorId());

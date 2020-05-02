@@ -149,10 +149,10 @@ public class OrderController {
     @ResponseBody
     public String apply(@RequestBody Map<String, Object> map, HttpServletRequest request) {
         if (StringUtils.isEmpty(map.get("majorId"))) {
-            return MsgUtils.fail("专业id不能为空");
+            return MsgUtils.fail("专业不能为空");
         }
         if (StringUtils.isEmpty(map.get("siteId"))) {
-            return MsgUtils.fail("考场id不能为空");
+            return MsgUtils.fail("考点不能为空");
         }
         Long majorId = Long.valueOf(String.valueOf(map.get("majorId")));
         Long siteId = Long.valueOf(String.valueOf(map.get("siteId")));
