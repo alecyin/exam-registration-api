@@ -21,7 +21,7 @@
         or
         code = #{keyword,jdbcType=CHAR}
         or
-        `name` = #{keyword,jdbcType=CHAR}
+        `name` like concat('%',#{keyword,jdbcType=CHAR},'%')
       </if>
     </where>
   </select>
@@ -41,7 +41,7 @@
         or
         code = #{keyword,jdbcType=CHAR}
         or
-        `name` = #{keyword,jdbcType=CHAR}
+        `name` like concat('%',#{keyword,jdbcType=CHAR},'%')
       </if>
     </where>
     limit #{currentIndex}, #{pageSize}

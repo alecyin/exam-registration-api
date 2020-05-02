@@ -45,7 +45,7 @@
         or
         id_card_number = #{keyword,jdbcType=CHAR}
         or
-        `name` = #{keyword,jdbcType=CHAR}
+        `name` like concat('%',#{keyword,jdbcType=CHAR},'%')
       </if>
     </where>
     limit #{currentIndex}, #{pageSize}
@@ -207,7 +207,7 @@
         or
         id_card_number = #{keyword,jdbcType=CHAR}
         or
-        `name` = #{keyword,jdbcType=CHAR}
+        `name` like concat('%',#{keyword,jdbcType=CHAR},'%')
       </if>
     </where>
   </select>
