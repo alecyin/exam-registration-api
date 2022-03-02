@@ -5,7 +5,7 @@ SpringBoot
 
 **2.数据库**
 
-MyBatis
+MySQL
 
 **3.缓存**
 
